@@ -1,3 +1,4 @@
+import 'package:backpack/student/viewmodel/student_provider.dart';
 import 'package:flutter/material.dart';
 
 // Firebase
@@ -10,10 +11,10 @@ import 'package:firebase_ui_oauth_google/firebase_ui_oauth_google.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'firebase_options.dart';
+import 'student/view/login_page.dart';
+import 'student/view/profile_page.dart';
 import 'utilities/utilities.dart';
 import 'home/home_nav.dart';
-import 'login/login_page.dart';
-import 'student/profile_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -33,11 +34,14 @@ void main() async {
   );
 }
 
-class BackpackApp extends StatelessWidget {
+class BackpackApp extends ConsumerWidget {
   const BackpackApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    // Check for user when app starts
+    ref.read(studentProvider.notifier).getUser();
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light(),

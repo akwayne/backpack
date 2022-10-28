@@ -12,11 +12,13 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.2
+  flutter_riverpod: ^2.0.2
   firebase_core: ^2.1.1
   firebase_auth: ^4.1.0
   firebase_ui_auth: ^1.0.3
   firebase_ui_oauth_google: ^1.0.3
-  flutter_riverpod: ^2.0.2
+  cloud_firestore: ^4.0.3
+
 
 dev_dependencies:
   flutter_test:
@@ -28,6 +30,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/
+    - assets/course_icons/
 
   # To add assets to your application, add an assets section, like this:
   # assets:

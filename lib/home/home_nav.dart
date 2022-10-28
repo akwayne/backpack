@@ -1,6 +1,12 @@
+import 'package:backpack/student/viewmodel/student_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../assignment/view/assignment_list.dart';
+import '../course/view/course_list.dart';
+import '../student/model/student.dart';
 import '../utilities/utilities.dart';
+import 'cloud_future_builder.dart';
 
 final navIndexProvider = StateProvider<int>((ref) => 0);
 
@@ -17,10 +23,13 @@ class HomeNavigation extends ConsumerWidget {
       ref.read(navIndexProvider.notifier).state = newIndex;
     }
 
+    // Student info to display
+    final student = ref.watch(studentProvider) ?? Student.empty();
+
     return LayoutBuilder(
       builder: (context, constraints) {
         return getDeviceType(MediaQuery.of(context)) == DeviceType.mobile
-            ? _buildMobileView(context, navIndex, updateNavTab)
+            ? _buildMobileView(context, navIndex, updateNavTab, student)
             : _buildTabletView(context, navIndex, updateNavTab);
       },
     );
@@ -31,6 +40,7 @@ Widget _buildMobileView(
   BuildContext context,
   int navIndex,
   Function updateNavTab,
+  Student student,
 ) {
   // Determine if phone is in portrait or landscape mode
   bool isLandscape =
@@ -47,9 +57,11 @@ Widget _buildMobileView(
 
   return Scaffold(
     appBar: AppBar(
-      title: const Padding(
-        padding: EdgeInsets.only(left: 8.0),
-        child: Text(studentName),
+      // Hide leading in portrait mode
+      automaticallyImplyLeading: isLandscape ? true : false,
+      title: Padding(
+        padding: const EdgeInsets.only(left: 8.0),
+        child: Text(student.firstName),
       ),
       centerTitle: false,
       actions: [
@@ -151,8 +163,10 @@ Widget _buildTabletView(
 Widget _buildNavPage(int navIndex) {
   return AnimatedSwitcher(
     duration: const Duration(milliseconds: 300),
-    key: ValueKey(navIndex),
-    child: _navPages[navIndex],
+    child: CloudFutureBuilder(
+      key: ValueKey(navIndex),
+      child: _navPages[navIndex],
+    ),
   );
 }
 
@@ -165,7 +179,7 @@ const _navIcons = <Map<String, dynamic>>[
 
 // Screen that each Navigation Bar item displays
 const _navPages = <Widget>[
-  Center(child: Text('home')),
-  Center(child: Text('class')),
+  AssignmentList(),
+  CourseList(),
   Center(child: Text('schedule')),
 ];
