@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "145055936994",
+    "project_id": "backpack-a65af",
+    "storage_bucket": "backpack-a65af.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:145055936994:android:7db314ff7e3d5e68da49bb",
+        "android_client_info": {
+          "package_name": "com.example.backpack"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "145055936994-2je7f3uti26nkshme1070b3ld5smtht7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.backpack",
+            "certificate_hash": "34b695325c26681c8d9bacf80f6b5bc9af31a5a4"
+          }
+        },
+        {
+          "client_id": "145055936994-es5rd65c8calrrvqrql7bdaa4i6d00aq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCOzWRWvOAtki-PEGBuM7jad3jib51RF7I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "145055936994-es5rd65c8calrrvqrql7bdaa4i6d00aq.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "145055936994-m4ug47adrun7d7g335m9jjspa2ohs8vr.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.backpack"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
