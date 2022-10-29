@@ -11,7 +11,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'firebase_options.dart';
 import 'home/home_nav.dart';
-import 'student/model/student.dart';
 import 'student/view/login_page.dart';
 import 'student/view/profile_page.dart';
 import 'student/viewmodel/student_provider.dart';
@@ -47,7 +46,7 @@ class BackpackApp extends ConsumerWidget {
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light(),
       darkTheme: AppTheme.dark(),
-      themeMode: ThemeMode.light,
+      themeMode: ThemeMode.system,
       initialRoute: FirebaseAuth.instance.currentUser == null ? '/login' : '/',
       routes: _appRoutes,
     );
