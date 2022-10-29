@@ -1,7 +1,7 @@
 import 'subject.dart';
 
 class Course {
-  String? courseId;
+  String courseId;
   String name;
   Subject subject;
   String teacher;

@@ -5,7 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../model/student.dart';
 import 'student_avatar.dart';
 
-// TODO add delete account
 class ProfilePage extends ConsumerWidget {
   const ProfilePage({super.key});
 
@@ -43,9 +42,12 @@ class ProfilePage extends ConsumerWidget {
                 children: [
                   const Text('Dark Mode'),
                   Switch(
-                      value: false,
-                      activeColor: Theme.of(context).colorScheme.primary,
-                      onChanged: (value) {}),
+                    value: student.isDarkMode,
+                    activeColor: Theme.of(context).colorScheme.primary,
+                    onChanged: (value) async {
+                      await ref.read(studentProvider.notifier).toggleTheme();
+                    },
+                  ),
                 ],
               ),
             ),
@@ -62,25 +64,3 @@ class ProfilePage extends ConsumerWidget {
     );
   }
 }
-
-// class ProfilePage extends StatelessWidget {
-//   const ProfilePage({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         leading: IconButton(
-//           icon: const Icon(Icons.arrow_back_ios),
-//           onPressed: () => Navigator.pop(context),
-//         ),
-//       ),
-//       body: ProfileScreen(
-//         actions: [
-//           SignedOutAction(
-//               (context) => Navigator.pushReplacementNamed(context, '/login')),
-//         ],
-//       ),
-//     );
-//   }
-// }

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../course/model/course.dart';
 import '../../course/model/subject.dart';
+import '../../course/view/course_page.dart';
 import '../../course/viewmodel/course_provider.dart';
 import '../../student/model/student.dart';
 import '../model/assignment.dart';
@@ -38,20 +39,29 @@ class AssignmentCard extends ConsumerWidget {
       child: ListTile(
         leading: checkbox,
         title: Text(assignment.name),
-        // Only show course name on homepage
-        subtitle: Text(course.name),
+        // Only show subtitle on home page
+        subtitle: ModalRoute.of(context)?.settings.name == '/'
+            ? Text(course.name)
+            : null,
         trailing: Image.asset(
           course.subject.getImage,
           color: const Color.fromRGBO(255, 255, 255, 0.3),
           colorBlendMode: BlendMode.modulate,
         ),
         onTap: () {
-          ref.read(studentProvider.notifier).markComplete(assignment.id);
           // Change view on course page
-          // ref.read(courseViewProvider.notifier).state = assignment.id;
+          ref.read(courseViewProvider.notifier).state = assignment.id;
 
           // This checks if we are on the home page or already on course page
           // If we are on the home page, we should navigate to the course page
+          if (ModalRoute.of(context)?.settings.name == '/') {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: ((context) => CoursePage(course: course)),
+              ),
+            );
+          }
         },
       ),
     );

@@ -1,3 +1,4 @@
+import 'package:backpack/course/view/course_page.dart';
 import 'package:flutter/material.dart';
 
 import '../model/course.dart';
@@ -12,7 +13,14 @@ class CourseCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: ((context) => CoursePage(course: course)),
+          ),
+        );
+      },
       child: Container(
         decoration: BoxDecoration(
           color: course.subject.getColor,

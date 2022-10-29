@@ -39,4 +39,14 @@ class StudentNotifier extends StateNotifier<Student?> {
     state = Student.empty();
     state = updatedStudent;
   }
+
+  // Updates student's theme preference
+  Future<void> toggleTheme() async {
+    final updatedStudent = state!;
+    updatedStudent.isDarkMode = !updatedStudent.isDarkMode;
+    await FirebaseHelper().updateStudent(updatedStudent, state!.id);
+
+    state = Student.empty();
+    state = updatedStudent;
+  }
 }
