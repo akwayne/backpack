@@ -1,9 +1,10 @@
 class Student {
-  String? id;
+  String id;
   String firstName;
   String lastName;
   String school;
   bool isDarkMode;
+  List completed;
 
   Student({
     required this.id,
@@ -11,6 +12,7 @@ class Student {
     required this.lastName,
     required this.school,
     required this.isDarkMode,
+    required this.completed,
   });
 
   factory Student.fromMap(Map<String, dynamic> map, String id) {
@@ -20,6 +22,7 @@ class Student {
       lastName: map['lastName'] as String,
       school: map['school'] as String,
       isDarkMode: map['isDarkMode'] as bool,
+      completed: map['completed'] as List<dynamic>,
     );
   }
 
@@ -29,16 +32,18 @@ class Student {
       'lastName': lastName,
       'school': school,
       'isDarkMode': isDarkMode,
+      'completed': completed,
     };
   }
 
   factory Student.empty() {
     return Student(
-      id: null,
+      id: '',
       firstName: '',
       lastName: '',
       school: '',
       isDarkMode: false,
+      completed: [],
     );
   }
 }

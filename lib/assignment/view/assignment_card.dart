@@ -1,10 +1,13 @@
+import 'package:backpack/student/viewmodel/student_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../course/model/course.dart';
 import '../../course/model/subject.dart';
 import '../../course/viewmodel/course_provider.dart';
+import '../../student/model/student.dart';
 import '../model/assignment.dart';
+import 'animated_check.dart';
 
 class AssignmentCard extends ConsumerWidget {
   const AssignmentCard({super.key, required this.assignment});
@@ -17,18 +20,23 @@ class AssignmentCard extends ConsumerWidget {
     Course course =
         ref.read(courseProvider.notifier).getCourseFromId(assignment.courseId);
 
-    // TODO Check if assignment is complete or not
+    // Student info to display
+    final Student student = ref.watch(studentProvider) ?? Student.empty();
+
+    // checks whether a particular assignment is complete for this student
+    final Widget checkbox = student.completed.contains(assignment.id)
+        ? const AnimatedCheck()
+        : const Icon(
+            Icons.circle_outlined,
+            size: 38,
+          );
 
 // Show assignment card
     return Card(
       elevation: 1,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: ListTile(
-        // TODO update leading icon
-        leading: const Icon(
-          Icons.circle_outlined,
-          size: 38,
-        ),
+        leading: checkbox,
         title: Text(assignment.name),
         // Only show course name on homepage
         subtitle: Text(course.name),
@@ -38,6 +46,7 @@ class AssignmentCard extends ConsumerWidget {
           colorBlendMode: BlendMode.modulate,
         ),
         onTap: () {
+          ref.read(studentProvider.notifier).markComplete(assignment.id);
           // Change view on course page
           // ref.read(courseViewProvider.notifier).state = assignment.id;
 

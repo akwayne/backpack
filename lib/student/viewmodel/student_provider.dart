@@ -29,4 +29,14 @@ class StudentNotifier extends StateNotifier<Student?> {
     await FirebaseAuth.instance.signOut();
     state = null;
   }
+
+  // Marks the specified assignment as complete
+  Future<void> markComplete(String assignmentId) async {
+    final updatedStudent = state!;
+    updatedStudent.completed.add(assignmentId);
+    await FirebaseHelper().updateStudent(updatedStudent, state!.id);
+
+    state = Student.empty();
+    state = updatedStudent;
+  }
 }

@@ -35,7 +35,6 @@ class FirebaseHelper {
     for (var item in snapshot.docs) {
       final assignment =
           Assignment.fromMap(item.data() as Map<String, dynamic>, item.id);
-      assignment.id = item.id;
       assignmentList.add(assignment);
     }
     return assignmentList;

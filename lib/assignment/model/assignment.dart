@@ -1,6 +1,6 @@
 // Assignment id is unique to each assignment
 class Assignment {
-  String? id;
+  String id;
   String courseId;
   String name;
   bool submissionRequired;

@@ -11,6 +11,7 @@ class ProfilePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // Student info to display
     final Student student = ref.watch(studentProvider) ?? Student.empty();
 
     return Scaffold(
