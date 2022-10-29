@@ -12,14 +12,12 @@ final courseProvider =
 class CourseNotifier extends StateNotifier<List<Course>> {
   CourseNotifier() : super([]);
 
-  // TODO update more often than just when app opens
   Future<List<Course>> getCourses() async {
-    // If state does not have courses saved in it yet
-    if (state.isEmpty) {
-      // Get courses from Firebase
-      final courseList = await FirebaseHelper().readCourses();
-      state.addAll(courseList);
-    }
+    state.clear();
+
+    final courseList = await FirebaseHelper().readCourses();
+    state.addAll(courseList);
+
     return state;
   }
 

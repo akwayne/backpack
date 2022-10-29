@@ -11,12 +11,12 @@ final assignmentProvider =
 class AssignmentNotifier extends StateNotifier<List<Assignment>> {
   AssignmentNotifier() : super([]);
 
-  // TODO update more often than just when app opens
   Future<List<Assignment>> getAssignments() async {
-    if (state.isEmpty) {
-      final assignmentList = await FirebaseHelper().readAssignments();
-      state.addAll(assignmentList);
-    }
+    state.clear();
+
+    final assignmentList = await FirebaseHelper().readAssignments();
+    state.addAll(assignmentList);
+
     return state;
   }
 
