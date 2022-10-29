@@ -68,7 +68,6 @@ class Course {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'id': courseId ?? '',
       'name': name,
       'subject': subject.name,
       'teacher': teacher,

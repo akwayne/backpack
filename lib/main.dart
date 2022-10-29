@@ -1,4 +1,3 @@
-import 'package:backpack/student/viewmodel/student_provider.dart';
 import 'package:flutter/material.dart';
 
 // Firebase
@@ -11,10 +10,11 @@ import 'package:firebase_ui_oauth_google/firebase_ui_oauth_google.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'firebase_options.dart';
+import 'home/home_nav.dart';
 import 'student/view/login_page.dart';
 import 'student/view/profile_page.dart';
+import 'student/viewmodel/student_provider.dart';
 import 'utilities/utilities.dart';
-import 'home/home_nav.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

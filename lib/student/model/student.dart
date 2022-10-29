@@ -19,13 +19,12 @@ class Student {
       firstName: map['firstName'] as String,
       lastName: map['lastName'] as String,
       school: map['school'] as String,
-      isDarkMode: false,
+      isDarkMode: map['isDarkMode'] as bool,
     );
   }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'id': id,
       'firstName': firstName,
       'lastName': lastName,
       'school': school,

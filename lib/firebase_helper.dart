@@ -41,10 +41,20 @@ class FirebaseHelper {
     return assignmentList;
   }
 
+  // Student actions
   Future<Student> readStudent(String userId) async {
     final snapshot = await users.doc(userId).get();
     final student =
         Student.fromMap(snapshot.data() as Map<String, dynamic>, snapshot.id);
     return student;
+  }
+
+  Future updateStudent(Student student, String userId) async {
+    await users.doc(userId).update(student.toMap());
+  }
+
+  Future<DocumentReference?> insertStudent(Student student) async {
+    final newStudent = await users.add(student.toMap());
+    return newStudent;
   }
 }

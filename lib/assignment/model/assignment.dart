@@ -26,7 +26,6 @@ class Assignment {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'id': id,
       'courseId': courseId,
       'name': name,
       'submissionRequired': submissionRequired,
