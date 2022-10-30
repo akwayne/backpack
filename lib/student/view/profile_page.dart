@@ -19,6 +19,12 @@ class ProfilePage extends ConsumerWidget {
           onPressed: () => Navigator.pop(context),
           icon: const Icon(Icons.arrow_back_ios),
         ),
+        actions: [
+          IconButton(
+            onPressed: () => Navigator.of(context).pushNamed('/profileupdate'),
+            icon: const Icon(Icons.edit),
+          ),
+        ],
       ),
       body: SafeArea(
         child: Column(
@@ -57,6 +63,13 @@ class ProfilePage extends ConsumerWidget {
                 Navigator.pushReplacementNamed(context, '/login');
               },
               child: const Text('Log Out'),
+            ),
+            TextButton(
+              onPressed: () {
+                // ref.read(studentProvider.notifier).deleteUser();
+                // Navigator.pushReplacementNamed(context, '/login');
+              },
+              child: const Text('Delete Account'),
             ),
           ],
         ),

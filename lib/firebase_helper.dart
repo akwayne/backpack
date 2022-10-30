@@ -1,5 +1,6 @@
 import 'package:backpack/student/model/student.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'assignment/model/assignment.dart';
 import 'course/model/course.dart';
@@ -55,5 +56,10 @@ class FirebaseHelper {
   Future<DocumentReference?> insertStudent(Student student) async {
     final newStudent = await users.add(student.toMap());
     return newStudent;
+  }
+
+  Future deleteStudent(String userId) async {
+    // delete user from database
+    await users.doc(userId).delete();
   }
 }

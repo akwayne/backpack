@@ -1,3 +1,4 @@
+import 'package:backpack/student/view/profile_update.dart';
 import 'package:flutter/material.dart';
 
 // Firebase
@@ -57,4 +58,5 @@ final _appRoutes = <String, WidgetBuilder>{
   '/': (context) => const HomeNavigation(),
   '/login': (context) => const LoginPage(),
   '/profile': (context) => const ProfilePage(),
+  '/profileupdate': (context) => const ProfileUpdate(),
 };

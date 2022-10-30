@@ -16,6 +16,7 @@ class StudentNotifier extends StateNotifier<Student?> {
     if (FirebaseAuth.instance.currentUser == null) {
       state = null;
     } else {
+      // Update if they are logged in
       final String userId = FirebaseAuth.instance.currentUser!.uid;
       final student = await FirebaseHelper().readStudent(userId);
       state = student;
@@ -27,6 +28,17 @@ class StudentNotifier extends StateNotifier<Student?> {
   Future<void> logOut() async {
     // Remove user and sign out
     await FirebaseAuth.instance.signOut();
+    state = null;
+  }
+
+  Future<void> deleteUser() async {
+    // Delete user entry from firestore database
+    await FirebaseHelper().deleteStudent(state!.id);
+
+    // Sign out user and delete their account
+    await FirebaseAuth.instance.currentUser?.delete();
+
+    // Remove student from this provider
     state = null;
   }
 
