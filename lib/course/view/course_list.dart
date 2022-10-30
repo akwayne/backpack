@@ -53,7 +53,7 @@ Widget _buildTabletView(BuildContext context, List<Course> courses) {
           crossAxisCount: 2,
           crossAxisSpacing: 20,
           mainAxisSpacing: 20,
-          childAspectRatio: 3,
+          childAspectRatio: 2.5,
           children: List.generate(
             courses.length,
             (index) => CourseCard(course: courses[index]),
