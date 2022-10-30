@@ -1,5 +1,9 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:path/path.dart';
 
 import '../../firebase_helper.dart';
 import '../model/student.dart';
@@ -66,5 +70,18 @@ class StudentNotifier extends StateNotifier<Student?> {
 
     state = Student.empty();
     state = updatedStudent;
+  }
+
+  // Upload profile picture
+  Future uploadImage(File? imageFile) async {
+    if (imageFile == null) return;
+
+    final fileName = state!.id;
+    final destination = 'profile_images/$fileName';
+
+    // Create a storage reference from our app
+    final ref = FirebaseStorage.instance.ref().child(destination);
+
+    await ref.putFile(imageFile);
   }
 }

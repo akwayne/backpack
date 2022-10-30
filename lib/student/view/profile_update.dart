@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../firebase_helper.dart';
 import '../model/student.dart';
@@ -20,6 +23,7 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
   final txtLastName = TextEditingController();
   final txtSchool = TextEditingController();
   final helper = FirebaseHelper();
+  File? imageFile;
 
   @override
   void initState() {
@@ -49,6 +53,16 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
         return SafeArea(
           child: Column(
             children: [
+              ElevatedButton(
+                onPressed: () async {
+                  final image = await ImagePicker().pickImage(
+                    source: ImageSource.gallery,
+                    requestFullMetadata: false,
+                  );
+                  if (image != null) imageFile = File(image.path);
+                },
+                child: const Text('Upload Profile Image'),
+              ),
               ListView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
@@ -69,6 +83,9 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
                     ref
                         .read(studentProvider.notifier)
                         .updateUser(widget.student);
+
+                    // Upload any selected image
+                    ref.read(studentProvider.notifier).uploadImage(imageFile);
 
                     // Go back to previous page
                     Navigator.pop(context);
