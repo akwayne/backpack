@@ -14,7 +14,7 @@ class LoginPage extends ConsumerWidget {
           return Image.asset('assets/backpack.png');
         },
         actions: [
-          AuthStateChangeAction<SignedIn>((context, state) {
+          AuthStateChangeAction<SignedIn>((context, state) async {
             ref.read(studentProvider.notifier).getUser();
             Navigator.pushReplacementNamed(context, '/');
           })

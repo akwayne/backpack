@@ -16,7 +16,7 @@ class AssignmentList extends ConsumerWidget {
     final assignmentList = ref.watch(assignmentProvider);
 
     // Find completed assignments and sort into 2 lists
-    final doneIds = ref.watch(studentProvider)!.completed;
+    final doneIds = ref.watch(studentProvider).completed;
     final doneList = assignmentList
         .where((assignment) => doneIds.contains(assignment.id))
         .toList();
