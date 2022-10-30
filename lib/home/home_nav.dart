@@ -1,3 +1,4 @@
+import 'package:backpack/student/view/student_name_tile.dart';
 import 'package:backpack/student/viewmodel/student_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -30,7 +31,7 @@ class HomeNavigation extends ConsumerWidget {
       builder: (context, constraints) {
         return getDeviceType(MediaQuery.of(context)) == DeviceType.mobile
             ? _buildMobileView(context, navIndex, updateNavTab, student)
-            : _buildTabletView(context, navIndex, updateNavTab);
+            : _buildTabletView(context, navIndex, updateNavTab, student);
       },
     );
   }
@@ -123,6 +124,7 @@ Widget _buildTabletView(
   BuildContext context,
   int navIndex,
   Function updateNavTab,
+  Student student,
 ) {
   // Populate list of Navigation Bar Icons
   final navRailItems = <NavigationRailDestination>[];
@@ -145,13 +147,17 @@ Widget _buildTabletView(
         // Selected page is displayed to the right of the nav rail
         Expanded(
           child: SafeArea(
-            child: Column(
-              children: [
-                const SizedBox(height: 28),
-                Expanded(
-                  child: _buildNavPage(navIndex),
-                ),
-              ],
+            child: Padding(
+              padding: const EdgeInsets.all(40.0),
+              child: Column(
+                children: [
+                  StudentNameTile(student: student),
+                  const SizedBox(height: 28),
+                  Expanded(
+                    child: _buildNavPage(navIndex),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

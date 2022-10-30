@@ -31,6 +31,12 @@ class StudentNotifier extends StateNotifier<Student?> {
     state = null;
   }
 
+  Future<void> updateUser(Student student) async {
+    await FirebaseHelper().updateStudent(student, student.id);
+    state = Student.empty();
+    state = student;
+  }
+
   Future<void> deleteUser() async {
     // Delete user entry from firestore database
     await FirebaseHelper().deleteStudent(state!.id);

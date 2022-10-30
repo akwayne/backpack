@@ -1,6 +1,5 @@
 import 'package:backpack/student/model/student.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 import 'assignment/model/assignment.dart';
 import 'course/model/course.dart';
@@ -44,18 +43,26 @@ class FirebaseHelper {
   // Student actions
   Future<Student> readStudent(String userId) async {
     final snapshot = await users.doc(userId).get();
-    final student =
-        Student.fromMap(snapshot.data() as Map<String, dynamic>, snapshot.id);
-    return student;
+    // If no user is found in database, create a new one
+    if (snapshot.data() == null) {
+      final newstudent = Student.empty();
+      newstudent.id = userId;
+      await insertStudent(newstudent);
+      return newstudent;
+    } else {
+      // Return student entry from database
+      final student =
+          Student.fromMap(snapshot.data() as Map<String, dynamic>, snapshot.id);
+      return student;
+    }
+  }
+
+  Future insertStudent(Student student) async {
+    await users.doc(student.id).set(student.toMap());
   }
 
   Future updateStudent(Student student, String userId) async {
     await users.doc(userId).update(student.toMap());
-  }
-
-  Future<DocumentReference?> insertStudent(Student student) async {
-    final newStudent = await users.add(student.toMap());
-    return newStudent;
   }
 
   Future deleteStudent(String userId) async {
