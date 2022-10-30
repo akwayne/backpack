@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:backpack/student/view/student_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
@@ -23,6 +24,7 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
   final txtLastName = TextEditingController();
   final txtSchool = TextEditingController();
   final helper = FirebaseHelper();
+  final imagePicker = ImagePicker();
   File? imageFile;
 
   @override
@@ -53,15 +55,22 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
         return SafeArea(
           child: Column(
             children: [
-              ElevatedButton(
-                onPressed: () async {
-                  final image = await ImagePicker().pickImage(
+              GestureDetector(
+                onTap: () async {
+                  final image = await imagePicker.pickImage(
                     source: ImageSource.gallery,
                     requestFullMetadata: false,
                   );
-                  if (image != null) imageFile = File(image.path);
+                  setState(() {
+                    if (image != null) imageFile = File(image.path);
+                  });
                 },
-                child: const Text('Upload Profile Image'),
+                child: StudentAvatar(
+                  imageRadius: 60,
+                  image: imageFile == null
+                      ? NetworkImage(widget.student.imageURL)
+                      : FileImage(imageFile!),
+                ),
               ),
               ListView.builder(
                 shrinkWrap: true,

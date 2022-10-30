@@ -15,7 +15,10 @@ class StudentNameTile extends StatelessWidget {
       },
       child: Row(
         children: [
-          const StudentAvatar(imageRadius: 30),
+          StudentAvatar(
+            imageRadius: 30,
+            image: NetworkImage(student.imageURL),
+          ),
           const SizedBox(width: 20),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,

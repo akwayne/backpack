@@ -1,27 +1,24 @@
-import 'package:backpack/student/viewmodel/student_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../utilities/utilities.dart';
-import '../model/student.dart';
 
-class StudentAvatar extends ConsumerWidget {
+class StudentAvatar extends StatelessWidget {
   const StudentAvatar({
     super.key,
     required this.imageRadius,
+    required this.image,
   });
 
   final double imageRadius;
+  final dynamic image;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final student = ref.watch(studentProvider) ?? Student.empty();
-
+  Widget build(BuildContext context) {
     return CircleAvatar(
       backgroundColor: Colors.white,
       radius: imageRadius,
       child: CircleAvatar(
-        foregroundImage: NetworkImage(student.imageURL),
+        foregroundImage: image,
         backgroundColor: ColorPalette.turquoise,
         radius: imageRadius - 4,
       ),

@@ -38,9 +38,12 @@ class ProfilePage extends ConsumerWidget {
         child: Center(
           child: Column(
             children: [
-              const Padding(
-                padding: EdgeInsets.all(16.0),
-                child: StudentAvatar(imageRadius: 60),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: StudentAvatar(
+                  imageRadius: 60,
+                  image: NetworkImage(student.imageURL),
+                ),
               ),
               Text(
                 '${student.firstName} ${student.lastName}',
