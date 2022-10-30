@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../utilities/utilities.dart';
+import '../model/course.dart';
 import '../viewmodel/course_provider.dart';
 import 'course_card.dart';
 
@@ -10,12 +12,52 @@ class CourseList extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final courseList = ref.watch(courseProvider);
-    return ListView.builder(
-      itemCount: courseList.length,
-      itemBuilder: (context, index) {
-        final course = courseList[index];
-        return CourseCard(course: course);
+
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return getDeviceType(MediaQuery.of(context)) == DeviceType.mobile
+            ? _buildMobileView(courseList)
+            : _buildTabletView(context, courseList);
       },
     );
   }
+}
+
+Widget _buildMobileView(List<Course> courses) {
+  return Padding(
+    padding: const EdgeInsets.only(top: 10),
+    child: ListView.separated(
+      itemCount: courses.length,
+      itemBuilder: (context, index) => CourseCard(course: courses[index]),
+      separatorBuilder: (context, index) => const SizedBox(height: 10),
+    ),
+  );
+}
+
+Widget _buildTabletView(BuildContext context, List<Course> courses) {
+  return ListView(
+    primary: true,
+    scrollDirection: Axis.vertical,
+    children: [
+      const SizedBox(height: 18.0),
+      Text(
+        'My Classes',
+        style: Theme.of(context).textTheme.headline5,
+      ),
+      const SizedBox(height: 22.0),
+      GridView.count(
+        primary: false,
+        physics: const NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        crossAxisCount: 2,
+        crossAxisSpacing: 20,
+        mainAxisSpacing: 20,
+        childAspectRatio: 3,
+        children: List.generate(
+          courses.length,
+          (index) => CourseCard(course: courses[index]),
+        ),
+      ),
+    ],
+  );
 }
