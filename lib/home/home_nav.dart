@@ -26,7 +26,7 @@ class HomeNavigation extends ConsumerWidget {
     }
 
     // Student info to display
-    final Student student = ref.watch(studentProvider) ?? Student.empty();
+    final student = ref.watch(studentProvider) ?? Student.empty();
 
     return LayoutBuilder(
       builder: (context, constraints) {

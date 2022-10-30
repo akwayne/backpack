@@ -7,7 +7,7 @@ class LoginPage extends ConsumerWidget {
   const LoginPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context, WidgetRef ref, [bool mounted = true]) {
     return Scaffold(
       body: SignInScreen(
         headerBuilder: (context, constraints, shrinkOffset) {
@@ -15,9 +15,10 @@ class LoginPage extends ConsumerWidget {
         },
         actions: [
           AuthStateChangeAction<SignedIn>((context, state) async {
-            ref.read(studentProvider.notifier).getUser();
+            await ref.read(studentProvider.notifier).getUser();
+            if (!mounted) return;
             Navigator.pushReplacementNamed(context, '/');
-          })
+          }),
         ],
       ),
     );

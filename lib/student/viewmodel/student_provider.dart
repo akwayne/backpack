@@ -7,17 +7,17 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../firebase_helper.dart';
 import '../model/student.dart';
 
-final studentProvider = StateNotifierProvider<StudentNotifier, Student>((ref) {
+final studentProvider = StateNotifierProvider<StudentNotifier, Student?>((ref) {
   return StudentNotifier();
 });
 
-class StudentNotifier extends StateNotifier<Student> {
-  StudentNotifier() : super(Student.empty());
+class StudentNotifier extends StateNotifier<Student?> {
+  StudentNotifier() : super(null);
 
   Future<Student?> getUser() async {
     // See if user is logged in
     if (FirebaseAuth.instance.currentUser == null) {
-      state = Student.empty();
+      state = state;
     } else {
       // Update if they are logged in
       final String userId = FirebaseAuth.instance.currentUser!.uid;
@@ -31,10 +31,12 @@ class StudentNotifier extends StateNotifier<Student> {
   Future<void> logOut() async {
     // Remove user and sign out
     await FirebaseAuth.instance.signOut();
-    // state = null;
+    state = null;
   }
 
-  Future<void> updateUser(Student student) async {
+  Future<void> updateUser(Student student, File? imageFile) async {
+    await uploadImage(imageFile);
+    student.imageURL = await getImageURL(student.id);
     await FirebaseHelper().updateStudent(student, student.id);
     state = Student.empty();
     state = student;
@@ -42,20 +44,20 @@ class StudentNotifier extends StateNotifier<Student> {
 
   Future<void> deleteUser() async {
     // Delete user entry from firestore database
-    await FirebaseHelper().deleteStudent(state.id);
+    await FirebaseHelper().deleteStudent(state!.id);
 
     // Sign out user and delete their account
     await FirebaseAuth.instance.currentUser?.delete();
 
     // Remove student from this provider
-    state = Student.empty();
+    state = null;
   }
 
   // Marks the specified assignment as complete
   Future<void> markComplete(String assignmentId) async {
     final updatedStudent = state;
-    updatedStudent.completed.add(assignmentId);
-    await FirebaseHelper().updateStudent(updatedStudent, state.id);
+    updatedStudent!.completed.add(assignmentId);
+    await FirebaseHelper().updateStudent(updatedStudent, state!.id);
 
     state = Student.empty();
     state = updatedStudent;
@@ -64,8 +66,8 @@ class StudentNotifier extends StateNotifier<Student> {
   // Updates student's theme preference
   Future<void> toggleTheme() async {
     final updatedStudent = state;
-    updatedStudent.isDarkMode = !updatedStudent.isDarkMode;
-    await FirebaseHelper().updateStudent(updatedStudent, state.id);
+    updatedStudent!.isDarkMode = !updatedStudent.isDarkMode;
+    await FirebaseHelper().updateStudent(updatedStudent, state!.id);
 
     state = Student.empty();
     state = updatedStudent;
@@ -75,7 +77,7 @@ class StudentNotifier extends StateNotifier<Student> {
   Future uploadImage(File? imageFile) async {
     if (imageFile == null) return;
 
-    final fileName = state.id;
+    final fileName = state!.id;
     final destination = 'profile_images/$fileName';
 
     // Create a storage reference from our app
@@ -84,19 +86,17 @@ class StudentNotifier extends StateNotifier<Student> {
     await ref.putFile(imageFile);
   }
 
-  Future<String> getImageURL() async {
-    final fileName = state.id;
+  Future<String> getImageURL(String userId) async {
+    final fileName = userId;
     final destination = 'profile_images/$fileName';
 
     // Create a storage reference from our app
     final ref = FirebaseStorage.instance.ref().child(destination);
 
-    String url = '';
     try {
-      url = await ref.getDownloadURL();
-      return url;
+      return await ref.getDownloadURL();
     } catch (e) {
-      return url;
+      return '';
     }
   }
 }

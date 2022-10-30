@@ -41,7 +41,7 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, [bool mounted = true]) {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -73,21 +73,19 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
                 },
               ),
               ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     // Update fields in student object
                     widget.student.firstName = txtFirstName.text;
                     widget.student.lastName = txtLastName.text;
                     widget.student.school = txtSchool.text;
 
                     // Update in provider and firebase
-                    ref
+                    await ref
                         .read(studentProvider.notifier)
-                        .updateUser(widget.student);
-
-                    // Upload any selected image
-                    ref.read(studentProvider.notifier).uploadImage(imageFile);
+                        .updateUser(widget.student, imageFile);
 
                     // Go back to previous page
+                    if (!mounted) return;
                     Navigator.pop(context);
                   },
                   child: const Text('Update')),

@@ -39,7 +39,6 @@ class BackpackApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // Check for user when app starts
     ref.read(studentProvider.notifier).getUser();
 
     return MaterialApp(

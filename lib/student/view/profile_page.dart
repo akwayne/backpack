@@ -12,7 +12,7 @@ class ProfilePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // Student info to display
-    final Student student = ref.watch(studentProvider) ?? Student.empty();
+    final student = ref.watch(studentProvider) ?? Student.empty();
 
     return Scaffold(
       appBar: AppBar(
@@ -69,8 +69,9 @@ class ProfilePage extends ConsumerWidget {
               // ),
               TextButton(
                 onPressed: () {
+                  Navigator.restorablePushNamedAndRemoveUntil(
+                      context, '/login', (Route<dynamic> route) => false);
                   ref.read(studentProvider.notifier).logOut();
-                  Navigator.pushReplacementNamed(context, '/login');
                 },
                 child: const Text('Log Out'),
               ),

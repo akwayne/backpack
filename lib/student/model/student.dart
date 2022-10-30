@@ -5,6 +5,7 @@ class Student {
   String school;
   bool isDarkMode;
   List completed;
+  String imageURL;
 
   Student({
     required this.id,
@@ -13,6 +14,7 @@ class Student {
     required this.school,
     required this.isDarkMode,
     required this.completed,
+    required this.imageURL,
   });
 
   factory Student.fromMap(Map<String, dynamic> map, String id) {
@@ -23,6 +25,7 @@ class Student {
       school: map['school'] as String,
       isDarkMode: map['isDarkMode'] as bool,
       completed: map['completed'] as List<dynamic>,
+      imageURL: map['imageURL'] as String,
     );
   }
 
@@ -33,6 +36,7 @@ class Student {
       'school': school,
       'isDarkMode': isDarkMode,
       'completed': completed,
+      'imageURL': imageURL,
     };
   }
 
@@ -44,6 +48,7 @@ class Student {
       school: '',
       isDarkMode: false,
       completed: [],
+      imageURL: '',
     );
   }
 }

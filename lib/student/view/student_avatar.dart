@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../utilities/utilities.dart';
+import '../model/student.dart';
 
 class StudentAvatar extends ConsumerWidget {
   const StudentAvatar({
@@ -14,25 +15,15 @@ class StudentAvatar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final student = ref.watch(studentProvider) ?? Student.empty();
+
     return CircleAvatar(
       backgroundColor: Colors.white,
       radius: imageRadius,
-      child: FutureBuilder(
-        future: ref.read(studentProvider.notifier).getImageURL(),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return CircleAvatar(
-              backgroundColor: ColorPalette.turquoise,
-              radius: imageRadius - 4,
-            );
-          } else {
-            return CircleAvatar(
-              foregroundImage: NetworkImage(snapshot.data ?? ''),
-              backgroundColor: ColorPalette.turquoise,
-              radius: imageRadius - 4,
-            );
-          }
-        },
+      child: CircleAvatar(
+        foregroundImage: NetworkImage(student.imageURL),
+        backgroundColor: ColorPalette.turquoise,
+        radius: imageRadius - 4,
       ),
     );
   }

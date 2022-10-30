@@ -2,6 +2,7 @@ import 'package:backpack/student/viewmodel/student_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../student/model/student.dart';
 import '../../utilities/utilities.dart';
 import '../model/assignment.dart';
 import '../viewmodel/assignment_provider.dart';
@@ -14,9 +15,10 @@ class AssignmentList extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // Get assignments to display
     final assignmentList = ref.watch(assignmentProvider);
+    final student = ref.watch(studentProvider) ?? Student.empty();
 
     // Find completed assignments and sort into 2 lists
-    final doneIds = ref.watch(studentProvider).completed;
+    final doneIds = student.completed;
     final doneList = assignmentList
         .where((assignment) => doneIds.contains(assignment.id))
         .toList();
