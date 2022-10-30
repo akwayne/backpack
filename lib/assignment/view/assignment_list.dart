@@ -77,51 +77,54 @@ Widget _buildTabletView(
   List<Assignment> todoList,
   List<Assignment> doneList,
 ) {
-  return Row(
-    children: <Widget>[
-      Expanded(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Today\'s Work',
-              style: Theme.of(context).textTheme.headline5,
-            ),
-            const SizedBox(height: 16),
-            Expanded(
-              child: ListView.builder(
-                itemCount: todoList.length,
-                itemBuilder: (context, index) {
-                  final assignment = todoList[index];
-                  return AssignmentCard(assignment: assignment);
-                },
+  return Padding(
+    padding: const EdgeInsets.only(top: 16.0),
+    child: Row(
+      children: <Widget>[
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Today\'s Work',
+                style: Theme.of(context).textTheme.headline5,
               ),
-            ),
-          ],
-        ),
-      ),
-      const SizedBox(width: 36),
-      Expanded(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Done',
-              style: Theme.of(context).textTheme.headline5,
-            ),
-            const SizedBox(height: 16),
-            Expanded(
-              child: ListView.builder(
-                itemCount: doneList.length,
-                itemBuilder: (context, index) {
-                  final assignment = doneList[index];
-                  return AssignmentCard(assignment: assignment);
-                },
+              const SizedBox(height: 16),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: todoList.length,
+                  itemBuilder: (context, index) {
+                    final assignment = todoList[index];
+                    return AssignmentCard(assignment: assignment);
+                  },
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
-    ],
+        const SizedBox(width: 36),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Done',
+                style: Theme.of(context).textTheme.headline5,
+              ),
+              const SizedBox(height: 16),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: doneList.length,
+                  itemBuilder: (context, index) {
+                    final assignment = doneList[index];
+                    return AssignmentCard(assignment: assignment);
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    ),
   );
 }

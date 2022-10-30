@@ -35,29 +35,31 @@ Widget _buildMobileView(List<Course> courses) {
 }
 
 Widget _buildTabletView(BuildContext context, List<Course> courses) {
-  return ListView(
-    primary: true,
-    scrollDirection: Axis.vertical,
-    children: [
-      const SizedBox(height: 18.0),
-      Text(
-        'My Classes',
-        style: Theme.of(context).textTheme.headline5,
-      ),
-      const SizedBox(height: 22.0),
-      GridView.count(
-        primary: false,
-        physics: const NeverScrollableScrollPhysics(),
-        shrinkWrap: true,
-        crossAxisCount: 2,
-        crossAxisSpacing: 20,
-        mainAxisSpacing: 20,
-        childAspectRatio: 3,
-        children: List.generate(
-          courses.length,
-          (index) => CourseCard(course: courses[index]),
+  return Padding(
+    padding: const EdgeInsets.only(top: 16.0),
+    child: ListView(
+      primary: true,
+      scrollDirection: Axis.vertical,
+      children: [
+        Text(
+          'My Classes',
+          style: Theme.of(context).textTheme.headline5,
         ),
-      ),
-    ],
+        const SizedBox(height: 22.0),
+        GridView.count(
+          primary: false,
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          crossAxisCount: 2,
+          crossAxisSpacing: 20,
+          mainAxisSpacing: 20,
+          childAspectRatio: 3,
+          children: List.generate(
+            courses.length,
+            (index) => CourseCard(course: courses[index]),
+          ),
+        ),
+      ],
+    ),
   );
 }
