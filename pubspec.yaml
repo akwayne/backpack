@@ -19,7 +19,7 @@ dependencies:
   firebase_ui_oauth_google: ^1.0.3
   cloud_firestore: ^4.0.3
   table_calendar: ^3.0.7
-
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:

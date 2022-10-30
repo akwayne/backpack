@@ -1,3 +1,4 @@
+import 'package:backpack/calendar/calendar_page.dart';
 import 'package:backpack/student/view/student_name_tile.dart';
 import 'package:backpack/student/viewmodel/student_provider.dart';
 import 'package:flutter/material.dart';
@@ -187,5 +188,5 @@ const _navIcons = <Map<String, dynamic>>[
 const _navPages = <Widget>[
   AssignmentList(),
   CourseList(),
-  Center(child: Text('schedule')),
+  CalendarPage(),
 ];
