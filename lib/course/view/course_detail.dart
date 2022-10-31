@@ -29,8 +29,7 @@ class CourseDetail extends ConsumerWidget {
             style: Theme.of(context).textTheme.headline6,
           ),
           const SizedBox(height: 8),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
+          Wrap(
             children: [
               Chip(
                 label: Text(course.getWeekdayString()),

@@ -100,8 +100,9 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
                   child: const Text('Update')),
               ElevatedButton(
                 onPressed: () {
-                  // ref.read(studentProvider.notifier).deleteUser();
-                  // Navigator.pushReplacementNamed(context, '/login');
+                  ref.read(studentProvider.notifier).deleteUser();
+                  Navigator.restorablePushNamedAndRemoveUntil(
+                      context, '/login', (Route<dynamic> route) => false);
                 },
                 child: const Text('Delete Account'),
               ),
