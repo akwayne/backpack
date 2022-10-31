@@ -11,7 +11,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'firebase_options.dart';
 import 'home/home_nav.dart';
-import 'student/view/login_page.dart';
+import 'student/view/sign_in_page.dart';
 import 'student/view/profile_page.dart';
 import 'student/viewmodel/student_provider.dart';
 import 'utilities/utilities.dart';
@@ -54,6 +54,6 @@ class BackpackApp extends ConsumerWidget {
 
 final _appRoutes = <String, WidgetBuilder>{
   '/': (context) => const HomeNavigation(),
-  '/login': (context) => const LoginPage(),
+  '/login': (context) => const SigninPage(),
   '/profile': (context) => const ProfilePage(),
 };

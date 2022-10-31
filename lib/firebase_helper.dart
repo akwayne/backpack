@@ -23,7 +23,6 @@ class FirebaseHelper {
     for (var item in snapshot.docs) {
       final course =
           Course.fromMap(item.data() as Map<String, dynamic>, item.id);
-      course.courseId = item.id;
       courseList.add(course);
     }
     return courseList;

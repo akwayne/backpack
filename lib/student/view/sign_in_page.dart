@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class LoginPage extends ConsumerWidget {
-  const LoginPage({super.key});
+class SigninPage extends ConsumerWidget {
+  const SigninPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref, [bool mounted = true]) {
