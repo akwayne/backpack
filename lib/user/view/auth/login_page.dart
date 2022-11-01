@@ -1,8 +1,11 @@
-import 'package:backpack/student/viewmodel/student_provider.dart';
+import 'package:backpack/user/viewmodel/student_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+
+import 'auth_text_field.dart';
+import 'login_background.dart';
 
 class LoginPage extends ConsumerWidget {
   const LoginPage({super.key});
@@ -13,37 +16,34 @@ class LoginPage extends ConsumerWidget {
     final txtPassword = TextEditingController();
 
     return Scaffold(
-      body: SafeArea(
+      body: LoginBackground(
         child: ListView(
           keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
           children: [
+            Image.asset(
+              // Designed by stockgiu / Freepik
+              'assets/backpack.png',
+              fit: BoxFit.cover,
+            ),
+            const SizedBox(height: 20),
+            Text(
+              'Login to Backpack',
+              style: Theme.of(context).textTheme.headline4,
+            ),
             TextButton(
               onPressed: () => context.goNamed('register'),
-              child: const Text('Register'),
+              child: const Text('Or create a new account'),
             ),
-            TextField(
+            AuthTextField(
               controller: txtEmail,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12.0),
-                ),
-                filled: true,
-                fillColor: const Color.fromRGBO(255, 255, 255, 0.7),
-                hintText: 'Email',
-              ),
+              hintText: 'Email',
             ),
-            TextField(
+            const SizedBox(height: 8),
+            AuthTextField(
               controller: txtPassword,
-              obscureText: true,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12.0),
-                ),
-                filled: true,
-                fillColor: const Color.fromRGBO(255, 255, 255, 0.7),
-                hintText: 'Password',
-              ),
+              hintText: 'Password',
             ),
+            const SizedBox(height: 12),
             ElevatedButton(
               onPressed: () async {
                 try {

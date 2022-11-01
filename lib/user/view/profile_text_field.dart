@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 class ProfileTextField extends StatelessWidget {
   const ProfileTextField({
     super.key,
-    required this.label,
     required this.controller,
+    required this.label,
   });
 
-  final String label;
   final TextEditingController controller;
+  final String label;
 
   @override
   Widget build(BuildContext context) {

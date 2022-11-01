@@ -1,13 +1,13 @@
 import 'package:backpack/calendar/calendar_page.dart';
-import 'package:backpack/student/view/student_name_tile.dart';
-import 'package:backpack/student/viewmodel/student_provider.dart';
+import 'package:backpack/user/view/student_name_tile.dart';
+import 'package:backpack/user/viewmodel/student_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../assignment/view/assignment_list.dart';
 import '../course/view/course_list.dart';
-import '../student/model/student.dart';
+import '../user/model/student.dart';
 import '../utilities/utilities.dart';
 import 'cloud_future_builder.dart';
 

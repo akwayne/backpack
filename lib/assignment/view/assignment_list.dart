@@ -1,8 +1,8 @@
-import 'package:backpack/student/viewmodel/student_provider.dart';
+import 'package:backpack/user/viewmodel/student_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../student/model/student.dart';
+import '../../user/model/student.dart';
 import '../../utilities/utilities.dart';
 import '../model/assignment.dart';
 import '../viewmodel/assignment_provider.dart';

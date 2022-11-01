@@ -9,7 +9,7 @@ import 'package:firebase_ui_oauth_google/firebase_ui_oauth_google.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'firebase_options.dart';
-import 'student/viewmodel/student_provider.dart';
+import 'user/viewmodel/student_provider.dart';
 import 'utilities/utilities.dart';
 
 void main() async {

@@ -1,10 +1,11 @@
+import 'package:backpack/user/view/auth/auth_text_field.dart';
+import 'package:backpack/user/view/auth/login_background.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../model/student.dart';
 import '../../viewmodel/student_provider.dart';
-import '../profile_text_field.dart';
 
 class SetupPage extends ConsumerWidget {
   const SetupPage({super.key});
@@ -18,25 +19,20 @@ class SetupPage extends ConsumerWidget {
     final txtLastName = TextEditingController();
     final txtSchool = TextEditingController();
 
-    final controls = [
-      ProfileTextField(label: 'First Name', controller: txtFirstName),
-      ProfileTextField(label: 'Last Name', controller: txtLastName),
-      ProfileTextField(label: 'School', controller: txtSchool),
-    ];
-
     return Scaffold(
-      body: SafeArea(
-        child: Column(
+      body: LoginBackground(
+        child: ListView(
           children: [
-            ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              primary: false,
-              itemCount: controls.length,
-              itemBuilder: (context, index) {
-                return controls[index];
-              },
+            Text(
+              'Finish creating your account',
+              style: Theme.of(context).textTheme.headline5,
             ),
+            AuthTextField(controller: txtFirstName, hintText: 'First Name'),
+            const SizedBox(height: 8),
+            AuthTextField(controller: txtLastName, hintText: 'Last Name'),
+            const SizedBox(height: 8),
+            AuthTextField(controller: txtSchool, hintText: 'School'),
+            const SizedBox(height: 12),
             ElevatedButton(
               onPressed: () async {
                 // Update fields in student object

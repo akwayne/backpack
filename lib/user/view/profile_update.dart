@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:backpack/student/view/student_avatar.dart';
+import 'package:backpack/user/view/student_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';

@@ -1,3 +1,5 @@
+import 'package:backpack/user/view/auth/auth_text_field.dart';
+import 'package:backpack/user/view/auth/login_background.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,37 +16,27 @@ class RegisterPage extends ConsumerWidget {
     final txtPassword = TextEditingController();
 
     return Scaffold(
-      body: SafeArea(
+      body: LoginBackground(
         child: ListView(
           keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
           children: [
-            TextButton(
-              onPressed: () => context.goNamed('login'),
-              child: const Text('Sign in'),
+            Text(
+              'Create an Account',
+              style: Theme.of(context).textTheme.headline4,
             ),
-            TextField(
-              controller: txtEmail,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12.0),
+            Row(
+              children: [
+                const Text('Already have an account?'),
+                TextButton(
+                  onPressed: () => context.goNamed('login'),
+                  child: const Text('Sign in'),
                 ),
-                filled: true,
-                fillColor: const Color.fromRGBO(255, 255, 255, 0.7),
-                hintText: 'Email',
-              ),
+              ],
             ),
-            TextField(
-              controller: txtPassword,
-              obscureText: true,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12.0),
-                ),
-                filled: true,
-                fillColor: const Color.fromRGBO(255, 255, 255, 0.7),
-                hintText: 'Password',
-              ),
-            ),
+            AuthTextField(controller: txtEmail, hintText: 'Email'),
+            const SizedBox(height: 8),
+            AuthTextField(controller: txtPassword, hintText: 'Password'),
+            const SizedBox(height: 12),
             ElevatedButton(
               onPressed: () async {
                 try {

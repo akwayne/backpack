@@ -1,11 +1,11 @@
-import 'package:backpack/assignment/viewmodel/assignment_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../course/view/course_page.dart';
-import '../../student/model/student.dart';
-import '../../student/viewmodel/student_provider.dart';
+import '../../user/model/student.dart';
+import '../../user/viewmodel/student_provider.dart';
 import '../model/assignment.dart';
+import '../viewmodel/assignment_provider.dart';
 
 class AssignmentDetail extends ConsumerWidget {
   const AssignmentDetail({super.key, required this.assignmentId});
