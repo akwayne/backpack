@@ -28,16 +28,29 @@ class StudentNotifier extends StateNotifier<Student?> {
     return state;
   }
 
+  Future<void> createUser() async {
+    final String userId = FirebaseAuth.instance.currentUser!.uid;
+
+    final newStudent = Student.empty();
+    newStudent.id = userId;
+    await FirebaseHelper().insertStudent(newStudent);
+
+    state = newStudent;
+  }
+
   Future<void> logOut() async {
     // Remove user and sign out
     await FirebaseAuth.instance.signOut();
     state = null;
   }
 
-  Future<void> updateUser(Student student, File? imageFile) async {
-    await uploadImage(imageFile);
-    student.imageURL = await getImageURL(student.id);
-    await FirebaseHelper().updateStudent(student, student.id);
+  Future<void> updateUser(Student student, [File? imageFile]) async {
+    if (imageFile != null) {
+      await uploadImage(imageFile);
+      student.imageURL = await getImageURL(student.id);
+    }
+
+    await FirebaseHelper().updateStudent(student);
     state = Student.empty();
     state = student;
   }
@@ -55,7 +68,7 @@ class StudentNotifier extends StateNotifier<Student?> {
   Future<void> markComplete(String assignmentId) async {
     final updatedStudent = state;
     updatedStudent!.completed.add(assignmentId);
-    await FirebaseHelper().updateStudent(updatedStudent, state!.id);
+    await FirebaseHelper().updateStudent(updatedStudent);
 
     state = Student.empty();
     state = updatedStudent;
@@ -65,16 +78,14 @@ class StudentNotifier extends StateNotifier<Student?> {
   Future<void> toggleTheme() async {
     final updatedStudent = state;
     updatedStudent!.isDarkMode = !updatedStudent.isDarkMode;
-    await FirebaseHelper().updateStudent(updatedStudent, state!.id);
+    await FirebaseHelper().updateStudent(updatedStudent);
 
     state = Student.empty();
     state = updatedStudent;
   }
 
   // Upload profile picture
-  Future uploadImage(File? imageFile) async {
-    if (imageFile == null) return;
-
+  Future uploadImage(File imageFile) async {
     final fileName = state!.id;
     final destination = 'profile_images/$fileName';
 

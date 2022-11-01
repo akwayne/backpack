@@ -4,9 +4,11 @@ import 'package:go_router/go_router.dart';
 
 import '../course/view/course_page.dart';
 import '../home/home_nav.dart';
+import '../student/view/auth/login_page.dart';
+import '../student/view/auth/setup_page.dart';
 import '../student/view/profile_page.dart';
 import '../student/view/profile_update.dart';
-import '../student/view/sign_in_page.dart';
+import '../student/view/auth/register_page.dart';
 
 class AppRouter {
   late final router = GoRouter(
@@ -20,7 +22,17 @@ class AppRouter {
       GoRoute(
         name: 'login',
         path: '/login',
-        builder: (context, state) => const SigninPage(),
+        builder: (context, state) => const LoginPage(),
+      ),
+      GoRoute(
+        name: 'register',
+        path: '/register',
+        builder: (context, state) => const RegisterPage(),
+      ),
+      GoRoute(
+        name: 'setup',
+        path: '/setup',
+        builder: (context, state) => const SetupPage(),
       ),
       GoRoute(
         name: 'profile',

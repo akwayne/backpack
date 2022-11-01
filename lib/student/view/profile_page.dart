@@ -48,7 +48,7 @@ class ProfilePage extends ConsumerWidget {
                 student.school,
                 style: Theme.of(context).textTheme.headline6,
               ),
-              // I can not make this switch work
+              // TODO I can not make this switch work
               // Padding(
               //   padding: const EdgeInsets.all(16.0),
               //   child: Row(

@@ -8,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 
 import '../model/student.dart';
 import '../viewmodel/student_provider.dart';
+import 'profile_text_field.dart';
 
 // Provider determines which view of the course page we are looking at
 final imageUploadProvider = StateProvider<File?>((ref) => null);
@@ -113,30 +114,5 @@ class ProfileUpdate extends ConsumerWidget {
             ],
           ),
         ));
-  }
-}
-
-class ProfileTextField extends StatelessWidget {
-  const ProfileTextField({
-    super.key,
-    required this.label,
-    required this.controller,
-  });
-
-  final String label;
-  final TextEditingController controller;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: TextField(
-        controller: controller,
-        decoration: InputDecoration(
-            border: const OutlineInputBorder(),
-            hintText: label,
-            labelText: label),
-      ),
-    );
   }
 }

@@ -1,8 +1,8 @@
-import 'package:backpack/student/model/student.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'assignment/model/assignment.dart';
 import 'course/model/course.dart';
+import 'student/model/student.dart';
 
 class FirebaseHelper {
   late FirebaseFirestore firestore;
@@ -42,26 +42,20 @@ class FirebaseHelper {
   // Student actions
   Future<Student> readStudent(String userId) async {
     final snapshot = await users.doc(userId).get();
-    // If no user is found in database, create a new one
-    if (snapshot.data() == null) {
-      final newstudent = Student.empty();
-      newstudent.id = userId;
-      await insertStudent(newstudent);
-      return newstudent;
-    } else {
-      // Return student entry from database
-      final student =
-          Student.fromMap(snapshot.data() as Map<String, dynamic>, snapshot.id);
-      return student;
-    }
+
+    // Return student entry from database
+    final student =
+        Student.fromMap(snapshot.data() as Map<String, dynamic>, snapshot.id);
+
+    return student;
   }
 
   Future insertStudent(Student student) async {
     await users.doc(student.id).set(student.toMap());
   }
 
-  Future updateStudent(Student student, String userId) async {
-    await users.doc(userId).update(student.toMap());
+  Future updateStudent(Student student) async {
+    await users.doc(student.id).update(student.toMap());
   }
 
   Future deleteStudent(String userId) async {
