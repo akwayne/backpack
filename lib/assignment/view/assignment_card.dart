@@ -1,6 +1,7 @@
 import 'package:backpack/student/viewmodel/student_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../course/model/course.dart';
 import '../../course/model/subject.dart';
@@ -40,9 +41,8 @@ class AssignmentCard extends ConsumerWidget {
         leading: checkbox,
         title: Text(assignment.name),
         // Only show subtitle on home page
-        subtitle: ModalRoute.of(context)?.settings.name == '/'
-            ? Text(course.name)
-            : null,
+        subtitle:
+            GoRouter.of(context).location == '/' ? Text(course.name) : null,
         trailing: Image.asset(
           course.subject.getImage,
           color: const Color.fromRGBO(255, 255, 255, 0.3),
@@ -54,12 +54,10 @@ class AssignmentCard extends ConsumerWidget {
 
           // This checks if we are on the home page or already on course page
           // If we are on the home page, we should navigate to the course page
-          if (ModalRoute.of(context)?.settings.name == '/') {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: ((context) => CoursePage(course: course)),
-              ),
+          if (GoRouter.of(context).location == '/') {
+            context.pushNamed(
+              'course',
+              params: {'courseId': course.courseId},
             );
           }
         },

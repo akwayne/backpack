@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 // Firebase
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_auth/firebase_auth.dart' hide EmailAuthProvider;
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:firebase_ui_oauth_google/firebase_ui_oauth_google.dart';
 
@@ -10,9 +9,6 @@ import 'package:firebase_ui_oauth_google/firebase_ui_oauth_google.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'firebase_options.dart';
-import 'home/home_nav.dart';
-import 'student/view/sign_in_page.dart';
-import 'student/view/profile_page.dart';
 import 'student/viewmodel/student_provider.dart';
 import 'utilities/utilities.dart';
 
@@ -39,21 +35,23 @@ class BackpackApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // Initialize gorouter
+    late final router = AppRouter().router;
+
+    // Find out who is logged in
     ref.read(studentProvider.notifier).getUser();
 
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
+    return MaterialApp.router(
       theme: AppTheme.light(),
       darkTheme: AppTheme.dark(),
       themeMode: ThemeMode.system,
-      initialRoute: FirebaseAuth.instance.currentUser == null ? '/login' : '/',
-      routes: _appRoutes,
+
+      debugShowCheckedModeBanner: false,
+
+      // Setup Go Router
+      routerDelegate: router.routerDelegate,
+      routeInformationParser: router.routeInformationParser,
+      routeInformationProvider: router.routeInformationProvider,
     );
   }
 }
-
-final _appRoutes = <String, WidgetBuilder>{
-  '/': (context) => const HomeNavigation(),
-  '/login': (context) => const SigninPage(),
-  '/profile': (context) => const ProfilePage(),
-};

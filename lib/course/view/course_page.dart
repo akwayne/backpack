@@ -1,6 +1,8 @@
 import 'package:backpack/assignment/view/assignment_detail.dart';
+import 'package:backpack/course/viewmodel/course_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../utilities/utilities.dart';
 import '../model/course.dart';
@@ -10,14 +12,17 @@ import 'course_detail.dart';
 final courseViewProvider = StateProvider<String?>((ref) => null);
 
 class CoursePage extends ConsumerWidget {
-  const CoursePage({super.key, required this.course});
+  const CoursePage({super.key, required this.courseId});
 
-  final Course course;
+  final String courseId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // Determines if an assignment detail is visible
     String? assignmentView = ref.watch(courseViewProvider);
+
+    // Get course info to display
+    Course course = ref.read(courseProvider.notifier).getCourseFromId(courseId);
 
     return Scaffold(
       appBar: AppBar(
@@ -28,7 +33,7 @@ class CoursePage extends ConsumerWidget {
               icon: const Icon(Icons.close),
               onPressed: () {
                 ref.read(courseViewProvider.notifier).state = null;
-                Navigator.pop(context);
+                context.pop();
               }),
         ],
       ),

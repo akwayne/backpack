@@ -2,6 +2,7 @@ import 'package:backpack/student/viewmodel/student_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class SigninPage extends ConsumerWidget {
   const SigninPage({super.key});
@@ -17,7 +18,7 @@ class SigninPage extends ConsumerWidget {
           AuthStateChangeAction<SignedIn>((context, state) async {
             await ref.read(studentProvider.notifier).getUser();
             if (!mounted) return;
-            Navigator.pushReplacementNamed(context, '/');
+            context.goNamed('home');
           }),
         ],
       ),

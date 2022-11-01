@@ -3,56 +3,52 @@ import 'dart:io';
 import 'package:backpack/student/view/student_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../firebase_helper.dart';
 import '../model/student.dart';
 import '../viewmodel/student_provider.dart';
 
-class ProfileUpdate extends StatefulWidget {
-  const ProfileUpdate({super.key, required this.student});
+// Provider determines which view of the course page we are looking at
+final imageUploadProvider = StateProvider<File?>((ref) => null);
 
-  final Student student;
-
-  @override
-  State<ProfileUpdate> createState() => _ProfileUpdateState();
-}
-
-class _ProfileUpdateState extends State<ProfileUpdate> {
-  List<ProfileTextField> controls = [];
-  final txtFirstName = TextEditingController();
-  final txtLastName = TextEditingController();
-  final txtSchool = TextEditingController();
-  final helper = FirebaseHelper();
-  final imagePicker = ImagePicker();
-  File? imageFile;
+class ProfileUpdate extends ConsumerWidget {
+  const ProfileUpdate({super.key});
 
   @override
-  void initState() {
-    controls = [
+  Widget build(BuildContext context, WidgetRef ref, [bool mounted = true]) {
+    // Student info to display
+    final student = ref.watch(studentProvider) ?? Student.empty();
+
+    final txtFirstName = TextEditingController();
+    final txtLastName = TextEditingController();
+    final txtSchool = TextEditingController();
+
+    final controls = [
       ProfileTextField(label: 'First Name', controller: txtFirstName),
       ProfileTextField(label: 'Last Name', controller: txtLastName),
       ProfileTextField(label: 'School', controller: txtSchool),
     ];
 
-    txtFirstName.text = widget.student.firstName;
-    txtLastName.text = widget.student.lastName;
-    txtSchool.text = widget.student.school;
+    final imagePicker = ImagePicker();
+    File? imageFile = ref.watch(imageUploadProvider);
 
-    super.initState();
-  }
+    txtFirstName.text = student.firstName;
+    txtLastName.text = student.lastName;
+    txtSchool.text = student.school;
 
-  @override
-  Widget build(BuildContext context, [bool mounted = true]) {
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          onPressed: () => Navigator.pop(context),
-          icon: const Icon(Icons.arrow_back_ios),
+        appBar: AppBar(
+          leading: IconButton(
+            onPressed: () {
+              // clear updated image
+              ref.read(imageUploadProvider.notifier).state = null;
+              context.pop();
+            },
+            icon: const Icon(Icons.arrow_back_ios),
+          ),
         ),
-      ),
-      body: Consumer(builder: (context, ref, child) {
-        return SafeArea(
+        body: SafeArea(
           child: Column(
             children: [
               GestureDetector(
@@ -61,15 +57,16 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
                     source: ImageSource.gallery,
                     requestFullMetadata: false,
                   );
-                  setState(() {
-                    if (image != null) imageFile = File(image.path);
-                  });
+                  if (image != null) {
+                    ref.read(imageUploadProvider.notifier).state =
+                        File(image.path);
+                  }
                 },
                 child: StudentAvatar(
                   imageRadius: 60,
                   image: imageFile == null
-                      ? NetworkImage(widget.student.imageURL)
-                      : FileImage(imageFile!),
+                      ? NetworkImage(student.imageURL)
+                      : FileImage(imageFile),
                 ),
               ),
               ListView.builder(
@@ -84,33 +81,38 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
               ElevatedButton(
                   onPressed: () async {
                     // Update fields in student object
-                    widget.student.firstName = txtFirstName.text;
-                    widget.student.lastName = txtLastName.text;
-                    widget.student.school = txtSchool.text;
+                    student.firstName = txtFirstName.text;
+                    student.lastName = txtLastName.text;
+                    student.school = txtSchool.text;
 
                     // Update in provider and firebase
                     await ref
                         .read(studentProvider.notifier)
-                        .updateUser(widget.student, imageFile);
+                        .updateUser(student, imageFile);
+
+                    // clear updated image
+                    ref.read(imageUploadProvider.notifier).state = null;
 
                     // Go back to previous page
                     if (!mounted) return;
-                    Navigator.pop(context);
+                    context.pop();
                   },
                   child: const Text('Update')),
               ElevatedButton(
                 onPressed: () {
+                  // delete user
                   ref.read(studentProvider.notifier).deleteUser();
-                  Navigator.restorablePushNamedAndRemoveUntil(
-                      context, '/login', (Route<dynamic> route) => false);
+
+                  // clear updated image
+                  ref.read(imageUploadProvider.notifier).state = null;
+
+                  context.goNamed('login');
                 },
                 child: const Text('Delete Account'),
               ),
             ],
           ),
-        );
-      }),
-    );
+        ));
   }
 }
 

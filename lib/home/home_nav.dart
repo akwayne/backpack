@@ -3,6 +3,7 @@ import 'package:backpack/student/view/student_name_tile.dart';
 import 'package:backpack/student/viewmodel/student_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../assignment/view/assignment_list.dart';
 import '../course/view/course_list.dart';
@@ -71,7 +72,7 @@ Widget _buildMobileView(
           padding: const EdgeInsets.only(right: 10.0),
           child: IconButton(
             onPressed: () {
-              Navigator.pushNamed(context, '/profile');
+              context.pushNamed('profile');
             },
             icon: Icon(
               Icons.account_circle,
@@ -94,7 +95,7 @@ Widget _buildMobileView(
                   title: Text(_navIcons[index]['label']),
                   onTap: () {
                     updateNavTab(index);
-                    Navigator.pop(context);
+                    context.pop();
                   },
                 );
               }),

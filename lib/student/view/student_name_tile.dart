@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../model/student.dart';
 import 'student_avatar.dart';
 
@@ -11,7 +12,7 @@ class StudentNameTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, '/profile');
+        context.pushNamed('profile');
       },
       child: Row(
         children: [

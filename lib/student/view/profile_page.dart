@@ -2,6 +2,7 @@ import 'package:backpack/student/view/profile_update.dart';
 import 'package:backpack/student/viewmodel/student_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../model/student.dart';
 import 'student_avatar.dart';
@@ -17,18 +18,13 @@ class ProfilePage extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => context.pop(),
           icon: const Icon(Icons.arrow_back_ios),
         ),
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ProfileUpdate(student: student),
-                ),
-              );
+              context.pushNamed('profileUpdate');
             },
             icon: const Icon(Icons.edit),
           ),
@@ -72,8 +68,7 @@ class ProfilePage extends ConsumerWidget {
               // ),
               TextButton(
                 onPressed: () {
-                  Navigator.restorablePushNamedAndRemoveUntil(
-                      context, '/login', (Route<dynamic> route) => false);
+                  context.goNamed('login');
                   ref.read(studentProvider.notifier).logOut();
                 },
                 child: const Text('Log Out'),
