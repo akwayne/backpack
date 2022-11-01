@@ -1,4 +1,3 @@
-import 'package:backpack/student/view/profile_update.dart';
 import 'package:backpack/student/viewmodel/student_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
