@@ -51,9 +51,12 @@ Widget _buildTabletView(BuildContext context, List<Course> courses) {
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           crossAxisCount: 2,
-          crossAxisSpacing: 20,
-          mainAxisSpacing: 20,
-          childAspectRatio: 2.5,
+          crossAxisSpacing: 16,
+          mainAxisSpacing: 16,
+          childAspectRatio:
+              MediaQuery.of(context).orientation == Orientation.portrait
+                  ? 2.5
+                  : 3,
           children: List.generate(
             courses.length,
             (index) => CourseCard(course: courses[index]),

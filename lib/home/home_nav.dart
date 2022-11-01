@@ -138,12 +138,22 @@ Widget _buildTabletView(
   return Scaffold(
     body: Row(
       children: <Widget>[
-        NavigationRail(
-          selectedIndex: navIndex,
-          onDestinationSelected: (index) => updateNavTab(index),
-          labelType: NavigationRailLabelType.all,
-          destinations: navRailItems,
-          groupAlignment: -0.9,
+        Container(
+          margin: const EdgeInsets.symmetric(vertical: 32.0),
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+              topRight: Radius.circular(12),
+              bottomRight: Radius.circular(12),
+            ),
+          ),
+          child: NavigationRail(
+            selectedIndex: navIndex,
+            onDestinationSelected: (index) => updateNavTab(index),
+            labelType: NavigationRailLabelType.all,
+            destinations: navRailItems,
+            backgroundColor: Colors.transparent,
+          ),
         ),
 
         // Selected page is displayed to the right of the nav rail

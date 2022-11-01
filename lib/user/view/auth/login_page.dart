@@ -17,23 +17,22 @@ class LoginPage extends ConsumerWidget {
 
     return Scaffold(
       body: LoginBackground(
-        child: ListView(
-          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+        child: Column(
           children: [
-            Image.asset(
-              // Designed by stockgiu / Freepik
-              'assets/backpack.png',
-              fit: BoxFit.cover,
+            SizedBox(
+              height: 300,
+              child: Image.asset(
+                // Designed by stockgiu / Freepik
+                'assets/backpack.png',
+                fit: BoxFit.cover,
+              ),
             ),
             const SizedBox(height: 20),
             Text(
               'Login to Backpack',
               style: Theme.of(context).textTheme.headline4,
             ),
-            TextButton(
-              onPressed: () => context.goNamed('register'),
-              child: const Text('Or create a new account'),
-            ),
+            const SizedBox(height: 12),
             AuthTextField(
               controller: txtEmail,
               hintText: 'Email',
@@ -63,6 +62,10 @@ class LoginPage extends ConsumerWidget {
                 }
               },
               child: const Text('Log In'),
+            ),
+            TextButton(
+              onPressed: () => context.goNamed('register'),
+              child: const Text('Or create a new account'),
             ),
           ],
         ),

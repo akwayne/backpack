@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ColorPalette {
-  static const Color background = Color(0xFFEDEFEA);
+  static const Color background = Color(0xFFF4F6F1);
   static const Color honeydew = Color(0xFFDAEBD7);
   static const Color lightPrimary = Color(0xFFC0E8BD);
   static const Color primary = Color(0xFF9CDB81);

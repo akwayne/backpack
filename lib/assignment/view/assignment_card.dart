@@ -35,7 +35,7 @@ class AssignmentCard extends ConsumerWidget {
 
 // Show assignment card
     return Card(
-      elevation: 1,
+      elevation: 0,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: ListTile(
         leading: checkbox,
@@ -45,7 +45,7 @@ class AssignmentCard extends ConsumerWidget {
             GoRouter.of(context).location == '/' ? Text(course.name) : null,
         trailing: Image.asset(
           course.subject.getImage,
-          color: const Color.fromRGBO(255, 255, 255, 0.3),
+          color: const Color.fromRGBO(255, 255, 255, 0.8),
           colorBlendMode: BlendMode.modulate,
         ),
         onTap: () {

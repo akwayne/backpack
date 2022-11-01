@@ -86,18 +86,26 @@ class CheckAnim extends StatelessWidget {
     return AnimatedBuilder(
       animation: controller,
       builder: (context, child) {
-        return Stack(
-          children: [
-            Icon(
-              Icons.circle_outlined,
-              size: shrink.value,
-            ),
-            Icon(
-              Icons.check_circle,
-              size: grow.value,
-              color: color.value,
-            ),
-          ],
+        return SizedBox(
+          width: 38,
+          height: 38,
+          child: Stack(
+            children: [
+              Center(
+                child: Icon(
+                  Icons.circle_outlined,
+                  size: shrink.value,
+                ),
+              ),
+              Center(
+                child: Icon(
+                  Icons.check_circle,
+                  size: grow.value,
+                  color: color.value,
+                ),
+              ),
+            ],
+          ),
         );
       },
     );

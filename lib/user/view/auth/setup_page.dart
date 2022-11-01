@@ -21,7 +21,7 @@ class SetupPage extends ConsumerWidget {
 
     return Scaffold(
       body: LoginBackground(
-        child: ListView(
+        child: Column(
           children: [
             Text(
               'Finish creating your account',

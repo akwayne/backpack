@@ -17,22 +17,14 @@ class RegisterPage extends ConsumerWidget {
 
     return Scaffold(
       body: LoginBackground(
-        child: ListView(
-          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+        child: Column(
           children: [
+            const SizedBox(height: 300),
             Text(
               'Create an Account',
               style: Theme.of(context).textTheme.headline4,
             ),
-            Row(
-              children: [
-                const Text('Already have an account?'),
-                TextButton(
-                  onPressed: () => context.goNamed('login'),
-                  child: const Text('Sign in'),
-                ),
-              ],
-            ),
+            const SizedBox(height: 12),
             AuthTextField(controller: txtEmail, hintText: 'Email'),
             const SizedBox(height: 8),
             AuthTextField(controller: txtPassword, hintText: 'Password'),
@@ -59,6 +51,15 @@ class RegisterPage extends ConsumerWidget {
                 }
               },
               child: const Text('Create Account'),
+            ),
+            Row(
+              children: [
+                const Text('Already have an account?'),
+                TextButton(
+                  onPressed: () => context.goNamed('login'),
+                  child: const Text('Sign in'),
+                ),
+              ],
             ),
           ],
         ),

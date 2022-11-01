@@ -33,14 +33,6 @@ extension SubjectExt on Subject {
     }
   }
 
-  // Text color for each school subject
-  Color get getTextColor {
-    switch (this) {
-      default:
-        return Colors.black87;
-    }
-  }
-
   // Images from https://icons8.com/
   String get getImage {
     switch (this) {

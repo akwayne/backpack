@@ -1,3 +1,4 @@
+import 'package:backpack/utilities/device_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -39,11 +40,12 @@ class AssignmentDetail extends ConsumerWidget {
                   style: Theme.of(context).textTheme.headline5,
                 ),
                 const Spacer(),
-                IconButton(
-                  onPressed: () =>
-                      ref.read(courseViewProvider.notifier).state = null,
-                  icon: const Icon(Icons.close),
-                )
+                if (getDeviceType(MediaQuery.of(context)) == DeviceType.mobile)
+                  IconButton(
+                    onPressed: () =>
+                        ref.read(courseViewProvider.notifier).state = null,
+                    icon: const Icon(Icons.close),
+                  ),
               ],
             ),
 

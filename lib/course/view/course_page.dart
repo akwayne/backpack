@@ -24,23 +24,28 @@ class CoursePage extends ConsumerWidget {
     // Get course info to display
     Course course = ref.read(courseProvider.notifier).getCourseFromId(courseId);
 
+    DeviceType device = getDeviceType(MediaQuery.of(context));
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Text(course.name),
-        actions: [
-          IconButton(
-              icon: const Icon(Icons.close),
-              onPressed: () {
-                ref.read(courseViewProvider.notifier).state = null;
-                context.pop();
-              }),
-        ],
+        // do not show x icon on mobile when assignment is showing
+        actions: device == DeviceType.mobile && assignmentView != null
+            ? []
+            : [
+                IconButton(
+                    icon: const Icon(Icons.close),
+                    onPressed: () {
+                      ref.read(courseViewProvider.notifier).state = null;
+                      context.pop();
+                    })
+              ],
       ),
       body: SafeArea(
         child: LayoutBuilder(
           builder: (context, constraints) {
-            return getDeviceType(MediaQuery.of(context)) == DeviceType.mobile
+            return device == DeviceType.mobile
                 ? _buildMobileView(course, assignmentView)
                 : _buildTabletView(course, assignmentView);
           },
