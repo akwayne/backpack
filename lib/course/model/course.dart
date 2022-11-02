@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import 'subject.dart';
 
 class Course {
@@ -8,6 +9,7 @@ class Course {
   String location;
   List<int> weekdayList;
   String time;
+  DateTime timeStamp;
 
   Course({
     required this.courseId,
@@ -17,6 +19,7 @@ class Course {
     required this.location,
     required this.weekdayList,
     required this.time,
+    required this.timeStamp,
   });
 
   factory Course.fromMap(Map<String, dynamic> map, String courseId) {
@@ -63,6 +66,7 @@ class Course {
       location: map['location'] as String,
       weekdayList: weekdayList,
       time: map['time'] as String,
+      timeStamp: DateTime.parse("2000-01-01 ${map['time'] as String}:00"),
     );
   }
 
@@ -105,5 +109,10 @@ class Course {
       stringList.add(dayString);
     }
     return stringList.join(', ');
+  }
+
+  // Get course time in 12 hour clock instead of 24
+  String getTimeString() {
+    return DateFormat('jm').format(timeStamp);
   }
 }

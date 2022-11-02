@@ -16,7 +16,7 @@ class EventCard extends StatelessWidget {
       elevation: 0,
       child: ListTile(
         title: Text(course.name),
-        subtitle: Text('${course.time} / ${course.location}'),
+        subtitle: Text('${course.getTimeString()} / ${course.location}'),
       ),
     );
   }

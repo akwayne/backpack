@@ -30,7 +30,11 @@ class CalendarWidget extends ConsumerWidget {
       calendarStyle: CalendarStyle(
         weekendTextStyle: const TextStyle(color: Colors.grey),
         todayDecoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.primaryContainer,
+          color: Colors.transparent,
+          border: Border.all(
+            color: Theme.of(context).colorScheme.primary,
+            width: 2,
+          ),
           shape: BoxShape.circle,
         ),
         selectedDecoration: BoxDecoration(
@@ -40,7 +44,7 @@ class CalendarWidget extends ConsumerWidget {
         selectedTextStyle:
             TextStyle(color: Theme.of(context).colorScheme.onPrimary),
         todayTextStyle:
-            TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+            TextStyle(color: Theme.of(context).colorScheme.onBackground),
       ),
     );
   }

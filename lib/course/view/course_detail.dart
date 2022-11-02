@@ -36,7 +36,7 @@ class CourseDetail extends ConsumerWidget {
               ),
               const SizedBox(width: 12),
               Chip(
-                label: Text(course.time),
+                label: Text(course.getTimeString()),
               ),
               const SizedBox(width: 12),
               Chip(

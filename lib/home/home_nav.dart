@@ -140,9 +140,9 @@ Widget _buildTabletView(
       children: <Widget>[
         Container(
           margin: const EdgeInsets.symmetric(vertical: 32.0),
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
+          decoration: BoxDecoration(
+            color: Theme.of(context).bottomAppBarColor,
+            borderRadius: const BorderRadius.only(
               topRight: Radius.circular(12),
               bottomRight: Radius.circular(12),
             ),

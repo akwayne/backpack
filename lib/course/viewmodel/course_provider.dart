@@ -31,6 +31,9 @@ class CourseNotifier extends StateNotifier<List<Course>> {
         .where((course) => course.weekdayList.contains(selectedDay.weekday))
         .toList();
 
+    // Sort list to display by time
+    selectedCourses.sort((a, b) => a.timeStamp.compareTo(b.timeStamp));
+
     return selectedCourses;
   }
 }

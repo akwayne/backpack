@@ -22,7 +22,7 @@ class AuthTextField extends StatelessWidget {
             borderRadius: BorderRadius.circular(18.0),
           ),
           filled: true,
-          fillColor: const Color.fromRGBO(255, 255, 255, 0.8),
+          fillColor: Theme.of(context).cardColor.withOpacity(0.8),
           hintText: hintText,
         ),
       ),
