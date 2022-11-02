@@ -37,31 +37,34 @@ class LoginPage extends ConsumerWidget {
               controller: txtEmail,
               hintText: 'Email',
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 12),
             AuthTextField(
               controller: txtPassword,
               hintText: 'Password',
             ),
             const SizedBox(height: 12),
-            ElevatedButton(
-              onPressed: () async {
-                try {
-                  await FirebaseAuth.instance.signInWithEmailAndPassword(
-                    email: txtEmail.text,
-                    password: txtPassword.text,
-                  );
-                  await ref.read(studentProvider.notifier).getUser();
-                  if (!mounted) return;
-                  context.goNamed('home');
-                } on FirebaseAuthException catch (e) {
-                  if (e.code == 'user-not-found') {
-                    print('No user found for that email.');
-                  } else if (e.code == 'wrong-password') {
-                    print('Wrong password provided for that user.');
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () async {
+                  try {
+                    await FirebaseAuth.instance.signInWithEmailAndPassword(
+                      email: txtEmail.text,
+                      password: txtPassword.text,
+                    );
+                    await ref.read(studentProvider.notifier).getUser();
+                    if (!mounted) return;
+                    context.goNamed('home');
+                  } on FirebaseAuthException catch (e) {
+                    if (e.code == 'user-not-found') {
+                      print('No user found for that email.');
+                    } else if (e.code == 'wrong-password') {
+                      print('Wrong password provided for that user.');
+                    }
                   }
-                }
-              },
-              child: const Text('Log In'),
+                },
+                child: const Text('Log In'),
+              ),
             ),
             TextButton(
               onPressed: () => context.goNamed('register'),

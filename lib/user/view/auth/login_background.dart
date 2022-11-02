@@ -57,7 +57,7 @@ class _LoginBackgroundState extends State<LoginBackground>
         ),
         SafeArea(
           child: Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: const EdgeInsets.all(32.0),
             child: Center(
               child: SizedBox(
                 width: 400,

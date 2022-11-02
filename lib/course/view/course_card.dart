@@ -29,7 +29,7 @@ class CourseCard extends StatelessWidget {
                 course.subject.getColor,
               ],
             ),
-            borderRadius: const BorderRadius.all(Radius.circular(28.0)),
+            borderRadius: const BorderRadius.all(Radius.circular(22.0)),
           ),
           child: Stack(
             children: [
@@ -43,7 +43,7 @@ class CourseCard extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 18),
+                padding: const EdgeInsets.all(18),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
