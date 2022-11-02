@@ -1,20 +1,33 @@
-import 'package:backpack/user/view/auth/auth_text_field.dart';
-import 'package:backpack/user/view/auth/login_background.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../viewmodel/student_provider.dart';
+import 'auth_text_field.dart';
+import 'login_background.dart';
 
-class RegisterPage extends ConsumerWidget {
-  const RegisterPage({super.key});
+class RegisterPage extends ConsumerStatefulWidget {
+  const RegisterPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref, [bool mounted = true]) {
-    final txtEmail = TextEditingController();
-    final txtPassword = TextEditingController();
+  RegisterPageState createState() => RegisterPageState();
+}
 
+class RegisterPageState extends ConsumerState<RegisterPage> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  final txtEmail = TextEditingController();
+  final txtPassword = TextEditingController();
+
+  String? emailError;
+  String? passwordError;
+
+  @override
+  Widget build(BuildContext context, [bool mounted = true]) {
     return Scaffold(
       body: LoginBackground(
         child: Column(
@@ -28,8 +41,17 @@ class RegisterPage extends ConsumerWidget {
                 style: Theme.of(context).textTheme.headline4,
               ),
             ),
-            AuthTextField(controller: txtEmail, hintText: 'Email'),
-            AuthTextField(controller: txtPassword, hintText: 'Password'),
+            AuthTextField(
+              controller: txtEmail,
+              hintText: 'Email',
+              errorText: emailError,
+            ),
+            AuthTextField(
+              controller: txtPassword,
+              hintText: 'Password',
+              errorText: passwordError,
+            ),
+            // AuthTextField(controller: txtPassword, label: 'Confirm Password'),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: SizedBox(
@@ -47,13 +69,31 @@ class RegisterPage extends ConsumerWidget {
                       if (!mounted) return;
                       context.goNamed('setup');
                     } on FirebaseAuthException catch (e) {
-                      if (e.code == 'weak-password') {
-                        print('The password provided is too weak.');
-                      } else if (e.code == 'email-already-in-use') {
-                        print('The account already exists for that email.');
+                      // Clear previous error messages
+                      setState(() {
+                        emailError = null;
+                        passwordError = null;
+                      });
+
+                      switch (e.code) {
+                        case 'email-already-in-use':
+                          setState(
+                              () => emailError = 'Email is already in use');
+                          break;
+                        case 'invalid-email':
+                          setState(
+                              () => emailError = 'Please enter a valid email');
+                          break;
+                        case 'weak-password':
+                          setState(() => passwordError =
+                              'Password must be at least 6 characters');
+                          break;
+                        default:
+                          setState(() {
+                            emailError = 'Error';
+                            passwordError = 'Error';
+                          });
                       }
-                    } catch (e) {
-                      print(e);
                     }
                   },
                   child: const Text('Create Account'),
