@@ -31,7 +31,7 @@ class ProfilePage extends ConsumerWidget {
       ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(36.0),
+          padding: const EdgeInsets.all(24.0),
           child: Center(
             child: Column(
               children: [

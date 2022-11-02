@@ -1,3 +1,4 @@
+import 'package:backpack/utilities/device_type.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -28,19 +29,30 @@ class LoginPageState extends ConsumerState<LoginPage> {
 
   @override
   Widget build(BuildContext context, [bool mounted = true]) {
+    DeviceType deviceType = getDeviceType(MediaQuery.of(context));
+    Orientation orientation = MediaQuery.of(context).orientation;
+
     return Scaffold(
       body: LoginBackground(
-        child: Column(
+        child: ListView(
           children: [
-            SizedBox(
-              height: 300,
-              child: Image.asset(
-                // Designed by stockgiu / Freepik
-                'assets/backpack.png',
-                fit: BoxFit.cover,
+            // do not show image on mobile in landscape mode
+            if (!(deviceType == DeviceType.mobile &&
+                orientation == Orientation.landscape))
+              Column(
+                children: [
+                  SizedBox(
+                    height: deviceType == DeviceType.mobile ? 250 : 300,
+                    child: Image.asset(
+                      // Designed by stockgiu / Freepik
+                      'assets/backpack.png',
+                      fit: BoxFit.fitHeight,
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                ],
               ),
-            ),
-            const SizedBox(height: 20),
+
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 6.0),
               child: Text(
@@ -101,7 +113,7 @@ class LoginPageState extends ConsumerState<LoginPage> {
               ),
             ),
             TextButton(
-              onPressed: () => context.goNamed('register'),
+              onPressed: () => context.pushNamed('register'),
               child: const Text('Or create a new account'),
             ),
           ],

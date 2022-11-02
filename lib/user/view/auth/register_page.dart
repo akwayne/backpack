@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../utilities/utilities.dart';
 import '../../viewmodel/student_provider.dart';
 import 'auth_text_field.dart';
 import 'login_background.dart';
@@ -28,12 +29,28 @@ class RegisterPageState extends ConsumerState<RegisterPage> {
 
   @override
   Widget build(BuildContext context, [bool mounted = true]) {
+    DeviceType deviceType = getDeviceType(MediaQuery.of(context));
+    Orientation orientation = MediaQuery.of(context).orientation;
+
     return Scaffold(
       body: LoginBackground(
-        child: Column(
+        child: ListView(
           children: [
-            const SizedBox(height: 300),
-            const SizedBox(height: 20),
+            // no empty space on mobile in landscape mode
+            if (!(deviceType == DeviceType.mobile &&
+                orientation == Orientation.landscape))
+              Column(
+                children: [
+                  SizedBox(
+                    height: getDeviceType(MediaQuery.of(context)) ==
+                            DeviceType.mobile
+                        ? 250
+                        : 300,
+                  ),
+                  const SizedBox(height: 20),
+                ],
+              ),
+
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 6.0),
               child: Text(
@@ -104,7 +121,7 @@ class RegisterPageState extends ConsumerState<RegisterPage> {
               children: [
                 const Text('Already have an account?'),
                 TextButton(
-                  onPressed: () => context.goNamed('login'),
+                  onPressed: () => context.pop(),
                   child: const Text('Sign in'),
                 ),
               ],

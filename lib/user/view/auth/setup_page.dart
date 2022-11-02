@@ -35,7 +35,7 @@ class SetupPageState extends ConsumerState<SetupPage> {
       body: LoginBackground(
         child: Form(
           key: _setupKey,
-          child: Column(
+          child: ListView(
             children: [
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),

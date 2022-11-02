@@ -52,8 +52,8 @@ class ProfileUpdate extends ConsumerWidget {
         body: SafeArea(
           child: Center(
             child: Padding(
-              padding: const EdgeInsets.all(36.0),
-              child: Column(
+              padding: const EdgeInsets.all(24.0),
+              child: ListView(
                 children: [
                   GestureDetector(
                     onTap: () async {

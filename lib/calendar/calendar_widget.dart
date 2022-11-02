@@ -1,3 +1,4 @@
+import 'package:backpack/utilities/utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -25,7 +26,12 @@ class CalendarWidget extends ConsumerWidget {
           ref.read(calendarStateProvider.notifier).state = selected;
         }
       },
-      calendarFormat: CalendarFormat.month,
+      calendarFormat:
+          // Show week format if using a mobile phone in landscape
+          (getDeviceType(MediaQuery.of(context)) == DeviceType.mobile &&
+                  MediaQuery.of(context).orientation == Orientation.landscape)
+              ? CalendarFormat.week
+              : CalendarFormat.month,
       headerStyle: const HeaderStyle(formatButtonVisible: false),
       calendarStyle: CalendarStyle(
         weekendTextStyle: const TextStyle(color: Colors.grey),

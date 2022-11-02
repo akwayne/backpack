@@ -95,7 +95,7 @@ Widget _buildMobileView(
                   title: Text(_navIcons[index]['label']),
                   onTap: () {
                     updateNavTab(index);
-                    context.pop();
+                    Navigator.pop(context);
                   },
                 );
               }),
