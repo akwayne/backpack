@@ -44,8 +44,6 @@ class CourseDetail extends ConsumerWidget {
               ),
             ],
           ),
-          const SizedBox(height: 12),
-          const Text('Course Syllabus Linked Here'),
           const SizedBox(height: 20),
           ListView.builder(
             shrinkWrap: true,
