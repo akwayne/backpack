@@ -28,42 +28,39 @@ class LoginPage extends ConsumerWidget {
               ),
             ),
             const SizedBox(height: 20),
-            Text(
-              'Login to Backpack',
-              style: Theme.of(context).textTheme.headline4,
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 6.0),
+              child: Text(
+                'Login to Backpack',
+                style: Theme.of(context).textTheme.headline4,
+              ),
             ),
-            const SizedBox(height: 12),
-            AuthTextField(
-              controller: txtEmail,
-              hintText: 'Email',
-            ),
-            const SizedBox(height: 12),
-            AuthTextField(
-              controller: txtPassword,
-              hintText: 'Password',
-            ),
-            const SizedBox(height: 12),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () async {
-                  try {
-                    await FirebaseAuth.instance.signInWithEmailAndPassword(
-                      email: txtEmail.text,
-                      password: txtPassword.text,
-                    );
-                    await ref.read(studentProvider.notifier).getUser();
-                    if (!mounted) return;
-                    context.goNamed('home');
-                  } on FirebaseAuthException catch (e) {
-                    if (e.code == 'user-not-found') {
-                      print('No user found for that email.');
-                    } else if (e.code == 'wrong-password') {
-                      print('Wrong password provided for that user.');
+            AuthTextField(controller: txtEmail, hintText: 'Email'),
+            AuthTextField(controller: txtPassword, hintText: 'Password'),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () async {
+                    try {
+                      await FirebaseAuth.instance.signInWithEmailAndPassword(
+                        email: txtEmail.text,
+                        password: txtPassword.text,
+                      );
+                      await ref.read(studentProvider.notifier).getUser();
+                      if (!mounted) return;
+                      context.goNamed('home');
+                    } on FirebaseAuthException catch (e) {
+                      if (e.code == 'user-not-found') {
+                        print('No user found for that email.');
+                      } else if (e.code == 'wrong-password') {
+                        print('Wrong password provided for that user.');
+                      }
                     }
-                  }
-                },
-                child: const Text('Log In'),
+                  },
+                  child: const Text('Log In'),
+                ),
               ),
             ),
             TextButton(

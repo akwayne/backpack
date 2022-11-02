@@ -1,3 +1,4 @@
+import 'package:backpack/assignment/view/file_upload.dart';
 import 'package:backpack/utilities/device_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -54,8 +55,11 @@ class AssignmentDetail extends ConsumerWidget {
               child: Text(assignment.instructions),
             ),
 
-            // TODO Show upload section if assignment requries a file upload
-            // if (assignment.submissionRequired) const AssignmentUpload(),
+            // Show upload section if assignment requries a file upload
+            // And not already submitted
+            if (assignment.submissionRequired &&
+                !student.completed.contains(assignment.id))
+              const FileUpload(),
 
             // Disable button if assignment is already submitted
             ElevatedButton(

@@ -20,37 +20,45 @@ class RegisterPage extends ConsumerWidget {
         child: Column(
           children: [
             const SizedBox(height: 300),
-            Text(
-              'Create an Account',
-              style: Theme.of(context).textTheme.headline4,
+            const SizedBox(height: 20),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 6.0),
+              child: Text(
+                'Create an Account',
+                style: Theme.of(context).textTheme.headline4,
+              ),
             ),
-            const SizedBox(height: 12),
             AuthTextField(controller: txtEmail, hintText: 'Email'),
-            const SizedBox(height: 8),
             AuthTextField(controller: txtPassword, hintText: 'Password'),
-            const SizedBox(height: 12),
-            ElevatedButton(
-              onPressed: () async {
-                try {
-                  await FirebaseAuth.instance.createUserWithEmailAndPassword(
-                    email: txtEmail.text,
-                    password: txtPassword.text,
-                  );
-                  await ref.read(studentProvider.notifier).createUser();
-                  await ref.read(studentProvider.notifier).getUser();
-                  if (!mounted) return;
-                  context.goNamed('setup');
-                } on FirebaseAuthException catch (e) {
-                  if (e.code == 'weak-password') {
-                    print('The password provided is too weak.');
-                  } else if (e.code == 'email-already-in-use') {
-                    print('The account already exists for that email.');
-                  }
-                } catch (e) {
-                  print(e);
-                }
-              },
-              child: const Text('Create Account'),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () async {
+                    try {
+                      await FirebaseAuth.instance
+                          .createUserWithEmailAndPassword(
+                        email: txtEmail.text,
+                        password: txtPassword.text,
+                      );
+                      await ref.read(studentProvider.notifier).createUser();
+                      await ref.read(studentProvider.notifier).getUser();
+                      if (!mounted) return;
+                      context.goNamed('setup');
+                    } on FirebaseAuthException catch (e) {
+                      if (e.code == 'weak-password') {
+                        print('The password provided is too weak.');
+                      } else if (e.code == 'email-already-in-use') {
+                        print('The account already exists for that email.');
+                      }
+                    } catch (e) {
+                      print(e);
+                    }
+                  },
+                  child: const Text('Create Account'),
+                ),
+              ),
             ),
             Row(
               children: [

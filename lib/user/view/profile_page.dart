@@ -30,49 +30,35 @@ class ProfilePage extends ConsumerWidget {
         ],
       ),
       body: SafeArea(
-        child: Center(
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: StudentAvatar(
+        child: Padding(
+          padding: const EdgeInsets.all(36.0),
+          child: Center(
+            child: Column(
+              children: [
+                StudentAvatar(
                   imageRadius: 60,
                   image: NetworkImage(student.imageURL),
                 ),
-              ),
-              Text(
-                '${student.firstName} ${student.lastName}',
-                style: Theme.of(context).textTheme.headline4,
-              ),
-              Text(
-                student.school,
-                style: Theme.of(context).textTheme.headline6,
-              ),
-              // TODO I can not make this switch work
-              // Padding(
-              //   padding: const EdgeInsets.all(16.0),
-              //   child: Row(
-              //     mainAxisAlignment: MainAxisAlignment.center,
-              //     children: [
-              //       const Text('Dark Mode'),
-              //       Switch(
-              //         value: student.isDarkMode,
-              //         activeColor: Theme.of(context).colorScheme.primary,
-              //         onChanged: (value) async {
-              //           await ref.read(studentProvider.notifier).toggleTheme();
-              //         },
-              //       ),
-              //     ],
-              //   ),
-              // ),
-              TextButton(
-                onPressed: () {
-                  context.goNamed('login');
-                  ref.read(studentProvider.notifier).logOut();
-                },
-                child: const Text('Log Out'),
-              ),
-            ],
+                const SizedBox(height: 16),
+                Text(
+                  '${student.firstName} ${student.lastName}',
+                  style: Theme.of(context).textTheme.headline4,
+                ),
+                const SizedBox(height: 12),
+                Text(
+                  student.school,
+                  style: Theme.of(context).textTheme.headline6,
+                ),
+                const Spacer(),
+                TextButton(
+                  onPressed: () {
+                    context.goNamed('login');
+                    ref.read(studentProvider.notifier).logOut();
+                  },
+                  child: const Text('Log Out'),
+                ),
+              ],
+            ),
           ),
         ),
       ),

@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import '../../model/student.dart';
 import '../../viewmodel/student_provider.dart';
 
+// TODO force user to input something for each field
 class SetupPage extends ConsumerWidget {
   const SetupPage({super.key});
 
@@ -23,31 +24,39 @@ class SetupPage extends ConsumerWidget {
       body: LoginBackground(
         child: Column(
           children: [
-            Text(
-              'Finish creating your account',
-              style: Theme.of(context).textTheme.headline5,
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: Text(
+                'Finish creating your account',
+                style: Theme.of(context).textTheme.headline5,
+              ),
             ),
             AuthTextField(controller: txtFirstName, hintText: 'First Name'),
-            const SizedBox(height: 8),
             AuthTextField(controller: txtLastName, hintText: 'Last Name'),
-            const SizedBox(height: 8),
             AuthTextField(controller: txtSchool, hintText: 'School'),
-            const SizedBox(height: 12),
-            ElevatedButton(
-              onPressed: () async {
-                // Update fields in student object
-                student.firstName = txtFirstName.text;
-                student.lastName = txtLastName.text;
-                student.school = txtSchool.text;
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 12.0),
+              child: SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () async {
+                    // Update fields in student object
+                    student.firstName = txtFirstName.text;
+                    student.lastName = txtLastName.text;
+                    student.school = txtSchool.text;
 
-                // Update in provider and firebase
-                await ref.read(studentProvider.notifier).updateUser(student);
+                    // Update in provider and firebase
+                    await ref
+                        .read(studentProvider.notifier)
+                        .updateUser(student);
 
-                // Continue to Home
-                if (!mounted) return;
-                context.goNamed('home');
-              },
-              child: const Text('Finish'),
+                    // Continue to Home
+                    if (!mounted) return;
+                    context.goNamed('home');
+                  },
+                  child: const Text('Finish'),
+                ),
+              ),
             ),
           ],
         ),

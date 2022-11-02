@@ -50,68 +50,91 @@ class ProfileUpdate extends ConsumerWidget {
           ),
         ),
         body: SafeArea(
-          child: Column(
-            children: [
-              GestureDetector(
-                onTap: () async {
-                  final image = await imagePicker.pickImage(
-                    source: ImageSource.gallery,
-                    requestFullMetadata: false,
-                  );
-                  if (image != null) {
-                    ref.read(imageUploadProvider.notifier).state =
-                        File(image.path);
-                  }
-                },
-                child: StudentAvatar(
-                  imageRadius: 60,
-                  image: imageFile == null
-                      ? NetworkImage(student.imageURL)
-                      : FileImage(imageFile),
-                ),
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.all(36.0),
+              child: Column(
+                children: [
+                  GestureDetector(
+                    onTap: () async {
+                      final image = await imagePicker.pickImage(
+                        source: ImageSource.gallery,
+                        requestFullMetadata: false,
+                      );
+                      if (image != null) {
+                        ref.read(imageUploadProvider.notifier).state =
+                            File(image.path);
+                      }
+                    },
+                    child: StudentAvatar(
+                      imageRadius: 60,
+                      image: imageFile == null
+                          ? NetworkImage(student.imageURL)
+                          : FileImage(imageFile),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 450,
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 12.0),
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            primary: false,
+                            itemCount: controls.length,
+                            itemBuilder: (context, index) {
+                              return controls[index];
+                            },
+                          ),
+                        ),
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                              onPressed: () async {
+                                // Update fields in student object
+                                student.firstName = txtFirstName.text;
+                                student.lastName = txtLastName.text;
+                                student.school = txtSchool.text;
+
+                                // Update in provider and firebase
+                                await ref
+                                    .read(studentProvider.notifier)
+                                    .updateUser(student, imageFile);
+
+                                // clear updated image
+                                ref.read(imageUploadProvider.notifier).state =
+                                    null;
+
+                                // Go back to previous page
+                                if (!mounted) return;
+                                context.pop();
+                              },
+                              child: const Text('Update')),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Spacer(),
+                  TextButton(
+                    onPressed: () {
+                      // delete user
+                      ref.read(studentProvider.notifier).deleteUser();
+
+                      // clear updated image
+                      ref.read(imageUploadProvider.notifier).state = null;
+
+                      context.goNamed('login');
+                    },
+                    child: const Text(
+                      'Delete Account',
+                      style: TextStyle(color: Colors.red),
+                    ),
+                  ),
+                ],
               ),
-              ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                primary: false,
-                itemCount: controls.length,
-                itemBuilder: (context, index) {
-                  return controls[index];
-                },
-              ),
-              ElevatedButton(
-                  onPressed: () async {
-                    // Update fields in student object
-                    student.firstName = txtFirstName.text;
-                    student.lastName = txtLastName.text;
-                    student.school = txtSchool.text;
-
-                    // Update in provider and firebase
-                    await ref
-                        .read(studentProvider.notifier)
-                        .updateUser(student, imageFile);
-
-                    // clear updated image
-                    ref.read(imageUploadProvider.notifier).state = null;
-
-                    // Go back to previous page
-                    if (!mounted) return;
-                    context.pop();
-                  },
-                  child: const Text('Update')),
-              ElevatedButton(
-                onPressed: () {
-                  // delete user
-                  ref.read(studentProvider.notifier).deleteUser();
-
-                  // clear updated image
-                  ref.read(imageUploadProvider.notifier).state = null;
-
-                  context.goNamed('login');
-                },
-                child: const Text('Delete Account'),
-              ),
-            ],
+            ),
           ),
         ));
   }

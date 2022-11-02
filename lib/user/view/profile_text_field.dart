@@ -13,11 +13,13 @@ class ProfileTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.symmetric(vertical: 12.0),
       child: TextField(
         controller: controller,
         decoration: InputDecoration(
-            border: const OutlineInputBorder(),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(18.0),
+            ),
             hintText: label,
             labelText: label),
       ),

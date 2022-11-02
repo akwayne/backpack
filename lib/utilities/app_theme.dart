@@ -20,6 +20,7 @@ class AppTheme {
         secondary: ColorPalette.turquoise,
       ),
       scaffoldBackgroundColor: ColorPalette.background,
+      elevatedButtonTheme: customButtonTheme(),
     );
   }
 
@@ -35,6 +36,7 @@ class AppTheme {
         onPrimary: Colors.black87,
         secondary: ColorPalette.lightTurquoise,
       ),
+      elevatedButtonTheme: customButtonTheme(),
     );
   }
 
@@ -72,6 +74,19 @@ class AppTheme {
         fontWeight: FontWeight.bold,
       ),
       systemOverlayStyle: SystemUiOverlayStyle.light,
+    );
+  }
+
+  static ElevatedButtonThemeData customButtonTheme() {
+    return ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        elevation: 0,
+        textStyle: const TextStyle(fontSize: 16),
+        padding: const EdgeInsets.all(18.0),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18),
+        ),
+      ),
     );
   }
 }

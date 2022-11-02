@@ -12,16 +12,19 @@ class AuthTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      controller: controller,
-      obscureText: (hintText == 'Password') ? true : false,
-      decoration: InputDecoration(
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12.0),
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 6.0),
+      child: TextField(
+        controller: controller,
+        obscureText: (hintText == 'Password') ? true : false,
+        decoration: InputDecoration(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(18.0),
+          ),
+          filled: true,
+          fillColor: const Color.fromRGBO(255, 255, 255, 0.8),
+          hintText: hintText,
         ),
-        filled: true,
-        fillColor: const Color.fromRGBO(255, 255, 255, 0.7),
-        hintText: hintText,
       ),
     );
   }
