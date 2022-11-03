@@ -29,7 +29,9 @@ class CoursePage extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Text(course.name),
+        title: Text(
+          course.name,
+        ),
         // do not show x icon on mobile when assignment is showing
         actions: device == DeviceType.mobile && assignmentView != null
             ? []

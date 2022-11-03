@@ -14,6 +14,7 @@ class EventCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 0,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: ListTile(
         title: Text(course.name),
         subtitle: Text('${course.getTimeString()} / ${course.location}'),

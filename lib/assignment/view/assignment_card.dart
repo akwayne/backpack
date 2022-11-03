@@ -39,7 +39,10 @@ class AssignmentCard extends ConsumerWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: ListTile(
         leading: checkbox,
-        title: Text(assignment.name),
+        title: Text(
+          assignment.name,
+          overflow: TextOverflow.ellipsis,
+        ),
         // Only show subtitle on home page
         subtitle:
             GoRouter.of(context).location == '/' ? Text(course.name) : null,
