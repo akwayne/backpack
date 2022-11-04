@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'colors.dart';
 
 // Defines main font for app
-const String _appFont = 'Arial';
+const String _appFont = 'Poppins';
 
 class AppTheme {
   // Defines Light theme for app

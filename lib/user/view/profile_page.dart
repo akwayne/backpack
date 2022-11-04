@@ -1,4 +1,5 @@
 import 'package:backpack/user/viewmodel/student_provider.dart';
+import 'package:backpack/utilities/utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -13,6 +14,11 @@ class ProfilePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // Student info to display
     final student = ref.watch(studentProvider) ?? Student.empty();
+
+    // get device details
+    bool isMobile = getDeviceType(MediaQuery.of(context)) == DeviceType.mobile;
+    bool isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
 
     return Scaffold(
       appBar: AppBar(
@@ -31,7 +37,9 @@ class ProfilePage extends ConsumerWidget {
       ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(24.0),
+          padding: (isMobile && isLandscape)
+              ? const EdgeInsets.all(8.0)
+              : const EdgeInsets.all(24.0),
           child: Center(
             child: Column(
               children: [

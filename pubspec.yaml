@@ -39,6 +39,19 @@ flutter:
     - assets/
     - assets/course_icons/
 
+  fonts:
+   - family: Poppins
+     fonts:
+       - asset: fonts/Poppins/Poppins-Regular.ttf
+       - asset: fonts/Poppins/Poppins-Italic.ttf
+         style: italic
+       - asset: fonts/Poppins/Poppins-Light.ttf
+         weight: 300
+       - asset: fonts/Poppins/Poppins-Bold.ttf
+         weight: 700
+       - asset: fonts/Poppins/Poppins-Black.ttf
+         weight: 900
+
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg
