@@ -1,38 +1,30 @@
-# backpack
+# Backpack
 
-Flutter app intended for high school students in special education settings to keep track of and submit assignments with a simple, intuitive UI.  
+Flutter app intended for high school students in special education settings to keep track of and submit assignments with a simple, intuitive UI.
 
-Designed for phone or tablet.  
+Designed for phone and tablet.
 
-### Check off assignments
+## Check off assignments
+![Tablet view: home screen](https://user-images.githubusercontent.com/96892866/200063680-2e06c6d2-e83e-4dec-8558-98b2f528e086.png)  
 
-<img src="https://user-images.githubusercontent.com/96892866/199610847-d0aaf4d5-7889-49e2-96ef-786060cba51f.png" width="300px"/> <img src="https://user-images.githubusercontent.com/96892866/199610821-ec6854d1-e109-4357-a8d0-b4b825446e97.png" width="300px"/> 
+<img src="https://user-images.githubusercontent.com/96892866/200063691-db074bed-74ca-480b-a715-f4aa11f509e6.png" width="300"/>   
+<img src="https://user-images.githubusercontent.com/96892866/200063701-eaaec69d-4278-41d5-a380-cd35c0a1c506.png" width="300"/>
 
-![Simulator Screen Shot - iPad Pro (12 9-inch) (5th generation) - 2022-11-02 at 16 56 31](https://user-images.githubusercontent.com/96892866/199611643-ad5a99df-2150-4947-8bbd-c103f574648e.png)
+<img src="https://user-images.githubusercontent.com/96892866/200063770-2ad50165-4f7b-4ebf-9155-41296893226d.png" width="300"/>   
 
-![assignment complete](https://user-images.githubusercontent.com/96892866/199611658-bdae81fc-401c-44a6-a3ab-312a4465ccfe.gif)
+![tablet-submit-hw](https://user-images.githubusercontent.com/96892866/200063752-280051ba-038a-4f49-80f6-922b9fce5c03.gif)
 
-![Simulator Screen Shot - iPad Pro (12 9-inch) (5th generation) - 2022-11-02 at 16 57 25](https://user-images.githubusercontent.com/96892866/199611802-559bcbe1-1ca6-4d20-9880-88c5cda65583.png)
+## See all your classes
+![tablet-class screen](https://user-images.githubusercontent.com/96892866/200063898-b6faa07d-215e-47bc-be66-bce751e7bc9a.png)
 
-![Simulator Screen Shot - iPad Pro (12 9-inch) (5th generation) - 2022-11-02 at 16 57 41](https://user-images.githubusercontent.com/96892866/199611530-7a252f19-2266-428f-bc61-2f9944d8f0b9.png)
+<img src="https://user-images.githubusercontent.com/96892866/200063915-429f1fed-08ce-4dd8-b416-c1878da39355.png" width="800"/>
 
+<img src="https://user-images.githubusercontent.com/96892866/200063905-b1ac4dae-9f08-449c-a88b-effdf9005a75.png" width="300"/>   
 
-### Keep track of class schedule  
+## Keep track of your class schedule
+<img src="https://user-images.githubusercontent.com/96892866/200063816-daee2bc5-7be3-49aa-b08c-36562b501541.png" width="300"/>   
 
-<img src="https://user-images.githubusercontent.com/96892866/199611620-d55a3937-0136-4390-9dc7-1db0db8a9698.png" width="600px"/>
+![tablet-calendar](https://user-images.githubusercontent.com/96892866/200063805-456b3499-eef3-4938-abe2-bbf48bbb3831.gif)
 
-![Simulator Screen Shot - iPad Pro (12 9-inch) (5th generation) - 2022-11-02 at 16 56 52](https://user-images.githubusercontent.com/96892866/199612333-813e2e9c-0114-4cff-9da0-00859217ef61.png)
-
-
-### Username and password stored securely in Firebase  
-
-![Simulator Screen Shot - iPad Pro (12 9-inch) (5th generation) - 2022-11-02 at 16 55 38](https://user-images.githubusercontent.com/96892866/199611668-f4b368ca-a765-4157-84e2-c941f3f62887.png)
-
-<img src="https://user-images.githubusercontent.com/96892866/199611695-48a24228-ab1b-4d63-bcba-7cdb70a8d36a.gif" width="300px"/>
-
-
-
-
-
-
-
+## Username and password stored securely in Firebase
+![tablet-login](https://user-images.githubusercontent.com/96892866/200063939-69d8233a-a5cd-4541-bf99-63eacfa8abb2.gif)![mobile-login](https://user-images.githubusercontent.com/96892866/200063959-f08ab844-098b-428c-aa9f-bd6a5a57efa3.gif)
