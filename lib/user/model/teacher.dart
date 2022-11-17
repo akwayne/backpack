@@ -1,28 +1,27 @@
-class Student {
+import 'app_user.dart';
+
+class Teacher {
   String id;
   String firstName;
   String lastName;
   String school;
   String imageURL;
-  List completed;
 
-  Student({
+  Teacher({
     required this.id,
     required this.firstName,
     required this.lastName,
     required this.school,
     required this.imageURL,
-    required this.completed,
   });
 
-  factory Student.fromMap(Map<String, dynamic> map, String id) {
-    return Student(
+  factory Teacher.fromMap(Map<String, dynamic> map, String id) {
+    return Teacher(
       id: id,
       firstName: map['firstName'] as String,
       lastName: map['lastName'] as String,
       school: map['school'] as String,
       imageURL: map['imageURL'] as String,
-      completed: map['completed'] as List<dynamic>,
     );
   }
 
@@ -32,19 +31,17 @@ class Student {
       'lastName': lastName,
       'school': school,
       'imageURL': imageURL,
-      'completed': completed,
-      'isTeacher': false,
+      'isTeacher': true,
     };
   }
 
-  factory Student.empty() {
-    return Student(
+  factory Teacher.empty() {
+    return Teacher(
       id: '',
       firstName: '',
       lastName: '',
       school: '',
       imageURL: '',
-      completed: [],
     );
   }
 }

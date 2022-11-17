@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'assignment/model/assignment.dart';
 import 'course/model/course.dart';
+import 'user/model/app_user.dart';
 import 'user/model/student.dart';
 
 class FirebaseHelper {
@@ -39,7 +40,7 @@ class FirebaseHelper {
     return assignmentList;
   }
 
-  // Student actions
+  // User actions
   Future<Student> readStudent(String userId) async {
     final snapshot = await users.doc(userId).get();
 
