@@ -60,6 +60,7 @@ class ProfilePage extends ConsumerWidget {
                 const Spacer(),
                 TextButton(
                   onPressed: () {
+                    // pop back to home screen
                     context.goNamed('login');
                     ref.read(studentProvider.notifier).logOut();
                   },

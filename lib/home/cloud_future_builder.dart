@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -13,10 +14,13 @@ class CloudFutureBuilder extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return FutureBuilder(
-      future: Future.wait([
-        ref.read(courseProvider.notifier).getCourses(),
-        ref.read(assignmentProvider.notifier).getAssignments(),
-      ]),
+      // only try to get data from these providers if a user is logged in
+      future: FirebaseAuth.instance.currentUser == null
+          ? null
+          : Future.wait([
+              ref.read(courseProvider.notifier).getCourses(),
+              ref.read(assignmentProvider.notifier).getAssignments(),
+            ]),
       builder: (context, snapshot) {
         if (snapshot.connectionState != ConnectionState.done) {
           return const Center(child: CircularProgressIndicator());

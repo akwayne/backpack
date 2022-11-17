@@ -74,16 +74,6 @@ class StudentNotifier extends StateNotifier<Student?> {
     state = updatedStudent;
   }
 
-  // Updates student's theme preference
-  Future<void> toggleTheme() async {
-    final updatedStudent = state;
-    updatedStudent!.isDarkMode = !updatedStudent.isDarkMode;
-    await FirebaseHelper().updateStudent(updatedStudent);
-
-    state = Student.empty();
-    state = updatedStudent;
-  }
-
   // Upload profile picture
   Future uploadImage(File imageFile) async {
     final fileName = state!.id;
