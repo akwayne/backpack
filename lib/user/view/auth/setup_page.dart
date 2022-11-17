@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../model/student.dart';
-import '../../viewmodel/student_provider.dart';
+import '../../model/app_user.dart';
+import '../../viewmodel/user_provider.dart';
 import 'auth_text_field.dart';
 import 'login_background.dart';
 
@@ -28,8 +28,8 @@ class SetupPageState extends ConsumerState<SetupPage> {
 
   @override
   Widget build(BuildContext context, [bool mounted = true]) {
-    // Student info to display
-    final student = ref.watch(studentProvider) ?? Student.empty();
+    // User info to display
+    final user = ref.watch(userProvider) ?? AppUser.empty();
 
     return Scaffold(
       body: LoginBackground(
@@ -64,15 +64,13 @@ class SetupPageState extends ConsumerState<SetupPage> {
                     onPressed: () async {
                       // Confirm that all fields were filled out
                       if (_setupKey.currentState!.validate()) {
-                        // Update fields in student object
-                        student.firstName = txtFirstName.text;
-                        student.lastName = txtLastName.text;
-                        student.school = txtSchool.text;
+                        // Update fields in user object
+                        user.firstName = txtFirstName.text;
+                        user.lastName = txtLastName.text;
+                        user.school = txtSchool.text;
 
                         // Update in provider and firebase
-                        await ref
-                            .read(studentProvider.notifier)
-                            .updateUser(student);
+                        await ref.read(userProvider.notifier).updateUser(user);
 
                         // Continue to Home
                         if (!mounted) return;

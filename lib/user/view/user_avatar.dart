@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../utilities/utilities.dart';
 
-class StudentAvatar extends StatelessWidget {
-  const StudentAvatar({
+class UserAvatar extends StatelessWidget {
+  const UserAvatar({
     super.key,
     required this.imageRadius,
     required this.image,

@@ -1,13 +1,13 @@
 import 'package:backpack/calendar/calendar_page.dart';
-import 'package:backpack/user/view/student_name_tile.dart';
-import 'package:backpack/user/viewmodel/student_provider.dart';
+import 'package:backpack/user/view/user_name_tile.dart';
+import 'package:backpack/user/viewmodel/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../assignment/view/assignment_list.dart';
 import '../course/view/course_list.dart';
-import '../user/model/student.dart';
+import '../user/model/app_user.dart';
 import '../utilities/utilities.dart';
 import 'cloud_future_builder.dart';
 
@@ -26,14 +26,14 @@ class HomeNavigation extends ConsumerWidget {
       ref.read(navIndexProvider.notifier).state = newIndex;
     }
 
-    // Student info to display
-    final student = ref.watch(studentProvider) ?? Student.empty();
+    // User info to display
+    final user = ref.watch(userProvider) ?? AppUser.empty();
 
     return LayoutBuilder(
       builder: (context, constraints) {
         return getDeviceType(MediaQuery.of(context)) == DeviceType.mobile
-            ? _buildMobileView(context, navIndex, updateNavTab, student)
-            : _buildTabletView(context, navIndex, updateNavTab, student);
+            ? _buildMobileView(context, navIndex, updateNavTab, user)
+            : _buildTabletView(context, navIndex, updateNavTab, user);
       },
     );
   }
@@ -43,7 +43,7 @@ Widget _buildMobileView(
   BuildContext context,
   int navIndex,
   Function updateNavTab,
-  Student student,
+  AppUser user,
 ) {
   // Determine if phone is in portrait or landscape mode
   bool isLandscape =
@@ -64,7 +64,7 @@ Widget _buildMobileView(
       automaticallyImplyLeading: isLandscape ? true : false,
       title: Padding(
         padding: const EdgeInsets.only(left: 8.0),
-        child: Text(student.firstName),
+        child: Text(user.firstName),
       ),
       centerTitle: false,
       actions: [
@@ -126,7 +126,7 @@ Widget _buildTabletView(
   BuildContext context,
   int navIndex,
   Function updateNavTab,
-  Student student,
+  AppUser user,
 ) {
   // Populate list of Navigation Bar Icons
   final navRailItems = <NavigationRailDestination>[];
@@ -163,7 +163,7 @@ Widget _buildTabletView(
               padding: const EdgeInsets.all(40.0),
               child: Column(
                 children: [
-                  StudentNameTile(student: student),
+                  UserNameTile(user: user),
                   const SizedBox(height: 28),
                   Expanded(
                     child: _buildNavPage(navIndex),

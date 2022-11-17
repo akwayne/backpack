@@ -3,17 +3,17 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../utilities/utilities.dart';
-import '../model/student.dart';
-import '../viewmodel/student_provider.dart';
-import 'student_avatar.dart';
+import '../model/app_user.dart';
+import '../viewmodel/user_provider.dart';
+import 'user_avatar.dart';
 
 class ProfilePage extends ConsumerWidget {
   const ProfilePage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // Student info to display
-    final student = ref.watch(studentProvider) ?? Student.empty();
+    // User info to display
+    final user = ref.watch(userProvider) ?? AppUser.empty();
 
     // get device details
     bool isMobile = getDeviceType(MediaQuery.of(context)) == DeviceType.mobile;
@@ -43,18 +43,18 @@ class ProfilePage extends ConsumerWidget {
           child: Center(
             child: Column(
               children: [
-                StudentAvatar(
+                UserAvatar(
                   imageRadius: 60,
-                  image: NetworkImage(student.imageURL),
+                  image: NetworkImage(user.imageURL),
                 ),
                 const SizedBox(height: 16),
                 Text(
-                  '${student.firstName} ${student.lastName}',
+                  '${user.firstName} ${user.lastName}',
                   style: Theme.of(context).textTheme.headline4,
                 ),
                 const SizedBox(height: 12),
                 Text(
-                  student.school,
+                  user.school,
                   style: Theme.of(context).textTheme.headline6,
                 ),
                 const Spacer(),
@@ -62,7 +62,7 @@ class ProfilePage extends ConsumerWidget {
                   onPressed: () {
                     // pop back to home screen
                     context.goNamed('login');
-                    ref.read(studentProvider.notifier).logOut();
+                    ref.read(userProvider.notifier).logOut();
                   },
                   child: const Text('Log Out'),
                 ),

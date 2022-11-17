@@ -9,7 +9,7 @@ import 'package:firebase_ui_oauth_google/firebase_ui_oauth_google.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'firebase_options.dart';
-import 'user/viewmodel/student_provider.dart';
+import 'user/viewmodel/user_provider.dart';
 import 'utilities/utilities.dart';
 
 void main() async {
@@ -39,7 +39,7 @@ class BackpackApp extends ConsumerWidget {
     late final router = AppRouter().router;
 
     // Find out who is logged in
-    ref.read(studentProvider.notifier).getUser();
+    ref.read(userProvider.notifier).getUser();
 
     return MaterialApp.router(
       theme: AppTheme.light(),

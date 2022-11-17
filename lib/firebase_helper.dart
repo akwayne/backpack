@@ -3,7 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'assignment/model/assignment.dart';
 import 'course/model/course.dart';
 import 'user/model/app_user.dart';
-import 'user/model/student.dart';
 
 class FirebaseHelper {
   late FirebaseFirestore firestore;
@@ -41,25 +40,25 @@ class FirebaseHelper {
   }
 
   // User actions
-  Future<Student> readStudent(String userId) async {
+  Future<AppUser> readUser(String userId) async {
     final snapshot = await users.doc(userId).get();
 
-    // Return student entry from database
-    final student =
-        Student.fromMap(snapshot.data() as Map<String, dynamic>, snapshot.id);
+    // Return user entry from database
+    final user =
+        AppUser.fromMap(snapshot.data() as Map<String, dynamic>, snapshot.id);
 
-    return student;
+    return user;
   }
 
-  Future insertStudent(Student student) async {
-    await users.doc(student.id).set(student.toMap());
+  Future insertUser(AppUser user) async {
+    await users.doc(user.id).set(user.toMap());
   }
 
-  Future updateStudent(Student student) async {
-    await users.doc(student.id).update(student.toMap());
+  Future updateUser(AppUser user) async {
+    await users.doc(user.id).update(user.toMap());
   }
 
-  Future deleteStudent(String userId) async {
+  Future deleteUser(String userId) async {
     // delete user from database
     await users.doc(userId).delete();
   }

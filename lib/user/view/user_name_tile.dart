@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../model/student.dart';
-import 'student_avatar.dart';
+import '../model/app_user.dart';
+import 'user_avatar.dart';
 
-class StudentNameTile extends StatelessWidget {
-  const StudentNameTile({super.key, required this.student});
+class UserNameTile extends StatelessWidget {
+  const UserNameTile({super.key, required this.user});
 
-  final Student student;
+  final AppUser user;
 
   @override
   Widget build(BuildContext context) {
@@ -16,23 +16,22 @@ class StudentNameTile extends StatelessWidget {
       },
       child: Row(
         children: [
-          StudentAvatar(
+          UserAvatar(
             imageRadius: 30,
-            image: NetworkImage(student.imageURL),
+            image: NetworkImage(user.imageURL),
           ),
           const SizedBox(width: 20),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                '${student.firstName} ${student.lastName}',
+                '${user.firstName} ${user.lastName}',
                 style: Theme.of(context)
                     .textTheme
                     .headline5
                     ?.copyWith(fontWeight: FontWeight.bold),
               ),
-              Text(student.school,
-                  style: Theme.of(context).textTheme.subtitle1),
+              Text(user.school, style: Theme.of(context).textTheme.subtitle1),
             ],
           ),
           const Spacer(),

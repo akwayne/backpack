@@ -1,4 +1,4 @@
-import 'package:backpack/user/viewmodel/student_provider.dart';
+import 'package:backpack/user/viewmodel/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -7,7 +7,7 @@ import '../../course/model/course.dart';
 import '../../course/model/subject.dart';
 import '../../course/view/course_page.dart';
 import '../../course/viewmodel/course_provider.dart';
-import '../../user/model/student.dart';
+import '../../user/model/app_user.dart';
 import '../model/assignment.dart';
 import 'animated_check.dart';
 
@@ -22,11 +22,11 @@ class AssignmentCard extends ConsumerWidget {
     Course course =
         ref.read(courseProvider.notifier).getCourseFromId(assignment.courseId);
 
-    // Student info to display
-    final Student student = ref.watch(studentProvider) ?? Student.empty();
+    // User info to display
+    final AppUser user = ref.watch(userProvider) ?? AppUser.empty();
 
-    // checks whether a particular assignment is complete for this student
-    final Widget checkbox = student.completed.contains(assignment.id)
+    // checks whether a particular assignment is complete for this user
+    final Widget checkbox = user.completed.contains(assignment.id)
         ? const AnimatedCheck()
         : const Icon(
             Icons.circle_outlined,

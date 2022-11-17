@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../viewmodel/student_provider.dart';
+import '../../viewmodel/user_provider.dart';
 import 'auth_text_field.dart';
 import 'login_background.dart';
 
@@ -81,7 +81,7 @@ class LoginPageState extends ConsumerState<LoginPage> {
                         email: txtEmail.text,
                         password: txtPassword.text,
                       );
-                      await ref.read(studentProvider.notifier).getUser();
+                      await ref.read(userProvider.notifier).getUser();
                       if (!mounted) return;
                       context.goNamed('home');
                     } on FirebaseAuthException catch (e) {

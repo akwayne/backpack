@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../utilities/utilities.dart';
-import '../../viewmodel/student_provider.dart';
+import '../../viewmodel/user_provider.dart';
 import 'auth_text_field.dart';
 import 'login_background.dart';
 
@@ -81,8 +81,8 @@ class RegisterPageState extends ConsumerState<RegisterPage> {
                         email: txtEmail.text,
                         password: txtPassword.text,
                       );
-                      await ref.read(studentProvider.notifier).createUser();
-                      await ref.read(studentProvider.notifier).getUser();
+                      await ref.read(userProvider.notifier).createUser();
+                      await ref.read(userProvider.notifier).getUser();
                       if (!mounted) return;
                       context.goNamed('setup');
                     } on FirebaseAuthException catch (e) {

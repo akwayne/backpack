@@ -1,13 +1,13 @@
 import 'dart:io';
 
-import 'package:backpack/user/view/student_avatar.dart';
+import 'package:backpack/user/view/user_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../model/student.dart';
-import '../viewmodel/student_provider.dart';
+import '../model/app_user.dart';
+import '../viewmodel/user_provider.dart';
 import 'profile_text_field.dart';
 
 // Provider determines which view of the course page we are looking at
@@ -18,8 +18,8 @@ class ProfileUpdate extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref, [bool mounted = true]) {
-    // Student info to display
-    final student = ref.watch(studentProvider) ?? Student.empty();
+    // User info to display
+    final user = ref.watch(userProvider) ?? AppUser.empty();
 
     final txtFirstName = TextEditingController();
     final txtLastName = TextEditingController();
@@ -34,9 +34,9 @@ class ProfileUpdate extends ConsumerWidget {
     final imagePicker = ImagePicker();
     File? imageFile = ref.watch(imageUploadProvider);
 
-    txtFirstName.text = student.firstName;
-    txtLastName.text = student.lastName;
-    txtSchool.text = student.school;
+    txtFirstName.text = user.firstName;
+    txtLastName.text = user.lastName;
+    txtSchool.text = user.school;
 
     return Scaffold(
         appBar: AppBar(
@@ -66,10 +66,10 @@ class ProfileUpdate extends ConsumerWidget {
                             File(image.path);
                       }
                     },
-                    child: StudentAvatar(
+                    child: UserAvatar(
                       imageRadius: 60,
                       image: imageFile == null
-                          ? NetworkImage(student.imageURL)
+                          ? NetworkImage(user.imageURL)
                           : FileImage(imageFile),
                     ),
                   ),
@@ -93,15 +93,15 @@ class ProfileUpdate extends ConsumerWidget {
                           width: double.infinity,
                           child: ElevatedButton(
                               onPressed: () async {
-                                // Update fields in student object
-                                student.firstName = txtFirstName.text;
-                                student.lastName = txtLastName.text;
-                                student.school = txtSchool.text;
+                                // Update fields in user object
+                                user.firstName = txtFirstName.text;
+                                user.lastName = txtLastName.text;
+                                user.school = txtSchool.text;
 
                                 // Update in provider and firebase
                                 await ref
-                                    .read(studentProvider.notifier)
-                                    .updateUser(student, imageFile);
+                                    .read(userProvider.notifier)
+                                    .updateUser(user, imageFile);
 
                                 // clear updated image
                                 ref.read(imageUploadProvider.notifier).state =
@@ -120,7 +120,7 @@ class ProfileUpdate extends ConsumerWidget {
                   TextButton(
                     onPressed: () {
                       // delete user
-                      ref.read(studentProvider.notifier).deleteUser();
+                      ref.read(userProvider.notifier).deleteUser();
 
                       // clear updated image
                       ref.read(imageUploadProvider.notifier).state = null;
