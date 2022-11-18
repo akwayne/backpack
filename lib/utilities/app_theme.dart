@@ -21,6 +21,7 @@ class AppTheme {
       ),
       scaffoldBackgroundColor: ColorPalette.background,
       elevatedButtonTheme: customButtonTheme(),
+      toggleButtonsTheme: customToggleButtonsTheme(),
     );
   }
 
@@ -37,6 +38,7 @@ class AppTheme {
         secondary: ColorPalette.lightTurquoise,
       ),
       elevatedButtonTheme: customButtonTheme(),
+      toggleButtonsTheme: customToggleButtonsTheme(),
     );
   }
 
@@ -87,6 +89,12 @@ class AppTheme {
           borderRadius: BorderRadius.circular(18),
         ),
       ),
+    );
+  }
+
+  static ToggleButtonsThemeData customToggleButtonsTheme() {
+    return const ToggleButtonsThemeData(
+      borderRadius: BorderRadius.all(Radius.circular(12)),
     );
   }
 }

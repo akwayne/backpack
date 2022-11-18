@@ -4,8 +4,8 @@ import 'package:go_router/go_router.dart';
 
 import '../../model/app_user.dart';
 import '../../viewmodel/user_provider.dart';
-import 'auth_text_field.dart';
-import 'login_background.dart';
+import '../components/auth_text_field.dart';
+import '../components/login_background.dart';
 
 class SetupPage extends ConsumerStatefulWidget {
   const SetupPage({Key? key}) : super(key: key);

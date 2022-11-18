@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../model/app_user.dart';
+import '../../model/app_user.dart';
 import 'user_avatar.dart';
 
 class UserNameTile extends StatelessWidget {

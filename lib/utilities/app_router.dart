@@ -4,11 +4,11 @@ import 'package:go_router/go_router.dart';
 
 import '../course/view/course_page.dart';
 import '../home/home_nav.dart';
-import '../user/view/auth/login_page.dart';
-import '../user/view/auth/setup_page.dart';
-import '../user/view/profile_page.dart';
-import '../user/view/profile_update.dart';
-import '../user/view/auth/register_page.dart';
+import '../user/view/pages/login_page.dart';
+import '../user/view/pages/setup_page.dart';
+import '../user/view/pages/profile_page.dart';
+import '../user/view/pages/profile_update.dart';
+import '../user/view/pages/register_page.dart';
 
 class AppRouter {
   late final router = GoRouter(

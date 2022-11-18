@@ -1,14 +1,14 @@
 import 'dart:io';
 
-import 'package:backpack/user/view/user_avatar.dart';
+import 'package:backpack/user/view/components/user_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../model/app_user.dart';
-import '../viewmodel/user_provider.dart';
-import 'profile_text_field.dart';
+import '../../model/app_user.dart';
+import '../../viewmodel/user_provider.dart';
+import '../components/profile_text_field.dart';
 
 // Provider determines which view of the course page we are looking at
 final imageUploadProvider = StateProvider<File?>((ref) => null);

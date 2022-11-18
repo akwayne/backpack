@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../utilities/utilities.dart';
-import '../model/app_user.dart';
-import '../viewmodel/user_provider.dart';
-import 'user_avatar.dart';
+import '../../../utilities/utilities.dart';
+import '../../model/app_user.dart';
+import '../../viewmodel/user_provider.dart';
+import '../components/user_avatar.dart';
 
 class ProfilePage extends ConsumerWidget {
   const ProfilePage({super.key});

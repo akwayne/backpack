@@ -5,8 +5,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../viewmodel/user_provider.dart';
-import 'auth_text_field.dart';
-import 'login_background.dart';
+import '../components/auth_text_field.dart';
+import '../components/login_background.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({Key? key}) : super(key: key);

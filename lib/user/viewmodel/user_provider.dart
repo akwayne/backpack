@@ -28,11 +28,12 @@ class UserNotifier extends StateNotifier<AppUser?> {
     return state;
   }
 
-  Future<void> createUser() async {
+  Future<void> createUser(bool isTeacher) async {
     final String userId = FirebaseAuth.instance.currentUser!.uid;
 
     final newUser = AppUser.empty();
     newUser.id = userId;
+    newUser.isTeacher = isTeacher;
     await FirebaseHelper().insertUser(newUser);
 
     state = newUser;

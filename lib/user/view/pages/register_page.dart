@@ -5,8 +5,8 @@ import 'package:go_router/go_router.dart';
 
 import '../../../utilities/utilities.dart';
 import '../../viewmodel/user_provider.dart';
-import 'auth_text_field.dart';
-import 'login_background.dart';
+import '../components/auth_text_field.dart';
+import '../components/login_background.dart';
 
 class RegisterPage extends ConsumerStatefulWidget {
   const RegisterPage({Key? key}) : super(key: key);
@@ -23,6 +23,7 @@ class RegisterPageState extends ConsumerState<RegisterPage> {
 
   final txtEmail = TextEditingController();
   final txtPassword = TextEditingController();
+  final _selectedAccountType = <bool>[true, false];
 
   String? emailError;
   String? passwordError;
@@ -69,6 +70,40 @@ class RegisterPageState extends ConsumerState<RegisterPage> {
               errorText: passwordError,
             ),
             // AuthTextField(controller: txtPassword, label: 'Confirm Password'),
+            Container(
+              margin: const EdgeInsets.symmetric(vertical: 8.0),
+              padding: EdgeInsets.zero,
+              decoration: BoxDecoration(
+                color: Theme.of(context).cardColor.withOpacity(0.8),
+                borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+              ),
+              child: LayoutBuilder(builder: (context, constraints) {
+                return ToggleButtons(
+                  selectedBorderColor: Theme.of(context).colorScheme.primary,
+                  fillColor: Theme.of(context).colorScheme.primary,
+                  selectedColor: Theme.of(context).colorScheme.onPrimary,
+                  color: Theme.of(context).colorScheme.primary,
+                  constraints: BoxConstraints(
+                    minHeight: 50,
+                    minWidth: (constraints.minWidth / 2) - 3,
+                  ),
+                  isSelected: _selectedAccountType,
+                  onPressed: (index) {
+                    // Use a provider to store this value maybe
+                    setState(() {
+                      // The button that is tapped is set to true, and the others to false.
+                      for (int i = 0; i < _selectedAccountType.length; i++) {
+                        _selectedAccountType[i] = i == index;
+                      }
+                    });
+                  },
+                  children: const [
+                    Text('Student'),
+                    Text('Teacher'),
+                  ],
+                );
+              }),
+            ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: SizedBox(
@@ -81,36 +116,36 @@ class RegisterPageState extends ConsumerState<RegisterPage> {
                         email: txtEmail.text,
                         password: txtPassword.text,
                       );
-                      await ref.read(userProvider.notifier).createUser();
+                      await ref
+                          .read(userProvider.notifier)
+                          // true if user has selected 'teacher'
+                          .createUser(_selectedAccountType[1]);
                       await ref.read(userProvider.notifier).getUser();
                       if (!mounted) return;
                       context.goNamed('setup');
                     } on FirebaseAuthException catch (e) {
-                      // Clear previous error messages
                       setState(() {
+                        // Clear previous error messages
                         emailError = null;
                         passwordError = null;
-                      });
 
-                      switch (e.code) {
-                        case 'email-already-in-use':
-                          setState(
-                              () => emailError = 'Email is already in use');
-                          break;
-                        case 'invalid-email':
-                          setState(
-                              () => emailError = 'Please enter a valid email');
-                          break;
-                        case 'weak-password':
-                          setState(() => passwordError =
-                              'Password must be at least 6 characters');
-                          break;
-                        default:
-                          setState(() {
+                        // Display new error message
+                        switch (e.code) {
+                          case 'email-already-in-use':
+                            emailError = 'Email is already in use';
+                            break;
+                          case 'invalid-email':
+                            emailError = 'Please enter a valid email';
+                            break;
+                          case 'weak-password':
+                            passwordError =
+                                'Password must be at least 6 characters';
+                            break;
+                          default:
                             emailError = 'Error';
                             passwordError = 'Error';
-                          });
-                      }
+                        }
+                      });
                     }
                   },
                   child: const Text('Create Account'),
