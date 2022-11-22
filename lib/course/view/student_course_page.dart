@@ -6,13 +6,13 @@ import 'package:go_router/go_router.dart';
 
 import '../../utilities/utilities.dart';
 import '../model/course.dart';
-import 'course_detail.dart';
+import 'student_course_detail.dart';
 
 // Provider determines which view of the course page we are looking at
 final courseViewProvider = StateProvider<String?>((ref) => null);
 
-class CoursePage extends ConsumerWidget {
-  const CoursePage({super.key, required this.courseId});
+class StudentCoursePage extends ConsumerWidget {
+  const StudentCoursePage({super.key, required this.courseId});
 
   final String courseId;
 
@@ -63,7 +63,7 @@ Widget _buildMobileView(Course course, String? assignmentView) {
     switchInCurve: Curves.easeIn,
     switchOutCurve: Curves.easeIn,
     child: (assignmentView == null)
-        ? CourseDetail(course: course)
+        ? StudentCourseDetail(course: course)
         : AssignmentDetail(assignmentId: assignmentView),
   );
 }
@@ -72,7 +72,7 @@ Widget _buildTabletView(Course course, String? assignmentView) {
   return Padding(
     padding: const EdgeInsets.all(32.0),
     child: Row(children: [
-      Expanded(child: CourseDetail(course: course)),
+      Expanded(child: StudentCourseDetail(course: course)),
       Expanded(
         child: AnimatedSwitcher(
           duration: const Duration(milliseconds: 300),

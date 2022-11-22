@@ -6,8 +6,8 @@ import '../../assignment/view/assignment_card.dart';
 import '../../assignment/viewmodel/assignment_provider.dart';
 import '../model/course.dart';
 
-class CourseDetail extends ConsumerWidget {
-  const CourseDetail({
+class StudentCourseDetail extends ConsumerWidget {
+  const StudentCourseDetail({
     super.key,
     required this.course,
   });
@@ -25,7 +25,7 @@ class CourseDetail extends ConsumerWidget {
       child: ListView(
         children: <Widget>[
           Text(
-            course.teacher,
+            course.teacherName,
             style: Theme.of(context).textTheme.headline6,
           ),
           const SizedBox(height: 8),

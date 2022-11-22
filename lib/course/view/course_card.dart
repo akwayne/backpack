@@ -70,7 +70,7 @@ class CourseCard extends StatelessWidget {
                         ),
                   ),
                   Text(
-                    course.teacher,
+                    course.teacherName,
                     style: Theme.of(context).textTheme.subtitle1?.copyWith(
                           color: Theme.of(context).hintColor,
                           height: 1.8,

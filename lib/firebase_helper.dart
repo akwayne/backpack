@@ -20,6 +20,7 @@ class FirebaseHelper {
   Future<List<Course>> readCourses() async {
     final snapshot = await courses.get();
     final courseList = <Course>[];
+
     for (var item in snapshot.docs) {
       final course =
           Course.fromMap(item.data() as Map<String, dynamic>, item.id);
@@ -31,6 +32,7 @@ class FirebaseHelper {
   Future<List<Assignment>> readAssignments() async {
     final snapshot = await assignments.get();
     final assignmentList = <Assignment>[];
+
     for (var item in snapshot.docs) {
       final assignment =
           Assignment.fromMap(item.data() as Map<String, dynamic>, item.id);

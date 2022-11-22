@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../firebase_helper.dart';
+import '../../user/model/app_user.dart';
 import '../model/assignment.dart';
 
 final assignmentProvider =
@@ -11,11 +12,14 @@ final assignmentProvider =
 class AssignmentNotifier extends StateNotifier<List<Assignment>> {
   AssignmentNotifier() : super([]);
 
-  Future<List<Assignment>> getAssignments() async {
+  Future<List<Assignment>> getAssignments(AppUser user) async {
     state.clear();
 
     final assignmentList = await FirebaseHelper().readAssignments();
-    state.addAll(assignmentList);
+
+    state = assignmentList
+        .where((assignment) => user.courses.contains(assignment.courseId))
+        .toList();
 
     return state;
   }

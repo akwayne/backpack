@@ -5,7 +5,9 @@ class Course {
   String courseId;
   String name;
   Subject subject;
-  String teacher;
+  // TODO: might not need teacher id here
+  String teacherId;
+  String teacherName;
   String location;
   List<int> weekdayList;
   String time;
@@ -15,7 +17,8 @@ class Course {
     required this.courseId,
     required this.name,
     required this.subject,
-    required this.teacher,
+    required this.teacherId,
+    required this.teacherName,
     required this.location,
     required this.weekdayList,
     required this.time,
@@ -58,11 +61,18 @@ class Course {
       weekdayList.add(item);
     }
 
+    // Get student ids from map
+    List<String> students = [];
+    for (String id in map['students']) {
+      students.add(id);
+    }
+
     return Course(
       courseId: courseId,
       name: map['name'] as String,
       subject: subject,
-      teacher: map['teacher'] as String,
+      teacherId: map['teacherId'] as String,
+      teacherName: map['teacherName'] as String,
       location: map['location'] as String,
       weekdayList: weekdayList,
       time: map['time'] as String,
@@ -74,7 +84,8 @@ class Course {
     return <String, dynamic>{
       'name': name,
       'subject': subject.name,
-      'teacher': teacher,
+      'teacherId': teacherId,
+      'teacherName': teacherName,
       'location': location,
       'weekdayList': weekdayList,
       'time': time,

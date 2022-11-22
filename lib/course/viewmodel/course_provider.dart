@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../firebase_helper.dart';
+import '../../user/model/app_user.dart';
 import '../model/course.dart';
 
 // What the UI will call
@@ -12,11 +13,15 @@ final courseProvider =
 class CourseNotifier extends StateNotifier<List<Course>> {
   CourseNotifier() : super([]);
 
-  Future<List<Course>> getCourses() async {
+  Future<List<Course>> getCourses(AppUser user) async {
     state.clear();
 
     final courseList = await FirebaseHelper().readCourses();
-    state.addAll(courseList);
+
+    // Select only courses that user teaches or is enrolled in
+    state = courseList
+        .where((course) => user.courses.contains(course.courseId))
+        .toList();
 
     return state;
   }

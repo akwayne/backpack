@@ -1,10 +1,11 @@
 class AppUser {
   String id;
-  bool? isTeacher;
+  bool isTeacher;
   String firstName;
   String lastName;
   String school;
   String imageURL;
+  List courses;
   List completed;
 
   AppUser({
@@ -14,6 +15,7 @@ class AppUser {
     required this.lastName,
     required this.school,
     required this.imageURL,
+    required this.courses,
     required this.completed,
   });
 
@@ -25,6 +27,7 @@ class AppUser {
       lastName: map['lastName'] as String,
       school: map['school'] as String,
       imageURL: map['imageURL'] as String,
+      courses: map['courses'] as List<dynamic>,
       completed: map['completed'] as List<dynamic>,
     );
   }
@@ -36,6 +39,7 @@ class AppUser {
       'lastName': lastName,
       'school': school,
       'imageURL': imageURL,
+      'courses': courses,
       'completed': completed,
     };
   }
@@ -43,11 +47,12 @@ class AppUser {
   factory AppUser.empty() {
     return AppUser(
       id: '',
-      isTeacher: null,
+      isTeacher: false,
       firstName: '',
       lastName: '',
       school: '',
       imageURL: '',
+      courses: [],
       completed: [],
     );
   }

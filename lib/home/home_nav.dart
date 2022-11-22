@@ -29,11 +29,26 @@ class HomeNavigation extends ConsumerWidget {
     // User info to display
     final user = ref.watch(userProvider) ?? AppUser.empty();
 
+    // Nav icon list
+    final navIcons = user.isTeacher ? _teacherNavIcons : _studentNavIcons;
+
     return LayoutBuilder(
       builder: (context, constraints) {
         return getDeviceType(MediaQuery.of(context)) == DeviceType.mobile
-            ? _buildMobileView(context, navIndex, updateNavTab, user)
-            : _buildTabletView(context, navIndex, updateNavTab, user);
+            ? _buildMobileView(
+                context,
+                navIndex,
+                navIcons,
+                user,
+                updateNavTab,
+              )
+            : _buildTabletView(
+                context,
+                navIndex,
+                navIcons,
+                user,
+                updateNavTab,
+              );
       },
     );
   }
@@ -42,8 +57,9 @@ class HomeNavigation extends ConsumerWidget {
 Widget _buildMobileView(
   BuildContext context,
   int navIndex,
-  Function updateNavTab,
+  List<Map<String, dynamic>> navIcons,
   AppUser user,
+  Function updateNavTab,
 ) {
   // Determine if phone is in portrait or landscape mode
   bool isLandscape =
@@ -51,7 +67,7 @@ Widget _buildMobileView(
 
   // Populate list of Navigation Bar Icons
   final bottomNavItems = <BottomNavigationBarItem>[];
-  for (var item in _navIcons) {
+  for (var item in navIcons) {
     bottomNavItems.add(BottomNavigationBarItem(
       icon: item['icon'],
       label: item['label'],
@@ -88,11 +104,11 @@ Widget _buildMobileView(
     drawer: isLandscape
         ? Drawer(
             child: ListView.builder(
-              itemCount: _navIcons.length,
+              itemCount: navIcons.length,
               itemBuilder: ((context, index) {
                 return ListTile(
-                  leading: _navIcons[index]['icon'],
-                  title: Text(_navIcons[index]['label']),
+                  leading: navIcons[index]['icon'],
+                  title: Text(navIcons[index]['label']),
                   onTap: () {
                     updateNavTab(index);
                     Navigator.pop(context);
@@ -117,7 +133,7 @@ Widget _buildMobileView(
     body: SafeArea(
       child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: _buildNavPage(navIndex)),
+          child: _buildNavPage(navIndex, user)),
     ),
   );
 }
@@ -125,12 +141,13 @@ Widget _buildMobileView(
 Widget _buildTabletView(
   BuildContext context,
   int navIndex,
-  Function updateNavTab,
+  List<Map<String, dynamic>> navIcons,
   AppUser user,
+  Function updateNavTab,
 ) {
   // Populate list of Navigation Bar Icons
   final navRailItems = <NavigationRailDestination>[];
-  for (var item in _navIcons) {
+  for (var item in navIcons) {
     navRailItems.add(NavigationRailDestination(
         icon: item['icon'], label: Text(item['label'])));
   }
@@ -166,7 +183,7 @@ Widget _buildTabletView(
                   UserNameTile(user: user),
                   const SizedBox(height: 28),
                   Expanded(
-                    child: _buildNavPage(navIndex),
+                    child: _buildNavPage(navIndex, user),
                   ),
                 ],
               ),
@@ -178,26 +195,41 @@ Widget _buildTabletView(
   );
 }
 
-Widget _buildNavPage(int navIndex) {
+Widget _buildNavPage(int navIndex, AppUser user) {
   return AnimatedSwitcher(
     duration: const Duration(milliseconds: 300),
     child: CloudFutureBuilder(
       key: ValueKey(navIndex),
-      child: _navPages[navIndex],
+      user: user,
+      child: user.isTeacher
+          ? _teacherNavPages[navIndex]
+          : _studentNavPages[navIndex],
     ),
   );
 }
 
 // Icons and labels for each Navigation Bar item
-const _navIcons = <Map<String, dynamic>>[
+const _studentNavIcons = <Map<String, dynamic>>[
   {'icon': Icon(Icons.check_circle_outline), 'label': 'home'},
   {'icon': Icon(Icons.class_), 'label': 'my classes'},
   {'icon': Icon(Icons.calendar_today), 'label': 'schedule'},
 ];
 
 // Screen that each Navigation Bar item displays
-const _navPages = <Widget>[
+const _studentNavPages = <Widget>[
   AssignmentList(),
   CourseList(),
   CalendarPage(),
+];
+
+const _teacherNavIcons = <Map<String, dynamic>>[
+  {'icon': Icon(Icons.check_circle_outline), 'label': 'teacher home'},
+  {'icon': Icon(Icons.class_), 'label': 'classes'},
+  {'icon': Icon(Icons.calendar_today), 'label': 'teacher schedule'},
+];
+
+const _teacherNavPages = <Widget>[
+  Center(child: Text('Page 1')),
+  CourseList(),
+  Center(child: Text('Page 3')),
 ];

@@ -3,7 +3,7 @@ import 'package:backpack/utilities/device_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../course/view/course_page.dart';
+import '../../course/view/student_course_page.dart';
 import '../../user/model/app_user.dart';
 import '../../user/viewmodel/user_provider.dart';
 import '../model/assignment.dart';
