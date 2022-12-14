@@ -223,13 +223,13 @@ const _studentNavPages = <Widget>[
 ];
 
 const _teacherNavIcons = <Map<String, dynamic>>[
-  {'icon': Icon(Icons.check_circle_outline), 'label': 'teacher home'},
+  // TODO: {'icon': Icon(Icons.check_circle_outline), 'label': 'teacher home'},
   {'icon': Icon(Icons.class_), 'label': 'classes'},
   {'icon': Icon(Icons.calendar_today), 'label': 'teacher schedule'},
 ];
 
 const _teacherNavPages = <Widget>[
-  Center(child: Text('Page 1')),
+  // TODO: Center(child: Text('Page 1')),
   CourseList(),
   Center(child: Text('Page 3')),
 ];

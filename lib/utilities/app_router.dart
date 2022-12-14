@@ -1,8 +1,9 @@
+import 'package:backpack/assignment/view/add_assignment.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../course/view/student_course_page.dart';
+import '../course/view/course_page.dart';
 import '../home/home_nav.dart';
 import '../user/view/pages/login_page.dart';
 import '../user/view/pages/setup_page.dart';
@@ -50,7 +51,7 @@ class AppRouter {
         pageBuilder: (context, state) {
           final courseId = state.params['courseId'] ?? '';
           return CustomTransitionPage<void>(
-            child: StudentCoursePage(courseId: courseId),
+            child: CoursePage(courseId: courseId),
             transitionDuration: const Duration(milliseconds: 300),
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) =>
@@ -62,6 +63,14 @@ class AppRouter {
               child: child,
             ),
           );
+        },
+      ),
+      GoRoute(
+        name: 'addAssignment',
+        path: '/addAssignment/:courseId',
+        builder: (context, state) {
+          final courseId = state.params['courseId'] ?? '';
+          return AddAssignment(courseId: courseId);
         },
       ),
     ],

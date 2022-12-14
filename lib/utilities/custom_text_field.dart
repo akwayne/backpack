@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class ProfileTextField extends StatelessWidget {
-  const ProfileTextField({
+class CustomTextField extends StatelessWidget {
+  const CustomTextField({
     super.key,
     required this.controller,
     required this.label,

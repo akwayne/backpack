@@ -1,16 +1,15 @@
-import 'package:backpack/assignment/view/file_upload.dart';
-import 'package:backpack/utilities/device_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../course/view/student_course_page.dart';
+import '../../course/view/course_page.dart';
 import '../../user/model/app_user.dart';
 import '../../user/viewmodel/user_provider.dart';
+import '../../utilities/device_type.dart';
 import '../model/assignment.dart';
 import '../viewmodel/assignment_provider.dart';
 
-class AssignmentDetail extends ConsumerWidget {
-  const AssignmentDetail({super.key, required this.assignmentId});
+class TeacherAssignmentDetail extends ConsumerWidget {
+  const TeacherAssignmentDetail({super.key, required this.assignmentId});
 
   final String assignmentId;
 
@@ -22,10 +21,6 @@ class AssignmentDetail extends ConsumerWidget {
     // Get assignment info
     final Assignment assignment =
         ref.read(assignmentProvider.notifier).getAssignmentFromId(assignmentId);
-
-    // Text to display on submit button
-    final buttonText =
-        assignment.submissionRequired ? 'Submit' : 'Mark as Complete';
 
     return Card(
       elevation: 1,
@@ -49,31 +44,28 @@ class AssignmentDetail extends ConsumerWidget {
                   ),
               ],
             ),
-
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 22.0),
               child: Text(assignment.instructions),
             ),
-
-            // Show upload section if assignment requries a file upload
-            // And not already submitted
-            if (assignment.submissionRequired &&
-                !user.completed.contains(assignment.id))
-              const FileUpload(),
-
-            // Disable button if assignment is already submitted
-            ElevatedButton(
-              onPressed: user.completed.contains(assignment.id)
-                  ? null
-                  : () async {
-                      // Change assignment status to complete
-                      ref
-                          .read(userProvider.notifier)
-                          .markComplete(assignment.id);
-                      // Return to course page
-                      ref.read(courseViewProvider.notifier).state = null;
-                    },
-              child: Text(buttonText),
+            // TODO: Create a way to edit an existing assignment
+            // ElevatedButton(
+            //   onPressed: () {},
+            //   child: Text('Edit Assignment'),
+            // ),
+            TextButton(
+              onPressed: () async {
+                // Delete Assignment
+                await ref
+                    .read(assignmentProvider.notifier)
+                    .deleteAssignment(assignment, user);
+                // Return to Course View
+                ref.read(courseViewProvider.notifier).state = null;
+              },
+              child: const Text(
+                'Delete Assignment',
+                style: TextStyle(color: Colors.red),
+              ),
             ),
           ],
         ),

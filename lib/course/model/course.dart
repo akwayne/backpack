@@ -61,12 +61,6 @@ class Course {
       weekdayList.add(item);
     }
 
-    // Get student ids from map
-    List<String> students = [];
-    for (String id in map['students']) {
-      students.add(id);
-    }
-
     return Course(
       courseId: courseId,
       name: map['name'] as String,

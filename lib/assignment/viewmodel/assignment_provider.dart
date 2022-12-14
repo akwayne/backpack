@@ -34,4 +34,14 @@ class AssignmentNotifier extends StateNotifier<List<Assignment>> {
         state.where((element) => element.courseId == courseId).toList();
     return courseAssignments;
   }
+
+  Future<void> createAssignment(Assignment newAssignment, AppUser user) async {
+    await FirebaseHelper().insertAssignment(newAssignment);
+    await getAssignments(user);
+  }
+
+  Future<void> deleteAssignment(Assignment assignment, AppUser user) async {
+    await FirebaseHelper().deleteAssignment(assignment.id);
+    await getAssignments(user);
+  }
 }

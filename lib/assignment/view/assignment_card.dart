@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../course/model/course.dart';
 import '../../course/model/subject.dart';
-import '../../course/view/student_course_page.dart';
+import '../../course/view/course_page.dart';
 import '../../course/viewmodel/course_provider.dart';
 import '../../user/model/app_user.dart';
 import '../model/assignment.dart';

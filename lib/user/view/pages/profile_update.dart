@@ -8,7 +8,7 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../model/app_user.dart';
 import '../../viewmodel/user_provider.dart';
-import '../components/profile_text_field.dart';
+import '../../../utilities/custom_text_field.dart';
 
 // Provider determines which view of the course page we are looking at
 final imageUploadProvider = StateProvider<File?>((ref) => null);
@@ -26,9 +26,9 @@ class ProfileUpdate extends ConsumerWidget {
     final txtSchool = TextEditingController();
 
     final controls = [
-      ProfileTextField(label: 'First Name', controller: txtFirstName),
-      ProfileTextField(label: 'Last Name', controller: txtLastName),
-      ProfileTextField(label: 'School', controller: txtSchool),
+      CustomTextField(label: 'First Name', controller: txtFirstName),
+      CustomTextField(label: 'Last Name', controller: txtLastName),
+      CustomTextField(label: 'School', controller: txtSchool),
     ];
 
     final imagePicker = ImagePicker();
