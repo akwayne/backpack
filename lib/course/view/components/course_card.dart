@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../utilities/utilities.dart';
-import '../model/course.dart';
-import '../model/subject.dart';
+import '../../../utilities/utilities.dart';
+import '../../model/course.dart';
+import '../../model/subject.dart';
 
 // Displays a card for each course enrolled in
 class CourseCard extends StatelessWidget {

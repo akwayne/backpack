@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:backpack/user/view/components/user_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -9,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import '../../model/app_user.dart';
 import '../../viewmodel/user_provider.dart';
 import '../../../utilities/custom_text_field.dart';
+import '../components/user_avatar.dart';
 
 // Provider determines which view of the course page we are looking at
 final imageUploadProvider = StateProvider<File?>((ref) => null);
@@ -20,6 +20,8 @@ class ProfileUpdate extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref, [bool mounted = true]) {
     // User info to display
     final user = ref.watch(userProvider) ?? AppUser.empty();
+    final currentImage =
+        user.imageURL != '' ? NetworkImage(user.imageURL) : null;
 
     final txtFirstName = TextEditingController();
     final txtLastName = TextEditingController();
@@ -69,7 +71,7 @@ class ProfileUpdate extends ConsumerWidget {
                     child: UserAvatar(
                       imageRadius: 60,
                       image: imageFile == null
-                          ? NetworkImage(user.imageURL)
+                          ? currentImage
                           : FileImage(imageFile),
                     ),
                   ),
@@ -116,7 +118,6 @@ class ProfileUpdate extends ConsumerWidget {
                       ],
                     ),
                   ),
-                  const Spacer(),
                   TextButton(
                     onPressed: () {
                       // delete user

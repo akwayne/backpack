@@ -14,6 +14,7 @@ class ProfilePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // User info to display
     final user = ref.watch(userProvider) ?? AppUser.empty();
+    final userImage = user.imageURL != '' ? NetworkImage(user.imageURL) : null;
 
     // get device details
     bool isMobile = getDeviceType(MediaQuery.of(context)) == DeviceType.mobile;
@@ -45,7 +46,7 @@ class ProfilePage extends ConsumerWidget {
               children: [
                 UserAvatar(
                   imageRadius: 60,
-                  image: NetworkImage(user.imageURL),
+                  image: userImage,
                 ),
                 const SizedBox(height: 16),
                 Text(

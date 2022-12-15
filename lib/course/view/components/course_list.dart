@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../utilities/utilities.dart';
-import '../model/course.dart';
-import '../viewmodel/course_provider.dart';
+import '../../../utilities/utilities.dart';
+import '../../model/course.dart';
+import '../../viewmodel/course_provider.dart';
 import 'course_card.dart';
 
 class CourseList extends ConsumerWidget {

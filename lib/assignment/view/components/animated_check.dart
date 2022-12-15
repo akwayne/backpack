@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../utilities/utilities.dart';
+import '../../../utilities/utilities.dart';
 
 class AnimatedCheck extends StatefulWidget {
   const AnimatedCheck({super.key});

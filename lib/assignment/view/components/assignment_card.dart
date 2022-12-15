@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../course/model/course.dart';
-import '../../course/model/subject.dart';
-import '../../course/view/course_page.dart';
-import '../../course/viewmodel/course_provider.dart';
-import '../../user/model/app_user.dart';
-import '../model/assignment.dart';
+import '../../../course/model/course.dart';
+import '../../../course/model/subject.dart';
+import '../../../course/view/pages/course_page.dart';
+import '../../../course/viewmodel/course_provider.dart';
+import '../../../user/model/app_user.dart';
+import '../../model/assignment.dart';
 import 'animated_check.dart';
 
 class AssignmentCard extends ConsumerWidget {
@@ -53,7 +53,7 @@ class AssignmentCard extends ConsumerWidget {
         ),
         onTap: () {
           // Change view on course page
-          ref.read(courseViewProvider.notifier).state = assignment.id;
+          ref.read(assignmentDetailProvider.notifier).state = assignment.id;
 
           // This checks if we are on the home page or already on course page
           // If we are on the home page, we should navigate to the course page

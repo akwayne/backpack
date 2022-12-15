@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
-import '../../assignment/model/assignment.dart';
-import '../../assignment/view/assignment_card.dart';
-import '../../assignment/viewmodel/assignment_provider.dart';
-import '../model/course.dart';
+import '../../../assignment/model/assignment.dart';
+import '../../../assignment/view/components/assignment_card.dart';
+import '../../../assignment/viewmodel/assignment_provider.dart';
+import '../../model/course.dart';
 
-class TeacherCourseDetail extends ConsumerWidget {
-  const TeacherCourseDetail({
+class StudentCourseDetail extends ConsumerWidget {
+  const StudentCourseDetail({
     super.key,
     required this.course,
   });
@@ -25,11 +24,11 @@ class TeacherCourseDetail extends ConsumerWidget {
       padding: const EdgeInsets.all(18.0),
       child: ListView(
         children: <Widget>[
-          // Text(
-          //   course.teacherName,
-          //   style: Theme.of(context).textTheme.headline6,
-          // ),
-          // const SizedBox(height: 8),
+          Text(
+            course.teacherName,
+            style: Theme.of(context).textTheme.headline6,
+          ),
+          const SizedBox(height: 8),
           Wrap(
             children: [
               Chip(
@@ -45,12 +44,7 @@ class TeacherCourseDetail extends ConsumerWidget {
               ),
             ],
           ),
-          ElevatedButton(
-              onPressed: () => context.pushNamed(
-                    'addAssignment',
-                    params: {'courseId': course.courseId},
-                  ),
-              child: const Text('Add New Assignment')),
+          const SizedBox(height: 20),
           ListView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),

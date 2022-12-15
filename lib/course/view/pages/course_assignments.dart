@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
-import '../../assignment/model/assignment.dart';
-import '../../assignment/view/assignment_card.dart';
-import '../../assignment/viewmodel/assignment_provider.dart';
-import '../model/course.dart';
+import '../../../assignment/view/components/assignment_card.dart';
+import '../../../assignment/viewmodel/assignment_provider.dart';
+import '../../model/course.dart';
 
-class StudentCourseDetail extends ConsumerWidget {
-  const StudentCourseDetail({
+class CourseAssignments extends ConsumerWidget {
+  const CourseAssignments({
     super.key,
     required this.course,
   });
@@ -16,7 +16,7 @@ class StudentCourseDetail extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    List<Assignment> courseAssignments = ref
+    final courseAssignments = ref
         .read(assignmentProvider.notifier)
         .getCourseAssignments(course.courseId);
 
@@ -24,11 +24,11 @@ class StudentCourseDetail extends ConsumerWidget {
       padding: const EdgeInsets.all(18.0),
       child: ListView(
         children: <Widget>[
-          Text(
-            course.teacherName,
-            style: Theme.of(context).textTheme.headline6,
-          ),
-          const SizedBox(height: 8),
+          // Text(
+          //   course.teacherName,
+          //   style: Theme.of(context).textTheme.headline6,
+          // ),
+          // const SizedBox(height: 8),
           Wrap(
             children: [
               Chip(
@@ -44,7 +44,12 @@ class StudentCourseDetail extends ConsumerWidget {
               ),
             ],
           ),
-          const SizedBox(height: 20),
+          ElevatedButton(
+              onPressed: () => context.pushNamed(
+                    'addAssignment',
+                    params: {'courseId': course.courseId},
+                  ),
+              child: const Text('Add New Assignment')),
           ListView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
