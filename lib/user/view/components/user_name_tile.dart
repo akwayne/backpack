@@ -10,6 +10,8 @@ class UserNameTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final userImage = user.imageURL != '' ? NetworkImage(user.imageURL) : null;
+
     return GestureDetector(
       onTap: () {
         context.pushNamed('profile');
@@ -18,7 +20,7 @@ class UserNameTile extends StatelessWidget {
         children: [
           UserAvatar(
             imageRadius: 30,
-            image: NetworkImage(user.imageURL),
+            image: userImage,
           ),
           const SizedBox(width: 20),
           Column(

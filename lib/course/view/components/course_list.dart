@@ -6,6 +6,7 @@ import '../../model/course.dart';
 import '../../viewmodel/course_provider.dart';
 import 'course_card.dart';
 
+// TODO Tablet portrait same as mobile
 class CourseList extends ConsumerWidget {
   const CourseList({super.key});
 
@@ -55,7 +56,7 @@ Widget _buildTabletView(BuildContext context, List<Course> courses) {
           mainAxisSpacing: 16,
           childAspectRatio:
               MediaQuery.of(context).orientation == Orientation.portrait
-                  ? 2.5
+                  ? 2
                   : 3,
           children: List.generate(
             courses.length,

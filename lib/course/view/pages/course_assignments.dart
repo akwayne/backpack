@@ -16,50 +16,31 @@ class CourseAssignments extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // rebuild when an assignment changes
+    ref.watch(assignmentProvider);
+
     final courseAssignments = ref
         .read(assignmentProvider.notifier)
         .getCourseAssignments(course.courseId);
 
-    return Padding(
-      padding: const EdgeInsets.all(18.0),
-      child: ListView(
-        children: <Widget>[
-          // Text(
-          //   course.teacherName,
-          //   style: Theme.of(context).textTheme.headline6,
-          // ),
-          // const SizedBox(height: 8),
-          Wrap(
-            children: [
-              Chip(
-                label: Text(course.getWeekdayString()),
-              ),
-              const SizedBox(width: 12),
-              Chip(
-                label: Text(course.getTimeString()),
-              ),
-              const SizedBox(width: 12),
-              Chip(
-                label: Text(course.location),
-              ),
-            ],
-          ),
-          ElevatedButton(
-              onPressed: () => context.pushNamed(
-                    'addAssignment',
-                    params: {'courseId': course.courseId},
-                  ),
-              child: const Text('Add New Assignment')),
-          ListView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            primary: false,
-            itemCount: courseAssignments.length,
-            itemBuilder: ((context, index) =>
-                AssignmentCard(assignment: courseAssignments[index])),
-          ),
-        ],
-      ),
+    return ListView(
+      children: <Widget>[
+        ElevatedButton(
+            onPressed: () => context.pushNamed(
+                  'addAssignment',
+                  params: {'courseId': course.courseId},
+                ),
+            child: const Text('Add New Assignment')),
+        const SizedBox(height: 14),
+        ListView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          primary: false,
+          itemCount: courseAssignments.length,
+          itemBuilder: ((context, index) =>
+              AssignmentCard(assignment: courseAssignments[index])),
+        ),
+      ],
     );
   }
 }

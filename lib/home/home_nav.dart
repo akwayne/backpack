@@ -73,7 +73,7 @@ class _HomeMobileView extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        // Hide leading in portrait mode
+        // Hide drawer icon in portrait mode
         automaticallyImplyLeading: isLandscape ? true : false,
         title: Padding(
           padding: const EdgeInsets.only(left: 8.0),
@@ -160,28 +160,11 @@ class _HomeTabletView extends StatelessWidget {
     return Scaffold(
       body: Row(
         children: <Widget>[
-          Container(
-            margin: const EdgeInsets.symmetric(vertical: 32.0),
-            decoration: BoxDecoration(
-              color: Theme.of(context).bottomAppBarColor,
-              borderRadius: const BorderRadius.only(
-                topRight: Radius.circular(12),
-                bottomRight: Radius.circular(12),
-              ),
-            ),
-            child: NavigationRail(
-              selectedIndex: navIndex,
-              onDestinationSelected: (index) => updateTab(index),
-              labelType: NavigationRailLabelType.all,
-              destinations: [
-                for (var item in navIcons)
-                  NavigationRailDestination(
-                    icon: item['icon'],
-                    label: Text(item['label']),
-                  ),
-              ],
-              backgroundColor: Colors.transparent,
-            ),
+          // Navigation Rail
+          CustomNavRail(
+            navIndex: navIndex,
+            updateTab: updateTab,
+            navIcons: navIcons,
           ),
 
           // Selected page is displayed to the right of the nav rail
@@ -209,8 +192,7 @@ class _HomeTabletView extends StatelessWidget {
 
 // Builds page based on tab selection
 Widget _buildNavPage(int navIndex, AppUser user) {
-  return AnimatedSwitcher(
-    duration: const Duration(milliseconds: 300),
+  return CustomFade(
     child: CloudFutureBuilder(
       key: ValueKey(navIndex),
       user: user,
@@ -237,7 +219,7 @@ const _studentNavPages = <Widget>[
 
 const _teacherNavIcons = <Map<String, dynamic>>[
   {'icon': Icon(Icons.class_), 'label': 'classes'},
-  {'icon': Icon(Icons.calendar_today), 'label': 'teacher schedule'},
+  {'icon': Icon(Icons.calendar_today), 'label': 'calendar'},
 ];
 
 const _teacherNavPages = <Widget>[

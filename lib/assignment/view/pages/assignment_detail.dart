@@ -7,7 +7,7 @@ import '../../../user/viewmodel/user_provider.dart';
 import '../../../utilities/utilities.dart';
 import '../../model/assignment.dart';
 import '../../viewmodel/assignment_provider.dart';
-import '../components/file_upload.dart';
+import '../components/assignment_components.dart';
 
 class AssignmentDetail extends ConsumerWidget {
   const AssignmentDetail({super.key, required this.assignmentId});
@@ -39,10 +39,10 @@ class AssignmentDetail extends ConsumerWidget {
                 const Spacer(),
                 if (getDeviceType(MediaQuery.of(context)) == DeviceType.mobile)
                   IconButton(
-                    onPressed: () => ref
-                        .read(assignmentDetailProvider.notifier)
-                        .state = null,
                     icon: const Icon(Icons.close),
+                    onPressed: () {
+                      ref.read(assignmentDetailProvider.notifier).state = null;
+                    },
                   ),
               ],
             ),
@@ -51,78 +51,11 @@ class AssignmentDetail extends ConsumerWidget {
               child: Text(assignment.instructions),
             ),
             user.isTeacher
-                ? _TeacherComponents(user: user, assignment: assignment)
-                : _StudentComponents(user: user, assignment: assignment),
+                ? TeacherAssignmentButtons(user: user, assignment: assignment)
+                : StudentAssignmentButtons(user: user, assignment: assignment),
           ],
         ),
       ),
-    );
-  }
-}
-
-class _TeacherComponents extends ConsumerWidget {
-  const _TeacherComponents({
-    required this.user,
-    required this.assignment,
-  });
-
-  final AppUser user;
-  final Assignment assignment;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    // TODO: Create a way to edit an existing assignment
-    return TextButton(
-      onPressed: () async {
-        // Delete Assignment
-        await ref
-            .read(assignmentProvider.notifier)
-            .deleteAssignment(assignment, user);
-        // Return to Course View
-        ref.read(assignmentDetailProvider.notifier).state = null;
-      },
-      child: const Text(
-        'Delete Assignment',
-        style: TextStyle(color: Colors.red),
-      ),
-    );
-  }
-}
-
-class _StudentComponents extends ConsumerWidget {
-  const _StudentComponents({
-    required this.user,
-    required this.assignment,
-  });
-
-  final AppUser user;
-  final Assignment assignment;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    // Text to display on submit button
-    final buttonText =
-        assignment.submissionRequired ? 'Submit' : 'Mark as Complete';
-    return Column(
-      children: <Widget>[
-        // Show upload section if assignment requries a file upload
-        // And not already submitted
-        if (assignment.submissionRequired &&
-            !user.completed.contains(assignment.id))
-          const FileUpload(),
-        // Disable button if assignment is already submitted
-        ElevatedButton(
-          onPressed: user.completed.contains(assignment.id)
-              ? null
-              : () async {
-                  // Change assignment status to complete
-                  ref.read(userProvider.notifier).markComplete(assignment.id);
-                  // Return to course page
-                  ref.read(assignmentDetailProvider.notifier).state = null;
-                },
-          child: Text(buttonText),
-        ),
-      ],
     );
   }
 }
