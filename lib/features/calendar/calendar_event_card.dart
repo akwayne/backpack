@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../course/model/course.dart';
+import '../../course/model/course.dart';
 
 class EventCard extends StatelessWidget {
   const EventCard({

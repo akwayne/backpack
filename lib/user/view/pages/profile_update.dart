@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:backpack/components/components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -7,7 +8,6 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../model/app_user.dart';
 import '../../viewmodel/user_provider.dart';
-import '../../../utilities/custom_text_field.dart';
 import '../components/user_avatar.dart';
 
 // Provider determines which view of the course page we are looking at

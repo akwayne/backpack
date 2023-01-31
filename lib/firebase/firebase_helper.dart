@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'assignment/model/assignment.dart';
-import 'course/model/course.dart';
-import 'user/model/app_user.dart';
+import '../assignment/model/assignment.dart';
+import '../course/model/course.dart';
+import '../user/model/app_user.dart';
 
 class FirebaseHelper {
   late FirebaseFirestore firestore;

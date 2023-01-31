@@ -1,9 +1,10 @@
+import 'package:backpack/components/components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../assignment/view/components/assignment_list.dart';
-import '../calendar/calendar_page.dart';
+import '../features/calendar/calendar_page.dart';
 import '../course/view/components/course_list.dart';
 import '../user/model/app_user.dart';
 import '../user/view/components/user_name_tile.dart';

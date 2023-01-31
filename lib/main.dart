@@ -1,4 +1,7 @@
+import 'package:backpack/utilities/app_router.dart';
 import 'package:flutter/material.dart';
+import 'package:backpack/constants/constants.dart';
+import 'package:backpack/firebase/firebase.dart';
 
 // Firebase
 import 'package:firebase_core/firebase_core.dart';
@@ -8,9 +11,7 @@ import 'package:firebase_ui_oauth_google/firebase_ui_oauth_google.dart';
 // Riverpod
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'firebase_options.dart';
 import 'user/viewmodel/user_provider.dart';
-import 'utilities/utilities.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

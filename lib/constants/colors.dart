@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class ColorPalette {
+class AppColors {
   static const Color background = Color(0xFFF4F6F1);
   static const Color honeydew = Color(0xFFDAEBD7);
   static const Color lightPrimary = Color(0xFFC0E8BD);

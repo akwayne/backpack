@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import 'colors.dart';
 
 // Defines main font for app
@@ -14,12 +15,12 @@ class AppTheme {
       textTheme: textThemeLight(),
       appBarTheme: appBarThemeLight(),
       colorScheme: const ColorScheme.light(
-        primary: ColorPalette.darkPrimary,
-        primaryContainer: ColorPalette.primary,
+        primary: AppColors.darkPrimary,
+        primaryContainer: AppColors.primary,
         onPrimary: Colors.white,
-        secondary: ColorPalette.turquoise,
+        secondary: AppColors.turquoise,
       ),
-      scaffoldBackgroundColor: ColorPalette.background,
+      scaffoldBackgroundColor: AppColors.background,
       elevatedButtonTheme: customButtonTheme(),
       toggleButtonsTheme: customToggleButtonsTheme(),
     );
@@ -32,10 +33,10 @@ class AppTheme {
       fontFamily: _appFont,
       appBarTheme: appBarThemeDark(),
       colorScheme: const ColorScheme.dark(
-        primary: ColorPalette.primary,
-        primaryContainer: ColorPalette.lightPrimary,
+        primary: AppColors.primary,
+        primaryContainer: AppColors.lightPrimary,
         onPrimary: Colors.black87,
-        secondary: ColorPalette.lightTurquoise,
+        secondary: AppColors.lightTurquoise,
       ),
       elevatedButtonTheme: customButtonTheme(),
       toggleButtonsTheme: customToggleButtonsTheme(),

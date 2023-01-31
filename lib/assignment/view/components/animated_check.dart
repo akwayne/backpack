@@ -1,6 +1,5 @@
+import 'package:backpack/constants/constants.dart';
 import 'package:flutter/material.dart';
-
-import '../../../utilities/utilities.dart';
 
 class AnimatedCheck extends StatefulWidget {
   const AnimatedCheck({super.key});
@@ -63,8 +62,8 @@ class CheckAnim extends StatelessWidget {
           ),
         ),
         color = ColorTween(
-          begin: ColorPalette.text,
-          end: ColorPalette.darkPrimary,
+          begin: AppColors.text,
+          end: AppColors.darkPrimary,
         ).animate(
           CurvedAnimation(
             parent: controller,

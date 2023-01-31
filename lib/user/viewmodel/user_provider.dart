@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../firebase_helper.dart';
+import '../../firebase/firebase_helper.dart';
 import '../model/app_user.dart';
 
 final userProvider = StateNotifierProvider<UserNotifier, AppUser?>((ref) {

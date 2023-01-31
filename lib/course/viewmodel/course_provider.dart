@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../firebase_helper.dart';
+import '../../firebase/firebase_helper.dart';
 import '../../user/model/app_user.dart';
 import '../model/course.dart';
 

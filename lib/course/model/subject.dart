@@ -1,3 +1,4 @@
+import 'package:backpack/constants/constants.dart';
 import 'package:flutter/material.dart';
 
 import '../../utilities/utilities.dart';
@@ -17,17 +18,17 @@ extension SubjectExt on Subject {
   Color get getColor {
     switch (this) {
       case Subject.arts:
-        return ColorPalette.primary;
+        return AppColors.primary;
       case Subject.english:
-        return ColorPalette.pink;
+        return AppColors.pink;
       case Subject.foreignLanguage:
-        return ColorPalette.turquoise;
+        return AppColors.turquoise;
       case Subject.math:
-        return ColorPalette.lightPrimary;
+        return AppColors.lightPrimary;
       case Subject.science:
-        return ColorPalette.blue;
+        return AppColors.blue;
       case Subject.socialStudies:
-        return ColorPalette.lightGold;
+        return AppColors.lightGold;
       default:
         return Colors.grey;
     }

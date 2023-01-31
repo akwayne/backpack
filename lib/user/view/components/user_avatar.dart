@@ -1,6 +1,5 @@
+import 'package:backpack/constants/constants.dart';
 import 'package:flutter/material.dart';
-
-import '../../../utilities/utilities.dart';
 
 class UserAvatar extends StatelessWidget {
   const UserAvatar({
@@ -19,7 +18,7 @@ class UserAvatar extends StatelessWidget {
       radius: imageRadius,
       child: CircleAvatar(
         foregroundImage: image,
-        backgroundColor: ColorPalette.turquoise,
+        backgroundColor: AppColors.turquoise,
         radius: imageRadius - 4,
       ),
     );

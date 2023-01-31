@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
-import '../course/model/course.dart';
-import '../course/viewmodel/course_provider.dart';
-import '../utilities/utilities.dart';
+import '../../course/model/course.dart';
+import '../../course/viewmodel/course_provider.dart';
+import '../../utilities/utilities.dart';
 import 'calendar_event_card.dart';
 import 'calendar_widget.dart';
 
