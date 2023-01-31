@@ -1,9 +1,9 @@
 import 'package:backpack/components/components.dart';
 import 'package:backpack/utilities/utilities.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:backpack/routing/routing.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 import '../application/auth_provider.dart';
 import 'login_background.dart';
@@ -122,7 +122,7 @@ class RegisterPageState extends ConsumerState<RegisterPage> {
                           .createUser(_selectedAccountType[1]);
                       await ref.read(userProvider.notifier).getUser();
                       if (!mounted) return;
-                      context.goNamed('setup');
+                      AppRouter.goSetup(context);
                     } on FirebaseAuthException catch (e) {
                       setState(() {
                         // Clear previous error messages
@@ -156,7 +156,7 @@ class RegisterPageState extends ConsumerState<RegisterPage> {
               children: [
                 const Text('Already have an account?'),
                 TextButton(
-                  onPressed: () => context.pop(),
+                  onPressed: () => AppRouter.goLogin(context),
                   child: const Text('Sign in'),
                 ),
               ],

@@ -1,12 +1,9 @@
-import 'package:backpack/assignment/viewmodel/assignment_provider.dart';
 import 'package:backpack/components/components.dart';
+import 'package:backpack/features/assignment/assignment.dart';
+import 'package:backpack/features/auth/auth.dart';
+import 'package:backpack/routing/routing.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
-
-import '../../../features/auth/domain/app_user.dart';
-import '../../../features/auth/application/auth_provider.dart';
-import '../../model/assignment.dart';
 
 class AddAssignment extends ConsumerStatefulWidget {
   const AddAssignment({super.key, required this.courseId});
@@ -36,9 +33,7 @@ class AddAssignmentState extends ConsumerState<AddAssignment> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          onPressed: () {
-            context.pop();
-          },
+          onPressed: () => AppRouter.pop(context),
           icon: const Icon(Icons.arrow_back_ios),
         ),
       ),
@@ -80,7 +75,7 @@ class AddAssignmentState extends ConsumerState<AddAssignment> {
                             .createAssignment(newAssignment, user);
 
                         if (!mounted) return;
-                        context.pop();
+                        AppRouter.pop(context);
                       },
                       child: const Text('Create Assignment'))
                 ],

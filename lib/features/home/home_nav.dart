@@ -1,14 +1,13 @@
 import 'package:backpack/components/components.dart';
+import 'package:backpack/features/assignment/assignment.dart';
+import 'package:backpack/features/auth/auth.dart';
+import 'package:backpack/features/calendar/calendar.dart';
 import 'package:backpack/features/course/course.dart';
+import 'package:backpack/routing/routing.dart';
 import 'package:backpack/utilities/utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
-import '../assignment/view/components/assignment_list.dart';
-import '../features/auth/domain/app_user.dart';
-import '../features/auth/application/auth_provider.dart';
-import '../features/calendar/calendar.dart';
 import 'cloud_future_builder.dart';
 
 final _homeNavIndexProvider = StateProvider<int>((ref) => 0);
@@ -84,9 +83,7 @@ class _HomeMobileView extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(right: 10.0),
             child: IconButton(
-              onPressed: () {
-                context.pushNamed('profile');
-              },
+              onPressed: () => AppRouter.goProfile(context),
               icon: Icon(
                 Icons.account_circle,
                 color: Theme.of(context).colorScheme.primary,

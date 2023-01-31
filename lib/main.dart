@@ -1,17 +1,14 @@
-import 'package:backpack/utilities/app_router.dart';
+import 'package:backpack/features/auth/auth.dart';
+import 'package:backpack/routing/routing.dart';
 import 'package:flutter/material.dart';
 import 'package:backpack/constants/constants.dart';
 import 'package:backpack/firebase/firebase.dart';
 
-// Firebase
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:firebase_ui_oauth_google/firebase_ui_oauth_google.dart';
 
-// Riverpod
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import 'features/auth/application/auth_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,23 +33,16 @@ class BackpackApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // Initialize gorouter
-    late final router = AppRouter().router;
-
     // Find out who is logged in
     ref.read(userProvider.notifier).getUser();
 
-    return MaterialApp.router(
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: AppTheme.light(),
       darkTheme: AppTheme.dark(),
       themeMode: ThemeMode.system,
-
-      debugShowCheckedModeBanner: false,
-
-      // Setup Go Router
-      routerDelegate: router.routerDelegate,
-      routeInformationParser: router.routeInformationParser,
-      routeInformationProvider: router.routeInformationProvider,
+      initialRoute: AppRoutes.login,
+      routes: AppRoutes.routes,
     );
   }
 }

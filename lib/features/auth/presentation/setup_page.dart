@@ -1,6 +1,6 @@
+import 'package:backpack/routing/routing.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../components/components.dart';
 import '../application/auth_provider.dart';
@@ -74,7 +74,7 @@ class SetupPageState extends ConsumerState<SetupPage> {
 
                         // Continue to Home
                         if (!mounted) return;
-                        context.goNamed('home');
+                        AppRouter.goHome(context);
                       }
                     },
                     child: const Text('Finish'),

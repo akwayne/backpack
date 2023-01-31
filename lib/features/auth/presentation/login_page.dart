@@ -1,10 +1,10 @@
-import 'package:backpack/components/auth_text_field.dart';
-import 'package:backpack/features/auth/application/auth_provider.dart';
+import 'package:backpack/components/components.dart';
+import 'package:backpack/features/auth/auth.dart';
 import 'package:backpack/utilities/device_type.dart';
+import 'package:backpack/routing/routing.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 import 'login_background.dart';
 
@@ -83,7 +83,7 @@ class LoginPageState extends ConsumerState<LoginPage> {
                       );
                       await ref.read(userProvider.notifier).getUser();
                       if (!mounted) return;
-                      context.goNamed('home');
+                      AppRouter.goHome(context);
                     } on FirebaseAuthException catch (e) {
                       // Clear previous error messages
                       setState(() {
@@ -113,7 +113,7 @@ class LoginPageState extends ConsumerState<LoginPage> {
               ),
             ),
             TextButton(
-              onPressed: () => context.pushNamed('register'),
+              onPressed: () => AppRouter.goRegister(context),
               child: const Text('Or create a new account'),
             ),
           ],

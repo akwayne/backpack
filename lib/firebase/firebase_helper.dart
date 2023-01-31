@@ -2,7 +2,7 @@ import 'package:backpack/features/auth/auth.dart';
 import 'package:backpack/features/course/course.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../assignment/model/assignment.dart';
+import '../features/assignment/domain/assignment.dart';
 
 class FirebaseHelper {
   late FirebaseFirestore firestore;

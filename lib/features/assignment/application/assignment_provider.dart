@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../firebase/firebase_helper.dart';
-import '../../features/auth/domain/app_user.dart';
-import '../model/assignment.dart';
+import '../../../firebase/firebase_helper.dart';
+import '../../auth/domain/app_user.dart';
+import '../domain/assignment.dart';
 
 final assignmentProvider =
     StateNotifierProvider<AssignmentNotifier, List<Assignment>>((ref) {

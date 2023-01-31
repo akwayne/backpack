@@ -1,11 +1,10 @@
+import 'package:backpack/features/assignment/assignment.dart';
+import 'package:backpack/features/auth/auth.dart';
+import 'package:backpack/features/course/course.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../features/auth/domain/app_user.dart';
-import '../../../features/auth/application/auth_provider.dart';
-import '../../../features/course/course.dart';
-import '../../model/assignment.dart';
-import 'assignment_components.dart';
+import 'file_upload.dart';
 
 class StudentAssignmentButtons extends ConsumerWidget {
   const StudentAssignmentButtons({

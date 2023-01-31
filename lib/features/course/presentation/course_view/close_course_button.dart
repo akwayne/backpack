@@ -1,6 +1,6 @@
+import 'package:backpack/routing/routing.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 import 'course_page.dart';
 
@@ -16,7 +16,7 @@ class CloseCourseButton extends ConsumerWidget {
         ref.read(courseNavIndexProvider.notifier).state = 0;
         ref.read(assignmentDetailProvider.notifier).state = null;
 
-        context.pop();
+        AppRouter.pop(context);
       },
     );
   }

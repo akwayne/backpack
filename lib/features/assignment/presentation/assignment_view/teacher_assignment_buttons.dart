@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../features/auth/domain/app_user.dart';
-import '../../../features/course/presentation/course_view/course_page.dart';
-import '../../model/assignment.dart';
-import '../../viewmodel/assignment_provider.dart';
+import '../../../auth/domain/app_user.dart';
+import '../../../course/presentation/course_view/course_page.dart';
+import '../../domain/assignment.dart';
+import '../../application/assignment_provider.dart';
 
 class TeacherAssignmentButtons extends ConsumerWidget {
   const TeacherAssignmentButtons({

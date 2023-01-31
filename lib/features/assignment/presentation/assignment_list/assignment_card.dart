@@ -1,12 +1,10 @@
-import 'package:backpack/features/auth/application/auth_provider.dart';
+import 'package:backpack/features/assignment/assignment.dart';
+import 'package:backpack/features/auth/auth.dart';
 import 'package:backpack/features/course/course.dart';
+import 'package:backpack/routing/routing.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
-import '../../../features/course/application/course_provider.dart';
-import '../../../features/auth/domain/app_user.dart';
-import '../../model/assignment.dart';
 import 'animated_check.dart';
 
 class AssignmentCard extends ConsumerWidget {
@@ -31,6 +29,9 @@ class AssignmentCard extends ConsumerWidget {
             size: 38,
           );
 
+    final bool onHomePage =
+        ModalRoute.of(context)!.settings.name == AppRoutes.home;
+
 // Show assignment card
     return Card(
       elevation: 0,
@@ -42,8 +43,7 @@ class AssignmentCard extends ConsumerWidget {
           overflow: TextOverflow.ellipsis,
         ),
         // Only show subtitle on home page
-        subtitle:
-            GoRouter.of(context).location == '/' ? Text(course.name) : null,
+        subtitle: onHomePage ? Text(course.name) : null,
         trailing: Image.asset(
           course.subject.getImage,
           color: const Color.fromRGBO(255, 255, 255, 0.8),
@@ -55,12 +55,7 @@ class AssignmentCard extends ConsumerWidget {
 
           // This checks if we are on the home page or already on course page
           // If we are on the home page, we should navigate to the course page
-          if (GoRouter.of(context).location == '/') {
-            context.pushNamed(
-              'course',
-              params: {'courseId': course.courseId},
-            );
-          }
+          if (onHomePage) AppRouter.goCoursePage(context, assignment.courseId);
         },
       ),
     );

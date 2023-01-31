@@ -1,7 +1,7 @@
 import 'package:backpack/features/course/course.dart';
+import 'package:backpack/routing/routing.dart';
 import 'package:backpack/utilities/utilities.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 // Displays a card for each course enrolled in
 class CourseCard extends StatelessWidget {
@@ -14,12 +14,7 @@ class CourseCard extends StatelessWidget {
     DeviceType deviceType = getDeviceType(MediaQuery.of(context));
 
     return GestureDetector(
-      onTap: () {
-        context.pushNamed(
-          'course',
-          params: {'courseId': course.courseId},
-        );
-      },
+      onTap: () => AppRouter.goCoursePage(context, course.courseId),
       child: Container(
         padding: const EdgeInsets.all(16.0),
         decoration: BoxDecoration(

@@ -1,2 +1,2 @@
-export 'app_router.dart';
+export 'course_fade_animation.dart';
 export 'device_type.dart';

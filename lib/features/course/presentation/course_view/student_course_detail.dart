@@ -1,10 +1,9 @@
+import 'package:backpack/features/assignment/assignment.dart';
 import 'package:backpack/features/course/course.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../assignment/model/assignment.dart';
-import '../../../../assignment/view/components/assignment_card.dart';
-import '../../../../assignment/viewmodel/assignment_provider.dart';
+import '../../../assignment/presentation/assignment_list/assignment_card.dart';
 
 class StudentCourseDetail extends ConsumerWidget {
   const StudentCourseDetail({

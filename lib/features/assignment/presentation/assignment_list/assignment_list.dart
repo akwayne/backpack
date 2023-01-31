@@ -1,11 +1,9 @@
-import 'package:backpack/features/auth/application/auth_provider.dart';
+import 'package:backpack/features/assignment/assignment.dart';
+import 'package:backpack/features/auth/auth.dart';
+import 'package:backpack/utilities/utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../features/auth/domain/app_user.dart';
-import '../../../utilities/utilities.dart';
-import '../../model/assignment.dart';
-import '../../viewmodel/assignment_provider.dart';
 import 'assignment_card.dart';
 
 class AssignmentList extends ConsumerWidget {

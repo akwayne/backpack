@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:backpack/components/components.dart';
 import 'package:backpack/features/auth/auth.dart';
+import 'package:backpack/routing/routing.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
 // Provider determines which view of the course page we are looking at
@@ -43,7 +43,7 @@ class ProfileUpdate extends ConsumerWidget {
             onPressed: () {
               // clear updated image
               ref.read(imageUploadProvider.notifier).state = null;
-              context.pop();
+              AppRouter.pop(context);
             },
             icon: const Icon(Icons.arrow_back_ios),
           ),
@@ -108,7 +108,7 @@ class ProfileUpdate extends ConsumerWidget {
 
                                 // Go back to previous page
                                 if (!mounted) return;
-                                context.pop();
+                                AppRouter.pop(context);
                               },
                               child: const Text('Update')),
                         ),
@@ -123,7 +123,7 @@ class ProfileUpdate extends ConsumerWidget {
                       // clear updated image
                       ref.read(imageUploadProvider.notifier).state = null;
 
-                      context.goNamed('login');
+                      AppRouter.goLogin(context);
                     },
                     child: const Text(
                       'Delete Account',

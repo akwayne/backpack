@@ -1,6 +1,5 @@
-import 'package:backpack/assignment/view/pages/assignment_detail.dart';
 import 'package:backpack/components/components.dart';
-import 'package:backpack/features/assignment_view/course_assignments.dart';
+import 'package:backpack/features/assignment/assignment.dart';
 import 'package:backpack/features/auth/auth.dart';
 import 'package:backpack/features/course/course.dart';
 import 'package:backpack/utilities/utilities.dart';

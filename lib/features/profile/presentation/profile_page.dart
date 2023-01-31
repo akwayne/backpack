@@ -1,9 +1,9 @@
 import 'package:backpack/components/components.dart';
 import 'package:backpack/features/auth/auth.dart';
+import 'package:backpack/routing/routing.dart';
 import 'package:backpack/utilities/utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 class ProfilePage extends ConsumerWidget {
   const ProfilePage({super.key});
@@ -22,14 +22,12 @@ class ProfilePage extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          onPressed: () => context.pop(),
+          onPressed: () => AppRouter.pop(context),
           icon: const Icon(Icons.arrow_back_ios),
         ),
         actions: [
           IconButton(
-            onPressed: () {
-              context.pushNamed('profileUpdate');
-            },
+            onPressed: () => AppRouter.goProfileUpdate(context),
             icon: const Icon(Icons.edit),
           ),
         ],
@@ -60,7 +58,7 @@ class ProfilePage extends ConsumerWidget {
                 TextButton(
                   onPressed: () {
                     // pop back to home screen
-                    context.goNamed('login');
+                    AppRouter.goLogin(context);
                     ref.read(userProvider.notifier).logOut();
                   },
                   child: const Text('Log Out'),
