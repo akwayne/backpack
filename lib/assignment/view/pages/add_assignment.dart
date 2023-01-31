@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../user/model/app_user.dart';
-import '../../../user/viewmodel/user_provider.dart';
+import '../../../features/auth/domain/app_user.dart';
+import '../../../features/auth/application/auth_provider.dart';
 import '../../model/assignment.dart';
 
 class AddAssignment extends ConsumerStatefulWidget {

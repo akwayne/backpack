@@ -1,8 +1,8 @@
-import 'package:backpack/user/viewmodel/user_provider.dart';
+import 'package:backpack/features/auth/application/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../user/model/app_user.dart';
+import '../../../features/auth/domain/app_user.dart';
 import '../../../utilities/utilities.dart';
 import '../../model/assignment.dart';
 import '../../viewmodel/assignment_provider.dart';

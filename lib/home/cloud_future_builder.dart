@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../assignment/viewmodel/assignment_provider.dart';
-import '../course/viewmodel/course_provider.dart';
-import '../user/model/app_user.dart';
+import '../features/course/application/course_provider.dart';
+import '../features/auth/domain/app_user.dart';
 
 // Refreshes course and assignment info each time home page is rebuilt
 class CloudFutureBuilder extends ConsumerWidget {

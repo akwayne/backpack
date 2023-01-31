@@ -1,15 +1,12 @@
+import 'package:backpack/features/auth/auth.dart';
+import 'package:backpack/features/course/course.dart';
+import 'package:backpack/features/profile/profile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../assignment/view/pages/add_assignment.dart';
-import '../course/view/pages/course_page.dart';
 import '../home/home_nav.dart';
-import '../user/view/pages/login_page.dart';
-import '../user/view/pages/setup_page.dart';
-import '../user/view/pages/profile_page.dart';
-import '../user/view/pages/profile_update.dart';
-import '../user/view/pages/register_page.dart';
 
 class AppRouter {
   late final router = GoRouter(

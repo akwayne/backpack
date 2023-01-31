@@ -1,15 +1,14 @@
 import 'package:backpack/components/components.dart';
+import 'package:backpack/features/course/course.dart';
+import 'package:backpack/utilities/utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../assignment/view/components/assignment_list.dart';
-import '../features/calendar/calendar_page.dart';
-import '../course/view/components/course_list.dart';
-import '../user/model/app_user.dart';
-import '../user/view/components/user_name_tile.dart';
-import '../user/viewmodel/user_provider.dart';
-import '../utilities/utilities.dart';
+import '../features/auth/domain/app_user.dart';
+import '../features/auth/application/auth_provider.dart';
+import '../features/calendar/calendar.dart';
 import 'cloud_future_builder.dart';
 
 final _homeNavIndexProvider = StateProvider<int>((ref) => 0);

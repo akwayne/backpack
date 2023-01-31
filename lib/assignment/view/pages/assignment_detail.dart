@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../course/view/pages/course_page.dart';
-import '../../../user/model/app_user.dart';
-import '../../../user/viewmodel/user_provider.dart';
+import '../../../features/auth/domain/app_user.dart';
+import '../../../features/auth/application/auth_provider.dart';
+import '../../../features/course/course.dart';
 import '../../../utilities/utilities.dart';
 import '../../model/assignment.dart';
 import '../../viewmodel/assignment_provider.dart';

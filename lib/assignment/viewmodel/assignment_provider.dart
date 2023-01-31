@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../firebase/firebase_helper.dart';
-import '../../user/model/app_user.dart';
+import '../../features/auth/domain/app_user.dart';
 import '../model/assignment.dart';
 
 final assignmentProvider =

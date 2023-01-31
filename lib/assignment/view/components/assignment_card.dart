@@ -1,13 +1,11 @@
-import 'package:backpack/user/viewmodel/user_provider.dart';
+import 'package:backpack/features/auth/application/auth_provider.dart';
+import 'package:backpack/features/course/course.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../course/model/course.dart';
-import '../../../course/model/subject.dart';
-import '../../../course/view/pages/course_page.dart';
-import '../../../course/viewmodel/course_provider.dart';
-import '../../../user/model/app_user.dart';
+import '../../../features/course/application/course_provider.dart';
+import '../../../features/auth/domain/app_user.dart';
 import '../../model/assignment.dart';
 import 'animated_check.dart';
 

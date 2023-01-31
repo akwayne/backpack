@@ -11,7 +11,7 @@ import 'package:firebase_ui_oauth_google/firebase_ui_oauth_google.dart';
 // Riverpod
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'user/viewmodel/user_provider.dart';
+import 'features/auth/application/auth_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
