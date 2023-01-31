@@ -2,9 +2,16 @@ import 'package:flutter/material.dart';
 import 'app_routes.dart';
 
 class AppRouter {
-  // Login is at the bottom of the stack
   static void goLogin(BuildContext context) {
-    Navigator.popUntil(context, ModalRoute.withName(AppRoutes.login));
+    final currentPage = ModalRoute.of(context)?.settings.name;
+
+    // Simply pop back from register page
+    if (currentPage == AppRoutes.register) {
+      Navigator.pop(context);
+    } else {
+      Navigator.pushNamedAndRemoveUntil(
+          context, AppRoutes.login, (route) => false);
+    }
   }
 
   // Register page is pushed on top of login page
@@ -17,13 +24,12 @@ class AppRouter {
     Navigator.pushReplacementNamed(context, AppRoutes.setup);
   }
 
-  // Home is pushed on top of login page
+  // Home replaces login page
   static void goHome(BuildContext context) {
     final currentPage = ModalRoute.of(context)?.settings.name;
 
-    if (currentPage == AppRoutes.login) {
-      Navigator.pushNamed(context, AppRoutes.home);
-    } else if (currentPage == AppRoutes.setup) {
+    // Home page replaces login or setup page
+    if (currentPage == AppRoutes.login || currentPage == AppRoutes.setup) {
       Navigator.pushReplacementNamed(context, AppRoutes.home);
     } else {
       Navigator.popUntil(context, ModalRoute.withName(AppRoutes.home));

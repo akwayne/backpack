@@ -16,7 +16,7 @@ class CloseCourseButton extends ConsumerWidget {
         ref.read(courseNavIndexProvider.notifier).state = 0;
         ref.read(assignmentDetailProvider.notifier).state = null;
 
-        AppRouter.pop(context);
+        AppRouter.goHome(context);
       },
     );
   }
