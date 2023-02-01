@@ -29,7 +29,7 @@ class SetupPageState extends ConsumerState<SetupPage> {
   @override
   Widget build(BuildContext context, [bool mounted = true]) {
     // User info to display
-    final user = ref.watch(userProvider) ?? AppUser.empty();
+    final user = ref.watch(authProvider) ?? AppUser.empty();
 
     return Scaffold(
       body: LoginBackground(
@@ -70,7 +70,7 @@ class SetupPageState extends ConsumerState<SetupPage> {
                         user.school = txtSchool.text;
 
                         // Update in provider and firebase
-                        await ref.read(userProvider.notifier).updateUser(user);
+                        await ref.read(authProvider.notifier).updateUser(user);
 
                         // Continue to Home
                         if (!mounted) return;

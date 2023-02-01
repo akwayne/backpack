@@ -1,21 +1,19 @@
+import 'package:backpack/features/assignment/assignment.dart';
 import 'package:backpack/features/auth/auth.dart';
 import 'package:backpack/features/course/course.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../features/assignment/domain/assignment.dart';
-
 class FirebaseHelper {
-  late FirebaseFirestore firestore;
-  late CollectionReference courses;
-  late CollectionReference assignments;
-  late CollectionReference users;
-
   FirebaseHelper() {
     firestore = FirebaseFirestore.instance;
     courses = firestore.collection('courses');
     assignments = firestore.collection('assignments');
     users = firestore.collection('users');
   }
+  late FirebaseFirestore firestore;
+  late CollectionReference courses;
+  late CollectionReference assignments;
+  late CollectionReference users;
 
   Future<List<Course>> readCourses() async {
     final snapshot = await courses.get();

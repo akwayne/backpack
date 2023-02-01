@@ -6,7 +6,6 @@ import 'package:backpack/firebase/firebase.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
-import 'package:firebase_ui_oauth_google/firebase_ui_oauth_google.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -19,7 +18,6 @@ void main() async {
 
   FirebaseUIAuth.configureProviders([
     EmailAuthProvider(),
-    GoogleProvider(clientId: googleClientId),
   ]);
 
   runApp(
@@ -34,7 +32,7 @@ class BackpackApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // Find out who is logged in
-    ref.read(userProvider.notifier).getUser();
+    ref.read(authProvider.notifier).getUser();
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,

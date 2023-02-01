@@ -34,7 +34,7 @@ class StudentAssignmentButtons extends ConsumerWidget {
               ? null
               : () async {
                   // Change assignment status to complete
-                  ref.read(userProvider.notifier).markComplete(assignment.id);
+                  ref.read(authProvider.notifier).markComplete(assignment.id);
                   // Return to course page
                   ref.read(assignmentDetailProvider.notifier).state = null;
                 },

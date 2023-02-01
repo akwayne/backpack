@@ -19,7 +19,7 @@ class AssignmentCard extends ConsumerWidget {
         ref.read(courseProvider.notifier).getCourseFromId(assignment.courseId);
 
     // User info to display
-    final AppUser user = ref.watch(userProvider) ?? AppUser.empty();
+    final AppUser user = ref.watch(authProvider) ?? AppUser.empty();
 
     // checks whether a particular assignment is complete for this user
     final Widget checkbox = user.completed.contains(assignment.id)

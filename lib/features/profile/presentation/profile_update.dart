@@ -16,7 +16,7 @@ class ProfileUpdate extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref, [bool mounted = true]) {
     // User info to display
-    final user = ref.watch(userProvider) ?? AppUser.empty();
+    final user = ref.watch(authProvider) ?? AppUser.empty();
     final currentImage =
         user.imageURL != '' ? NetworkImage(user.imageURL) : null;
 
@@ -99,7 +99,7 @@ class ProfileUpdate extends ConsumerWidget {
 
                                 // Update in provider and firebase
                                 await ref
-                                    .read(userProvider.notifier)
+                                    .read(authProvider.notifier)
                                     .updateUser(user, imageFile);
 
                                 // clear updated image
@@ -118,7 +118,7 @@ class ProfileUpdate extends ConsumerWidget {
                   TextButton(
                     onPressed: () {
                       // delete user
-                      ref.read(userProvider.notifier).deleteUser();
+                      ref.read(authProvider.notifier).deleteUser();
 
                       // clear updated image
                       ref.read(imageUploadProvider.notifier).state = null;

@@ -7,12 +7,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../firebase/firebase_helper.dart';
 import '../domain/app_user.dart';
 
-final userProvider = StateNotifierProvider<UserNotifier, AppUser?>((ref) {
-  return UserNotifier();
+final authProvider = StateNotifierProvider<AuthNotifier, AppUser?>((ref) {
+  return AuthNotifier();
 });
 
-class UserNotifier extends StateNotifier<AppUser?> {
-  UserNotifier() : super(null);
+class AuthNotifier extends StateNotifier<AppUser?> {
+  AuthNotifier() : super(null);
 
   Future<AppUser?> getUser() async {
     // See if user is logged in

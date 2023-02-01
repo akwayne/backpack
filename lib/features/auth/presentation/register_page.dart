@@ -117,10 +117,10 @@ class RegisterPageState extends ConsumerState<RegisterPage> {
                         password: txtPassword.text,
                       );
                       await ref
-                          .read(userProvider.notifier)
+                          .read(authProvider.notifier)
                           // true if user has selected 'teacher'
                           .createUser(_selectedAccountType[1]);
-                      await ref.read(userProvider.notifier).getUser();
+                      await ref.read(authProvider.notifier).getUser();
                       if (!mounted) return;
                       AppRouter.goSetup(context);
                     } on FirebaseAuthException catch (e) {

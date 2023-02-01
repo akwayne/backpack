@@ -18,7 +18,7 @@ class HomeNavigation extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // Get user information
-    final user = ref.watch(userProvider) ?? AppUser.empty();
+    final user = ref.watch(authProvider) ?? AppUser.empty();
 
     // Get nav icons for student or teacher view of homepage
     final navIcons = user.isTeacher ? _teacherNavIcons : _studentNavIcons;

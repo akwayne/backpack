@@ -22,7 +22,7 @@ class CoursePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // Get User info
-    final user = ref.watch(userProvider) ?? AppUser.empty();
+    final user = ref.watch(authProvider) ?? AppUser.empty();
 
     // Get Course info
     final course = ref.read(courseProvider.notifier).getCourseFromId(courseId);

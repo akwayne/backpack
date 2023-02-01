@@ -11,7 +11,7 @@ class ProfilePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // User info to display
-    final user = ref.watch(userProvider) ?? AppUser.empty();
+    final user = ref.watch(authProvider) ?? AppUser.empty();
     final userImage = user.imageURL != '' ? NetworkImage(user.imageURL) : null;
 
     // get device details
@@ -59,7 +59,7 @@ class ProfilePage extends ConsumerWidget {
                   onPressed: () {
                     // pop back to home screen
                     AppRouter.goLogin(context);
-                    ref.read(userProvider.notifier).logOut();
+                    ref.read(authProvider.notifier).logOut();
                   },
                   child: const Text('Log Out'),
                 ),

@@ -16,7 +16,7 @@ class AssignmentDetail extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // Get user info
-    final AppUser user = ref.watch(userProvider) ?? AppUser.empty();
+    final AppUser user = ref.watch(authProvider) ?? AppUser.empty();
 
     // Get assignment info
     final Assignment assignment =

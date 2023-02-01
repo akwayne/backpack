@@ -81,7 +81,7 @@ class LoginPageState extends ConsumerState<LoginPage> {
                         email: txtEmail.text,
                         password: txtPassword.text,
                       );
-                      await ref.read(userProvider.notifier).getUser();
+                      await ref.read(authProvider.notifier).getUser();
                       if (!mounted) return;
                       AppRouter.goHome(context);
                     } on FirebaseAuthException catch (e) {
