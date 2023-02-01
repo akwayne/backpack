@@ -13,7 +13,7 @@ class AssignmentList extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // Get assignments to display
     final assignmentList = ref.watch(assignmentProvider);
-    final user = ref.watch(authProvider) ?? AppUser.empty();
+    final user = ref.watch(authProvider) ?? UserData.empty();
 
     // Find completed assignments and sort into 2 lists
     final doneIds = user.completed;

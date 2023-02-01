@@ -13,7 +13,7 @@ final courseProvider =
 class CourseNotifier extends StateNotifier<List<Course>> {
   CourseNotifier() : super([]);
 
-  Future<List<Course>> getCourses(AppUser user) async {
+  Future<List<Course>> getCourses(UserData user) async {
     state.clear();
 
     final courseList = await FirebaseHelper().readCourses();

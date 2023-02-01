@@ -6,15 +6,34 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class FirebaseHelper {
   FirebaseHelper() {
     firestore = FirebaseFirestore.instance;
+    users = firestore.collection('users');
     courses = firestore.collection('courses');
     assignments = firestore.collection('assignments');
-    users = firestore.collection('users');
   }
   late FirebaseFirestore firestore;
+  late CollectionReference users;
   late CollectionReference courses;
   late CollectionReference assignments;
-  late CollectionReference users;
 
+  // User Table Actions
+  Future<Map<String, dynamic>> readUserData(String id) async {
+    final snapshot = await users.doc(id).get();
+    return snapshot.data() as Map<String, dynamic>;
+  }
+
+  Future insertUserData(UserData user) async {
+    await users.doc(user.id).set(user.toDatabase());
+  }
+
+  Future updateUserData(UserData user) async {
+    await users.doc(user.id).update(user.toDatabase());
+  }
+
+  Future deleteUserData(String id) async {
+    await users.doc(id).delete();
+  }
+
+// TODO other actions
   Future<List<Course>> readCourses() async {
     final snapshot = await courses.get();
     final courseList = <Course>[];
@@ -48,29 +67,5 @@ class FirebaseHelper {
 
   Future deleteAssignment(String assignmentId) async {
     await assignments.doc(assignmentId).delete();
-  }
-
-  // User actions
-  Future<AppUser> readUser(String userId) async {
-    final snapshot = await users.doc(userId).get();
-
-    // Return user entry from database
-    final user =
-        AppUser.fromMap(snapshot.data() as Map<String, dynamic>, snapshot.id);
-
-    return user;
-  }
-
-  Future insertUser(AppUser user) async {
-    await users.doc(user.id).set(user.toMap());
-  }
-
-  Future updateUser(AppUser user) async {
-    await users.doc(user.id).update(user.toMap());
-  }
-
-  Future deleteUser(String userId) async {
-    // delete user from database
-    await users.doc(userId).delete();
   }
 }

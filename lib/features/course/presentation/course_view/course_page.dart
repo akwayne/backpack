@@ -22,7 +22,7 @@ class CoursePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // Get User info
-    final user = ref.watch(authProvider) ?? AppUser.empty();
+    final user = ref.watch(authProvider) ?? UserData.empty();
 
     // Get Course info
     final course = ref.read(courseProvider.notifier).getCourseFromId(courseId);
@@ -64,7 +64,7 @@ class _CourseMobileView extends ConsumerWidget {
     required this.updateTab,
   });
 
-  final AppUser user;
+  final UserData user;
   final Course course;
   final int navIndex;
   final Function updateTab;
@@ -127,7 +127,7 @@ class _CourseTabletView extends ConsumerWidget {
     required this.updateTab,
   });
 
-  final AppUser user;
+  final UserData user;
   final Course course;
   final int navIndex;
   final Function updateTab;

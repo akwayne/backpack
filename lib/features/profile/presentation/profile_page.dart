@@ -11,7 +11,7 @@ class ProfilePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // User info to display
-    final user = ref.watch(authProvider) ?? AppUser.empty();
+    final user = ref.watch(authProvider) ?? UserData.empty();
     final userImage = user.imageURL != '' ? NetworkImage(user.imageURL) : null;
 
     // get device details

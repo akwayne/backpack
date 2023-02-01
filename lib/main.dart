@@ -31,15 +31,17 @@ class BackpackApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // Find out who is logged in
+    // Check if a user is logged in
     ref.read(authProvider.notifier).getUser();
+    final authState = ref.watch(authProvider);
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light(),
       darkTheme: AppTheme.dark(),
       themeMode: ThemeMode.system,
-      initialRoute: AppRoutes.login,
+      initialRoute:
+          (authState is SignedInState) ? AppRoutes.home : AppRoutes.login,
       routes: AppRoutes.routes,
     );
   }

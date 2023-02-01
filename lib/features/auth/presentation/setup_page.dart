@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../components/components.dart';
 import '../application/auth_provider.dart';
-import '../domain/app_user.dart';
+import '../domain/user_data.dart';
 import 'login_background.dart';
 
 class SetupPage extends ConsumerStatefulWidget {
@@ -29,7 +29,7 @@ class SetupPageState extends ConsumerState<SetupPage> {
   @override
   Widget build(BuildContext context, [bool mounted = true]) {
     // User info to display
-    final user = ref.watch(authProvider) ?? AppUser.empty();
+    final user = ref.watch(authProvider) ?? UserData.empty();
 
     return Scaffold(
       body: LoginBackground(

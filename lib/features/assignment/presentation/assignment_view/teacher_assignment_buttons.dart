@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../auth/domain/app_user.dart';
+import '../../../auth/domain/user_data.dart';
 import '../../../course/presentation/course_view/course_page.dart';
 import '../../domain/assignment.dart';
 import '../../application/assignment_provider.dart';
@@ -13,7 +13,7 @@ class TeacherAssignmentButtons extends ConsumerWidget {
     required this.assignment,
   });
 
-  final AppUser user;
+  final UserData user;
   final Assignment assignment;
 
   @override

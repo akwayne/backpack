@@ -16,7 +16,7 @@ class ProfileUpdate extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref, [bool mounted = true]) {
     // User info to display
-    final user = ref.watch(authProvider) ?? AppUser.empty();
+    final user = ref.watch(authProvider) ?? UserData.empty();
     final currentImage =
         user.imageURL != '' ? NetworkImage(user.imageURL) : null;
 

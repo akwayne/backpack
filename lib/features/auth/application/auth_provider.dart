@@ -1,102 +1,79 @@
 import 'dart:io';
-
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+import 'package:backpack/features/auth/auth.dart';
+import 'package:backpack/user_repository/user_repository.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../firebase/firebase_helper.dart';
-import '../domain/app_user.dart';
+part 'auth_state.dart';
 
-final authProvider = StateNotifierProvider<AuthNotifier, AppUser?>((ref) {
-  return AuthNotifier();
-});
+final authProvider = StateNotifierProvider<AuthNotifier, AuthState>(
+    (ref) => AuthNotifier(ref.watch(userRepositoryProvider)));
 
-class AuthNotifier extends StateNotifier<AppUser?> {
-  AuthNotifier() : super(null);
+class AuthNotifier extends StateNotifier<AuthState> {
+  AuthNotifier(this.repository) : super(const SignedOutState());
 
-  Future<AppUser?> getUser() async {
-    // See if user is logged in
-    if (FirebaseAuth.instance.currentUser == null) {
-      state = state;
-    } else {
-      // Update if they are logged in
-      final String userId = FirebaseAuth.instance.currentUser!.uid;
-      final user = await FirebaseHelper().readUser(userId);
-      state = user;
-    }
+  final UserRepository repository;
 
-    return state;
+  Future<void> getUser() async {
+    UserData? user = await repository.getUser();
+    state =
+        (user == null) ? const SignedOutState() : SignedInState(userData: user);
   }
 
-  Future<void> createUser(bool isTeacher) async {
-    final String userId = FirebaseAuth.instance.currentUser!.uid;
-
-    final newUser = AppUser.empty();
-    newUser.id = userId;
-    newUser.isTeacher = isTeacher;
-    await FirebaseHelper().insertUser(newUser);
-
-    state = newUser;
+  Future<void> createUser({
+    required String email,
+    required String password,
+    required bool isTeacher,
+  }) async {
+    final newUser = await repository.createUser(
+      email: email,
+      password: password,
+      isTeacher: isTeacher,
+    );
+    state = SignedInState(userData: newUser);
   }
 
-  Future<void> logOut() async {
-    // Remove user and sign out
-    await FirebaseAuth.instance.signOut();
-    state = null;
+  Future<void> signIn({
+    required String email,
+    required String password,
+  }) async {
+    await repository.signIn(email: email, password: password);
+    await getUser();
   }
 
-  Future<void> updateUser(AppUser user, [File? imageFile]) async {
-    if (imageFile != null) {
-      await uploadImage(imageFile);
-      user.imageURL = await getImageURL(user.id);
-    }
+  Future<void> signOut() async {
+    await repository.signOut();
+    state = const SignedOutState();
+  }
 
-    await FirebaseHelper().updateUser(user);
-    state = AppUser.empty();
-    state = user;
+  Future<void> updateUser({
+    required UserData userData,
+    String? newEmail,
+    String? newPassword,
+    File? imageFile,
+  }) async {
+    final updatedUser = await repository.updateUser(
+      userData: userData,
+      newEmail: newEmail,
+      newPassword: newPassword,
+      imageFile: imageFile,
+    );
+    state = SignedInState(userData: updatedUser);
   }
 
   Future<void> deleteUser() async {
-    // Delete user entry from firestore database
-    await FirebaseHelper().deleteUser(state!.id);
-    // Sign out user and delete their account
-    await FirebaseAuth.instance.currentUser?.delete();
-    // Remove user from this provider
-    state = null;
+    await repository.deleteUser();
+    state = const SignedOutState();
   }
 
+  // TODO does this belong in assignment provider?
   // Marks the specified assignment as complete
   Future<void> markComplete(String assignmentId) async {
-    final updatedUser = state;
-    updatedUser!.completed.add(assignmentId);
-    await FirebaseHelper().updateUser(updatedUser);
+    final updatedUser = state.props[0] as UserData;
+    updatedUser.completed.add(assignmentId);
 
-    state = AppUser.empty();
-    state = updatedUser;
-  }
+    updateUser(userData: updatedUser);
 
-  // Upload profile picture
-  Future uploadImage(File imageFile) async {
-    final fileName = state!.id;
-    final destination = 'profile_images/$fileName';
-
-    // Create a storage reference from our app
-    final ref = FirebaseStorage.instance.ref().child(destination);
-
-    await ref.putFile(imageFile);
-  }
-
-  Future<String> getImageURL(String userId) async {
-    final fileName = userId;
-    final destination = 'profile_images/$fileName';
-
-    // Create a storage reference from our app
-    final ref = FirebaseStorage.instance.ref().child(destination);
-
-    try {
-      return await ref.getDownloadURL();
-    } catch (e) {
-      return '';
-    }
+    state = SignedInState(userData: updatedUser);
   }
 }

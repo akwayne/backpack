@@ -18,7 +18,7 @@ class HomeNavigation extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // Get user information
-    final user = ref.watch(authProvider) ?? AppUser.empty();
+    final user = ref.watch(authProvider) ?? UserData.empty();
 
     // Get nav icons for student or teacher view of homepage
     final navIcons = user.isTeacher ? _teacherNavIcons : _studentNavIcons;
@@ -59,7 +59,7 @@ class _HomeMobileView extends StatelessWidget {
     required this.updateTab,
   });
 
-  final AppUser user;
+  final UserData user;
   final List<Map> navIcons;
   final int navIndex;
   final Function updateTab;
@@ -147,7 +147,7 @@ class _HomeTabletView extends StatelessWidget {
     required this.updateTab,
   });
 
-  final AppUser user;
+  final UserData user;
   final List<Map> navIcons;
   final int navIndex;
   final Function updateTab;
@@ -188,7 +188,7 @@ class _HomeTabletView extends StatelessWidget {
 }
 
 // Builds page based on tab selection
-Widget _buildNavPage(int navIndex, AppUser user) {
+Widget _buildNavPage(int navIndex, UserData user) {
   return CustomFade(
     child: CloudFutureBuilder(
       key: ValueKey(navIndex),

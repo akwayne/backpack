@@ -7,11 +7,11 @@ import 'user_avatar.dart';
 class UserNameTile extends StatelessWidget {
   const UserNameTile({super.key, required this.user});
 
-  final AppUser user;
+  final UserData user;
 
   @override
   Widget build(BuildContext context) {
-    final userImage = user.imageURL != '' ? NetworkImage(user.imageURL) : null;
+    final userImage = user.photoUrl != '' ? NetworkImage(user.photoUrl) : null;
 
     return GestureDetector(
       onTap: () => AppRouter.goProfile(context),
