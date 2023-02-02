@@ -1,12 +1,11 @@
 import 'package:backpack/features/assignment/assignment.dart';
+import 'package:backpack/features/authentication/presentation/test_home_page.dart';
 
 import 'package:backpack/features/course/course.dart';
-import 'package:backpack/features/authorization/authorization.dart';
+import 'package:backpack/features/authentication/authentication.dart';
 import 'package:backpack/features/profile/profile.dart';
 
 import 'package:flutter/material.dart';
-
-import '../features/authorization/presentation/test_home_page.dart';
 
 part 'route_arguments.dart';
 

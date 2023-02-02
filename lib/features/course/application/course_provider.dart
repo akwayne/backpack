@@ -1,4 +1,4 @@
-import 'package:backpack/features/authorization/authorization.dart';
+import 'package:backpack/features/authentication/authentication.dart';
 import 'package:backpack/firebase/firebase.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

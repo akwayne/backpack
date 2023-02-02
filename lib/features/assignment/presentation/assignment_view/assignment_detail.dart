@@ -1,5 +1,5 @@
 import 'package:backpack/features/assignment/assignment.dart';
-import 'package:backpack/features/authorization/authorization.dart';
+import 'package:backpack/features/authentication/authentication.dart';
 import 'package:backpack/features/course/course.dart';
 import 'package:backpack/utilities/utilities.dart';
 import 'package:flutter/material.dart';

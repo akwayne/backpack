@@ -1,6 +1,6 @@
 import 'package:backpack/components/components.dart';
 import 'package:backpack/features/assignment/assignment.dart';
-import 'package:backpack/features/authorization/authorization.dart';
+import 'package:backpack/features/authentication/authentication.dart';
 import 'package:backpack/routing/routing.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

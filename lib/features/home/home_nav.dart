@@ -1,6 +1,6 @@
 import 'package:backpack/components/components.dart';
 import 'package:backpack/features/assignment/assignment.dart';
-import 'package:backpack/features/authorization/authorization.dart';
+import 'package:backpack/features/authentication/authentication.dart';
 import 'package:backpack/features/calendar/calendar.dart';
 import 'package:backpack/features/course/course.dart';
 import 'package:backpack/routing/routing.dart';
