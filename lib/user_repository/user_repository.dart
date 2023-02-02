@@ -39,7 +39,7 @@ class UserRepository {
         await firebaseHelper.readUserDetail(user.uid);
 
     return UserDetail.fromDatabase(
-      map: databaseRow,
+      row: databaseRow,
       id: user.uid,
       displayName: user.displayName,
       photoUrl: user.photoURL,

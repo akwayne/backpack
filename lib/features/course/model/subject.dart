@@ -10,7 +10,7 @@ class Subject {
   final Color color;
 
   factory Subject.getSubjectFromId(String id) {
-    return subjects.where((element) => element.id == id) as Subject;
+    return subjects.firstWhere((element) => element.id == id);
   }
 
   // Subject ids are from Minnesota dept. of Education

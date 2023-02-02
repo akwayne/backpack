@@ -193,7 +193,6 @@ Widget _buildNavPage(int navIndex, UserDetail user) {
   return CustomFade(
     child: CloudFutureBuilder(
       key: ValueKey(navIndex),
-      user: user,
       child: user.isTeacher
           ? _teacherNavPages[navIndex]
           : _studentNavPages[navIndex],

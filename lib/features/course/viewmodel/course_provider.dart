@@ -13,12 +13,15 @@ class CourseNotifier extends StateNotifier<List<Course>> {
   final FirebaseHelper firebaseHelper;
   final Ref ref;
 
-  UserDetail get user => ref.watch(profileProvider);
+  // User info from profile provider
+  UserDetail get user => ref.read(profileProvider.notifier).user;
 
+  // Only checks on app startup
   Future<void> getCourses() async {
-    state.clear();
-    final courseList = await firebaseHelper.readCourses(user.courses);
-    state = courseList;
+    if (state.isEmpty) {
+      final courseList = await firebaseHelper.readCourses(user.courses);
+      state = [for (Course course in courseList) course];
+    }
   }
 
 // TODO get this stuff

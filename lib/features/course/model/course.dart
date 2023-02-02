@@ -32,7 +32,7 @@ class Course {
       teacherId: row['teacherId'] as String,
       teacherName: row['teacherName'] as String,
       location: row['location'] as String,
-      weekdayList: row['weekdayList'] as List<int>,
+      weekdayList: List.castFrom(row['weekdayList']),
       time: row['time'] as String,
       timeStamp: DateTime.parse("2000-01-01 ${row['time'] as String}:00"),
     );

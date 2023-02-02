@@ -1,8 +1,9 @@
-import 'package:backpack/routing/routing.dart';
-import 'package:flutter/material.dart';
 import 'package:backpack/constants/constants.dart';
+import 'package:backpack/features/authentication/authentication.dart';
 import 'package:backpack/firebase/firebase.dart';
+import 'package:backpack/routing/routing.dart';
 
+import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 
@@ -31,7 +32,7 @@ class BackpackApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // Check if a user is logged in
-    // ref.read(authProvider.notifier).getUser();
+    // ref.read(authProvider.notifier).getUserDetail();
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,

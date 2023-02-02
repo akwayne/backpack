@@ -14,6 +14,9 @@ class ProfileNotifier extends StateNotifier<UserDetail> {
 
   final UserRepository repository;
 
+  // User getter to be read by other providers
+  UserDetail get user => state;
+
   // Set the current user to be read by UI
   set _currentUser(UserDetail userDetail) => state = userDetail;
 

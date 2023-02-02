@@ -43,7 +43,7 @@ class UserDetail {
   }
 
   factory UserDetail.fromDatabase({
-    required Map<String, dynamic> map,
+    required Map<String, dynamic> row,
     required String id,
     required String? displayName,
     required String? photoUrl,
@@ -52,10 +52,10 @@ class UserDetail {
       id: id,
       displayName: displayName,
       photoUrl: photoUrl,
-      isTeacher: map['isTeacher'] as bool,
-      school: map['school'] as String?,
-      courses: map['courses'] as List<String>,
-      completed: map['completed'] as List<String>,
+      isTeacher: row['isTeacher'] as bool,
+      school: row['school'] as String?,
+      courses: List.castFrom(row['courses']),
+      completed: List.castFrom(row['completed']),
     );
   }
 

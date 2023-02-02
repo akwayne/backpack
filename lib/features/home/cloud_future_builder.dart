@@ -10,30 +10,22 @@ import '../course/viewmodel/course_provider.dart';
 class CloudFutureBuilder extends ConsumerWidget {
   const CloudFutureBuilder({
     super.key,
-    required this.user,
     required this.child,
   });
 
-  final UserDetail user;
   final Widget child;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return FutureBuilder(
-      // only try to get data from these providers if a user is logged in
-      future: FirebaseAuth.instance.currentUser == null
-          ? null
-          : Future.wait([
-              ref.read(courseProvider.notifier).getCourses(),
-              ref.read(assignmentProvider.notifier).getAssignments(user),
-            ]),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState != ConnectionState.done) {
-          return const Center(child: CircularProgressIndicator());
-        } else {
+        // only try to get data from these providers if a user is logged in
+        future: FirebaseAuth.instance.currentUser == null
+            ? null
+            : Future.wait([
+                ref.read(courseProvider.notifier).getCourses(),
+              ]),
+        builder: (context, snapshot) {
           return child;
-        }
-      },
-    );
+        });
   }
 }
