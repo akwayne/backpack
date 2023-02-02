@@ -2,6 +2,7 @@ import 'package:backpack/components/components.dart';
 import 'package:backpack/features/assignment/assignment.dart';
 import 'package:backpack/features/authentication/authentication.dart';
 import 'package:backpack/features/course/course.dart';
+import 'package:backpack/features/profile/profile.dart';
 import 'package:backpack/utilities/utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -22,7 +23,7 @@ class CoursePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // Get User info
-    final UserDetail user = ref.watch(authStateProvider).props[0] as UserDetail;
+    final UserDetail user = ref.watch(authProvider).props[0] as UserDetail;
 
     // Get Course info
     final course = ref.read(courseProvider.notifier).getCourseFromId(courseId);

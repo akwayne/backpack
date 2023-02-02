@@ -1,3 +1,4 @@
+import 'package:backpack/components/components.dart';
 import 'package:backpack/features/authentication/authentication.dart';
 import 'package:backpack/utilities/utilities.dart';
 import 'package:backpack/routing/routing.dart';
@@ -6,8 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../application/error_provider.dart';
-import '../application/auth_state_provider.dart';
-import 'auth_text_field.dart';
+import '../application/auth_provider.dart';
 import 'login_background.dart';
 
 class RegisterPage extends ConsumerStatefulWidget {
@@ -23,8 +23,9 @@ class RegisterPageState extends ConsumerState<RegisterPage> {
     super.initState();
   }
 
-  final txtEmail = TextEditingController();
-  final txtPassword = TextEditingController();
+  final _txtEmail = TextEditingController();
+  final _txtPassword = TextEditingController();
+  final _txtConfirmPassword = TextEditingController();
 
   @override
   Widget build(BuildContext context, [bool mounted = true]) {
@@ -33,6 +34,8 @@ class RegisterPageState extends ConsumerState<RegisterPage> {
 
     String? emailError = ref.watch(errorProvider).emailError;
     String? passwordError = ref.watch(errorProvider).passwordError;
+    String? confirmPasswordError =
+        ref.watch(errorProvider).confirmPasswordError;
 
     return Scaffold(
       body: LoginBackground(
@@ -59,29 +62,38 @@ class RegisterPageState extends ConsumerState<RegisterPage> {
                 style: Theme.of(context).textTheme.headline4,
               ),
             ),
-            AuthTextField(
-              controller: txtEmail,
-              hintText: 'Email',
+            CustomTextField(
+              controller: _txtEmail,
+              label: 'Email',
               errorText: emailError,
             ),
-            AuthTextField(
-              controller: txtPassword,
-              hintText: 'Password',
+            CustomTextField(
+              controller: _txtPassword,
+              label: 'Password',
               errorText: passwordError,
+              obscureText: true,
             ),
-            // AuthTextField(controller: txtPassword, label: 'Confirm Password'),
+            CustomTextField(
+              controller: _txtConfirmPassword,
+              label: 'Confirm Password',
+              errorText: confirmPasswordError,
+              obscureText: true,
+            ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () async {
-                    await ref.read(authStateProvider.notifier).createUser(
-                          email: txtEmail.text,
-                          password: txtPassword.text,
+                    await ref.read(authProvider.notifier).createUser(
+                          email: _txtEmail.text,
+                          password: _txtPassword.text,
+                          confirmPassword: _txtConfirmPassword.text,
                         );
-                    if (ref.read(authStateProvider) is AuthInProgress)
+                    if (ref.read(authProvider) is AuthInProgress) {
+                      if (!mounted) return;
                       AppRouter.goSetup(context);
+                    }
                   },
                   child: const Text('Create Account'),
                 ),

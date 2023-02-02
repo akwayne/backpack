@@ -1,6 +1,7 @@
+import 'package:backpack/features/profile/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:backpack/features/authentication/authentication.dart';
+
 import '../../../course/presentation/course_view/course_page.dart';
 import '../../domain/assignment.dart';
 import '../../application/assignment_provider.dart';

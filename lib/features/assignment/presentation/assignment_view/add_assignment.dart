@@ -1,6 +1,7 @@
 import 'package:backpack/components/components.dart';
 import 'package:backpack/features/assignment/assignment.dart';
 import 'package:backpack/features/authentication/authentication.dart';
+import 'package:backpack/features/profile/profile.dart';
 import 'package:backpack/routing/routing.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -28,7 +29,7 @@ class AddAssignmentState extends ConsumerState<AddAssignment> {
     ];
 
     // User object for updating assignments displayed
-    final UserDetail user = ref.watch(authStateProvider).props[0] as UserDetail;
+    final UserDetail user = ref.watch(authProvider).props[0] as UserDetail;
 
     return Scaffold(
       appBar: AppBar(

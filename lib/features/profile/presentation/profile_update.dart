@@ -2,12 +2,14 @@ import 'dart:io';
 
 import 'package:backpack/components/components.dart';
 import 'package:backpack/features/authentication/authentication.dart';
+import 'package:backpack/features/profile/profile.dart';
 import 'package:backpack/routing/routing.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 
-// Provider determines which view of the course page we are looking at
+/// Stores image file being uploaded
 final imageUploadProvider = StateProvider<File?>((ref) => null);
 
 class ProfileUpdate extends ConsumerWidget {
@@ -15,33 +17,30 @@ class ProfileUpdate extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref, [bool mounted = true]) {
-    // User info to display
-    final UserDetail user = ref.watch(authStateProvider).props[0] as UserDetail;
-    // final currentImage =
-    //     user.photoUrl != '' ? NetworkImage(user.photoUrl) : null;
+    final UserDetail user = ref.watch(profileProvider);
 
-    final txtFirstName = TextEditingController();
-    final txtLastName = TextEditingController();
+    final currentImage =
+        (user.photoUrl != null) ? NetworkImage(user.photoUrl!) : null;
+
+    final txtDisplayName = TextEditingController();
     final txtSchool = TextEditingController();
 
     final controls = [
-      CustomTextField(label: 'First Name', controller: txtFirstName),
-      CustomTextField(label: 'Last Name', controller: txtLastName),
+      CustomTextField(label: 'Display Name', controller: txtDisplayName),
       CustomTextField(label: 'School', controller: txtSchool),
     ];
 
+    txtDisplayName.text = user.displayName ?? '';
+    txtSchool.text = user.school ?? '';
+
     final imagePicker = ImagePicker();
     File? imageFile = ref.watch(imageUploadProvider);
-
-    // txtFirstName.text = user.firstName;
-    // txtLastName.text = user.lastName;
-    // txtSchool.text = user.school;
 
     return Scaffold(
         appBar: AppBar(
           leading: IconButton(
             onPressed: () {
-              // clear updated image
+              // clear uploaded image when going back to previous page
               ref.read(imageUploadProvider.notifier).state = null;
               AppRouter.pop(context);
             },
@@ -49,79 +48,76 @@ class ProfileUpdate extends ConsumerWidget {
           ),
         ),
         body: SafeArea(
-            child: Center(
-                child: Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: ListView(children: [
-            GestureDetector(
-              onTap: () async {
-                final image = await imagePicker.pickImage(
-                  source: ImageSource.gallery,
-                  requestFullMetadata: false,
-                );
-                if (image != null) {
-                  ref.read(imageUploadProvider.notifier).state =
-                      File(image.path);
-                }
-              },
-              // child: UserAvatar(
-              //   imageRadius: 60,
-              //   image: imageFile == null
-              //       ? currentImage
-              //       : FileImage(imageFile),
-              // ),
-            ),
-            SizedBox(
-              width: 450,
-              child: Column(
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: ListView(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 12.0),
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      primary: false,
-                      itemCount: controls.length,
-                      itemBuilder: (context, index) {
-                        return controls[index];
-                      },
+                  GestureDetector(
+                    onTap: () async {
+                      final image = await imagePicker.pickImage(
+                        source: ImageSource.gallery,
+                        requestFullMetadata: false,
+                      );
+                      if (image != null) {
+                        ref.read(imageUploadProvider.notifier).state =
+                            File(image.path);
+                      }
+                    },
+                    child: UserAvatar(
+                      imageRadius: 60,
+                      image: imageFile == null
+                          ? currentImage
+                          : FileImage(imageFile),
                     ),
                   ),
-                  //       SizedBox(
-                  //         width: double.infinity,
-                  //         child: ElevatedButton(
-                  //             onPressed: () async {
-                  //               // Update fields in user object
-                  //               user.firstName = txtFirstName.text;
-                  //               user.lastName = txtLastName.text;
-                  //               user.school = txtSchool.text;
+                  SizedBox(
+                    width: 450,
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 12.0),
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            primary: false,
+                            itemCount: controls.length,
+                            itemBuilder: (context, index) {
+                              return controls[index];
+                            },
+                          ),
+                        ),
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                              onPressed: () async {
+                                // Update profile
+                                await ref
+                                    .read(profileProvider.notifier)
+                                    .updateUser(
+                                      newDisplayName: txtDisplayName.text,
+                                      newSchool: txtSchool.text,
+                                      imageFile: imageFile,
+                                    );
 
-                  //               // Update in provider and firebase
-                  //               await ref
-                  //                   .read(authProvider.notifier)
-                  //                   .updateUser(user, imageFile);
+                                // clear updated image
+                                ref.read(imageUploadProvider.notifier).state =
+                                    null;
 
-                  //               // clear updated image
-                  //               ref.read(imageUploadProvider.notifier).state =
-                  //                   null;
-
-                  //               // Go back to previous page
-                  //               if (!mounted) return;
-                  //               AppRouter.pop(context);
-                  //             },
-                  //             child: const Text('Update')),
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
+                                // Go back to previous page
+                                if (!mounted) return;
+                                AppRouter.pop(context);
+                              },
+                              child: const Text('Update')),
+                        ),
+                      ],
+                    ),
+                  ),
                   TextButton(
                     onPressed: () {
-                      // delete user
-                      ref.read(authStateProvider.notifier).deleteUser();
-
                       // clear updated image
                       ref.read(imageUploadProvider.notifier).state = null;
-
+                      ref.read(authProvider.notifier).deleteUser();
                       AppRouter.goLogin(context);
                     },
                     child: const Text(
@@ -132,7 +128,7 @@ class ProfileUpdate extends ConsumerWidget {
                 ],
               ),
             ),
-          ]),
-        ))));
+          ),
+        ));
   }
 }

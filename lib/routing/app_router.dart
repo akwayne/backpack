@@ -15,20 +15,18 @@ class AppRouter {
     }
   }
 
-  // Register page is pushed on top of login page
   static void goRegister(BuildContext context) {
     Navigator.pushNamed(context, AppRoutes.register);
   }
 
-  // Setup page replaces register page on the stack
   static void goSetup(BuildContext context) {
-    Navigator.pushReplacementNamed(context, AppRoutes.setup);
+    Navigator.pushNamed(context, AppRoutes.setup);
   }
 
   static void goHome(BuildContext context) {
     final currentPage = ModalRoute.of(context)?.settings.name;
 
-    // Home page replaces login or setup page
+    // Home page replaces stack from login or setup page
     if (currentPage == AppRoutes.login || currentPage == AppRoutes.setup) {
       Navigator.pushNamedAndRemoveUntil(
           context, AppRoutes.home, (route) => false);

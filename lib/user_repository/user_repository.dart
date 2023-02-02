@@ -1,35 +1,44 @@
 import 'dart:io';
 
-import 'package:backpack/features/authentication/authentication.dart';
+import 'package:backpack/constants/constants.dart';
+import 'package:backpack/features/profile/profile.dart';
 import 'package:backpack/firebase/firebase.dart';
+import 'package:backpack/firebase/storage_helper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final authRepositoryProvider = Provider<AuthRepository>((ref) {
+final userRepositoryProvider = Provider<UserRepository>((ref) {
   final firebaseHelper = FirebaseHelper();
   final authHelper = AuthHelper();
-  return AuthRepository(
+  final storageHelper = StorageHelper();
+  return UserRepository(
     firebaseHelper: firebaseHelper,
     authHelper: authHelper,
+    storageHelper: storageHelper,
   );
 });
 
-class AuthRepository {
-  AuthRepository({
+/// Manages all user actions in firebase and firebase auth
+class UserRepository {
+  UserRepository({
     required this.firebaseHelper,
     required this.authHelper,
+    required this.storageHelper,
   });
 
   final FirebaseHelper firebaseHelper;
   final AuthHelper authHelper;
+  final StorageHelper storageHelper;
 
-  // getter for current user id only
+  /// Get the active user or null if not logged in
+  User? get currentUser => authHelper.user;
+
+  /// Get for current user ID only
   String get currentUserId => authHelper.user!.uid;
 
+  /// Get user detail for active user
   Future<UserDetail?> getCurrentUserDetail() async {
-    User? user = authHelper.user;
-
+    final user = currentUser;
     // if not logged in, return null
     if (user == null) return null;
 
@@ -57,10 +66,6 @@ class AuthRepository {
     return await authHelper.createUser(email: email, password: password);
   }
 
-  Future<void> deleteUser() async {
-    await authHelper.deleteUser();
-  }
-
   Future<UserDetail> createUserDetail({
     required bool isTeacher,
     required String? displayName,
@@ -86,78 +91,49 @@ class AuthRepository {
     return newUserDetail;
   }
 
-  // Unfinished
+  Future<UserDetail> updateUser({
+    required UserDetail userDetail,
+    required String? newEmail,
+    required String? newPassword,
+    required File? imageFile,
+  }) async {
+    final updatedUser = userDetail;
 
-  // Future<UserData> createUser({
-  //   required String email,
-  //   required String password,
-  //   required bool isTeacher,
-  // }) async {
-  //   // Create user in firebase auth
-  //   User? newUserAuth = await authHelper.createUser(
-  //     email: email,
-  //     password: password,
-  //   );
-  //   // Create new userdata object
-  //   final newUserData = UserData(
-  //     id: newUserAuth!.uid,
-  //     isTeacher: isTeacher,
-  //     courses: [],
-  //     completed: [],
-  //   );
-  //   // Insert database rows from userdata object
-  //   await firebaseHelper.insertUserData(newUserData);
-
-  //   return newUserData;
-  // }
-
-  // Future deleteUser() async {
-  //   await firebaseHelper.deleteUserData(currentUserId!);
-  //   await authHelper.deleteUser();
-  // }
-
-  Future<UserDetail> updateUser(
-      {required UserDetail userData,
-      required String? newEmail,
-      required String? newPassword,
-      required File? imageFile}) async {
-    // Check for image file and upload first
+    // Upload image if one is received
     if (imageFile != null) {
-      final newPhotoUrl = await uploadPhoto(
-        id: userData.id,
-        imageFile: imageFile,
+      final newPhotoUrl = await storageHelper.uploadFile(
+        filename: updatedUser.id,
+        path: FireStorePath.profileImages,
+        file: imageFile,
       );
-      userData.photoUrl = newPhotoUrl;
+      updatedUser.photoUrl = newPhotoUrl;
     }
 
-    // Update user in firebase auth
+    // Update data in firebase auth
     await authHelper.updateUser(
-      newDisplayName: userData.displayName,
-      newPhotoUrl: userData.photoUrl,
+      newDisplayName: updatedUser.displayName,
+      newPhotoUrl: updatedUser.photoUrl,
       newEmail: newEmail,
       newPassword: newPassword,
     );
 
-    // Update database fields for this user
-    await firebaseHelper.updateUserData(userData);
+    // Update data in firebase
+    await firebaseHelper.updateUserDetail(updatedUser);
 
-    return userData;
+    return updatedUser;
   }
 
-  Future<String> uploadPhoto({
-    required String id,
-    required File imageFile,
-  }) async {
-    final fileName = id;
-    final destination = 'profile_images/$fileName';
+  Future<void> deleteUser() async {
+    // Delete profile image file if user has one
+    if (currentUser!.photoURL != null) {
+      await storageHelper.deleteFile(
+          filename: currentUserId, path: FireStorePath.profileImages);
+    }
 
-    // Create storage reference
-    final ref = FirebaseStorage.instance.ref().child(destination);
+    // Delete userdetail row in firebase
+    await firebaseHelper.deleteUserDetail(currentUserId);
 
-    // Upload photo
-    await ref.putFile(imageFile);
-
-    // Return image url
-    return await ref.getDownloadURL();
+    // Delete user in firebase auth
+    await authHelper.deleteUser();
   }
 }

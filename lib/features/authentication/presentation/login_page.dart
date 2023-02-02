@@ -1,3 +1,4 @@
+import 'package:backpack/components/components.dart';
 import 'package:backpack/features/authentication/authentication.dart';
 import 'package:backpack/utilities/utilities.dart';
 import 'package:backpack/routing/routing.dart';
@@ -6,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../application/error_provider.dart';
-import 'auth_text_field.dart';
 import 'login_background.dart';
 
 class LogInPage extends ConsumerStatefulWidget {
@@ -22,11 +22,11 @@ class SignInPageState extends ConsumerState<LogInPage> {
     super.initState();
   }
 
-  final txtEmail = TextEditingController();
-  final txtPassword = TextEditingController();
+  final _txtEmail = TextEditingController();
+  final _txtPassword = TextEditingController();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, [bool mounted = true]) {
     DeviceType deviceType = getDeviceType(MediaQuery.of(context));
     Orientation orientation = MediaQuery.of(context).orientation;
 
@@ -61,15 +61,16 @@ class SignInPageState extends ConsumerState<LogInPage> {
                 style: Theme.of(context).textTheme.headline4,
               ),
             ),
-            AuthTextField(
-              controller: txtEmail,
-              hintText: 'Email',
+            CustomTextField(
+              controller: _txtEmail,
+              label: 'Email',
               errorText: emailError,
             ),
-            AuthTextField(
-              controller: txtPassword,
-              hintText: 'Password',
+            CustomTextField(
+              controller: _txtPassword,
+              label: 'Password',
               errorText: passwordError,
+              obscureText: true,
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -77,12 +78,14 @@ class SignInPageState extends ConsumerState<LogInPage> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () async {
-                    await ref.read(authStateProvider.notifier).signIn(
-                          email: txtEmail.text,
-                          password: txtPassword.text,
+                    await ref.read(authProvider.notifier).signIn(
+                          email: _txtEmail.text,
+                          password: _txtPassword.text,
                         );
-                    if (ref.read(authStateProvider) is AuthSignedIn)
+                    if (ref.read(authProvider) is AuthSignedIn) {
+                      if (!mounted) return;
                       AppRouter.goHome(context);
+                    }
                   },
                   child: const Text('Log In'),
                 ),

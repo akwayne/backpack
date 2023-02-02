@@ -1,5 +1,4 @@
-import 'package:backpack/features/profile/application/user_provider.dart';
-import 'package:backpack/features/authentication/authentication.dart';
+import 'package:backpack/features/profile/application/profile_provider.dart';
 import 'package:backpack/routing/routing.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,7 +8,7 @@ class TestHomePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final user = ref.watch(userProvider);
+    final user = ref.watch(profileProvider);
     return Scaffold(
       appBar: AppBar(
         title: (user.displayName != null) ? Text(user.displayName!) : null,
@@ -18,17 +17,9 @@ class TestHomePage extends ConsumerWidget {
         children: [
           ElevatedButton(
             onPressed: () {
-              ref.read(authStateProvider.notifier).signOut();
-              AppRouter.goLogin(context);
+              AppRouter.goProfile(context);
             },
-            child: const Text('Sign Out'),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              ref.read(authStateProvider.notifier).deleteUser();
-              AppRouter.goLogin(context);
-            },
-            child: const Text('Delete Account'),
+            child: const Text('Profile'),
           ),
         ],
       ),

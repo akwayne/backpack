@@ -9,20 +9,36 @@ class UserDetail {
 
   UserDetail({
     required this.id,
-    this.displayName,
-    this.photoUrl,
+    required this.displayName,
+    required this.photoUrl,
     required this.isTeacher,
-    this.school,
+    required this.school,
     required this.courses,
     required this.completed,
   });
 
-  factory UserDetail.none() {
+  factory UserDetail.empty() {
     return UserDetail(
       id: '',
+      displayName: null,
+      photoUrl: null,
       isTeacher: false,
+      school: null,
       courses: [],
       completed: [],
+    );
+  }
+
+  // Makes an exact copy of itself
+  UserDetail copy() {
+    return UserDetail(
+      id: id,
+      displayName: displayName,
+      photoUrl: photoUrl,
+      isTeacher: isTeacher,
+      school: school,
+      courses: courses,
+      completed: completed,
     );
   }
 
@@ -37,18 +53,18 @@ class UserDetail {
       displayName: displayName,
       photoUrl: photoUrl,
       isTeacher: map['isTeacher'] as bool,
+      school: map['school'] as String?,
       courses: map['courses'] as List<dynamic>,
       completed: map['completed'] as List<dynamic>,
-      school: map['school'] as String?,
     );
   }
 
   Map<String, dynamic> toDatabase() {
     return <String, dynamic>{
       'isTeacher': isTeacher,
+      'school': school,
       'courses': courses,
       'completed': completed,
-      'school': school,
     };
   }
 }

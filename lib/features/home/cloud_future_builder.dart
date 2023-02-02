@@ -1,10 +1,10 @@
+import 'package:backpack/features/profile/profile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../assignment/application/assignment_provider.dart';
 import '../course/application/course_provider.dart';
-import 'package:backpack/features/authentication/authentication.dart';
 
 // Refreshes course and assignment info each time home page is rebuilt
 class CloudFutureBuilder extends ConsumerWidget {

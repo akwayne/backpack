@@ -1,6 +1,7 @@
 import 'package:backpack/features/assignment/assignment.dart';
 import 'package:backpack/features/authentication/authentication.dart';
 import 'package:backpack/features/course/course.dart';
+import 'package:backpack/features/profile/profile.dart';
 import 'package:backpack/routing/routing.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -19,7 +20,7 @@ class AssignmentCard extends ConsumerWidget {
         ref.read(courseProvider.notifier).getCourseFromId(assignment.courseId);
 
     // User info to display
-    final UserDetail user = ref.watch(authStateProvider).props[0] as UserDetail;
+    final UserDetail user = ref.watch(authProvider).props[0] as UserDetail;
 
     // checks whether a particular assignment is complete for this user
     final Widget checkbox = user.completed.contains(assignment.id)

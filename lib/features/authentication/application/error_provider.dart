@@ -8,10 +8,10 @@ final errorProvider = StateNotifierProvider<AuthErrorNotifier, AuthError>(
     (ref) => AuthErrorNotifier());
 
 class AuthErrorNotifier extends StateNotifier<AuthError> {
-  AuthErrorNotifier() : super(AuthError.none());
+  AuthErrorNotifier() : super(AuthError.empty());
 
   void clearErrors() {
-    state = AuthError.none();
+    state = AuthError.empty();
   }
 
   void parseErrors(FirebaseAuthException error) {
@@ -31,6 +31,9 @@ class AuthErrorNotifier extends StateNotifier<AuthError> {
       case ExceptionString.weakPassword:
         _addPasswordError(ExceptionString.weakPasswordMessage);
         break;
+      case ExceptionString.noPasswordMatch:
+        _addConfirmPasswordError(ExceptionString.noPasswordMatchMessage);
+        break;
       default:
         _addEmailError('Other Error');
     }
@@ -44,5 +47,10 @@ class AuthErrorNotifier extends StateNotifier<AuthError> {
   void _addPasswordError(String errorMessage) {
     final newError = state;
     state = newError.copyWith(passwordError: errorMessage);
+  }
+
+  void _addConfirmPasswordError(String errorMessage) {
+    final newError = state;
+    state = newError.copyWith(confirmPasswordError: errorMessage);
   }
 }

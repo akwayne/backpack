@@ -13,4 +13,13 @@ class ExceptionString {
   static const userNotFoundMessage = 'No user found for that email';
   static const wrongPassword = 'wrong-password';
   static const wrongPasswordMessage = 'Incorrect password';
+
+  // Custom exception codes
+  static const noPasswordMatch = 'no-password-match';
+  static const noPasswordMatchMessage = 'Passwords must match';
+}
+
+// Firebase Storage Paths
+class FireStorePath {
+  static const profileImages = 'profile_images/';
 }

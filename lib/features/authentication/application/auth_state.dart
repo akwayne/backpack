@@ -1,4 +1,4 @@
-part of 'auth_state_provider.dart';
+part of 'auth_provider.dart';
 
 abstract class AuthState extends Equatable {
   const AuthState();

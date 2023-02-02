@@ -6,6 +6,7 @@ class AuthHelper {
   }
   late FirebaseAuth auth;
 
+  /// Get the active user or null if not logged in
   User? get user => auth.currentUser;
 
   Future<void> signIn({required String email, required String password}) async {
@@ -21,10 +22,6 @@ class AuthHelper {
     UserCredential userCredential = await auth.createUserWithEmailAndPassword(
         email: email, password: password);
     return userCredential.user;
-  }
-
-  Future<void> deleteUser() async {
-    await user?.delete();
   }
 
   Future<void> updateUser({
@@ -45,5 +42,9 @@ class AuthHelper {
     if (newPassword != null) {
       await user?.updatePassword(newPassword);
     }
+  }
+
+  Future<void> deleteUser() async {
+    await user?.delete();
   }
 }

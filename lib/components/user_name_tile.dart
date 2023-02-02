@@ -1,4 +1,4 @@
-import 'package:backpack/features/authorization/authorization.dart';
+import 'package:backpack/features/profile/profile.dart';
 import 'package:backpack/routing/routing.dart';
 import 'package:flutter/material.dart';
 

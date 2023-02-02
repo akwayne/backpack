@@ -3,6 +3,7 @@ import 'package:backpack/features/assignment/assignment.dart';
 import 'package:backpack/features/authentication/authentication.dart';
 import 'package:backpack/features/calendar/calendar.dart';
 import 'package:backpack/features/course/course.dart';
+import 'package:backpack/features/profile/profile.dart';
 import 'package:backpack/routing/routing.dart';
 import 'package:backpack/utilities/utilities.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,7 @@ class HomeNavigation extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // Get user information
-    final UserDetail user = ref.watch(authStateProvider).props[0] as UserDetail;
+    final UserDetail user = ref.watch(authProvider).props[0] as UserDetail;
 
     // Get nav icons for student or teacher view of homepage
     final navIcons = user.isTeacher ? _teacherNavIcons : _studentNavIcons;
