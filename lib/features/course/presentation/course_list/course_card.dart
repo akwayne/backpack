@@ -14,7 +14,7 @@ class CourseCard extends StatelessWidget {
     DeviceType deviceType = getDeviceType(MediaQuery.of(context));
 
     return GestureDetector(
-      onTap: () => AppRouter.goCoursePage(context, course.courseId),
+      onTap: () => AppRouter.goCoursePage(context, course.id),
       child: Container(
         padding: const EdgeInsets.all(16.0),
         decoration: BoxDecoration(
@@ -35,13 +35,13 @@ class CourseCard extends StatelessWidget {
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                    course.subject.getColor.withOpacity(0.6),
-                    course.subject.getColor,
+                    course.subject.color.withOpacity(0.6),
+                    course.subject.color,
                   ],
                 ),
               ),
               child: Image.asset(
-                course.subject.getImage,
+                course.subject.image,
                 color: const Color.fromRGBO(255, 255, 255, 0.8),
                 colorBlendMode: BlendMode.modulate,
                 fit: BoxFit.contain,

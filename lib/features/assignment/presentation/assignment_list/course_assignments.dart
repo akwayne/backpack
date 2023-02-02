@@ -19,15 +19,13 @@ class CourseAssignments extends ConsumerWidget {
     // rebuild when an assignment changes
     ref.watch(assignmentProvider);
 
-    final courseAssignments = ref
-        .read(assignmentProvider.notifier)
-        .getCourseAssignments(course.courseId);
+    final courseAssignments =
+        ref.read(assignmentProvider.notifier).getCourseAssignments(course.id);
 
     return ListView(
       children: <Widget>[
         ElevatedButton(
-            onPressed: () =>
-                AppRouter.goAddAssignment(context, course.courseId),
+            onPressed: () => AppRouter.goAddAssignment(context, course.id),
             child: const Text('Add New Assignment')),
         const SizedBox(height: 14),
         ListView.builder(

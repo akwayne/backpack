@@ -9,12 +9,14 @@ class TestHomePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(profileProvider);
+
     return Scaffold(
       appBar: AppBar(
         title: (user.displayName != null) ? Text(user.displayName!) : null,
       ),
       body: Column(
         children: [
+          Text(user.isTeacher ? 'Teacher' : 'Student'),
           ElevatedButton(
             onPressed: () {
               AppRouter.goProfile(context);

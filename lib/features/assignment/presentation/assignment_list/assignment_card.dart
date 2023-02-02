@@ -46,7 +46,7 @@ class AssignmentCard extends ConsumerWidget {
         // Only show subtitle on home page
         subtitle: onHomePage ? Text(course.name) : null,
         trailing: Image.asset(
-          course.subject.getImage,
+          course.subject.image,
           color: const Color.fromRGBO(255, 255, 255, 0.8),
           colorBlendMode: BlendMode.modulate,
         ),

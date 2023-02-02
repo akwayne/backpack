@@ -4,8 +4,8 @@ class UserDetail {
   String? photoUrl;
   bool isTeacher;
   String? school;
-  List courses;
-  List completed;
+  List<String> courses;
+  List<String> completed;
 
   UserDetail({
     required this.id,
@@ -54,8 +54,8 @@ class UserDetail {
       photoUrl: photoUrl,
       isTeacher: map['isTeacher'] as bool,
       school: map['school'] as String?,
-      courses: map['courses'] as List<dynamic>,
-      completed: map['completed'] as List<dynamic>,
+      courses: map['courses'] as List<String>,
+      completed: map['completed'] as List<String>,
     );
   }
 

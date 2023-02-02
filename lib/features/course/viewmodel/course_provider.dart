@@ -2,32 +2,28 @@ import 'package:backpack/features/profile/profile.dart';
 import 'package:backpack/firebase/firebase.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../domain/course.dart';
+import '../model/course.dart';
 
-// What the UI will call
-final courseProvider =
-    StateNotifierProvider<CourseNotifier, List<Course>>((ref) {
-  return CourseNotifier();
-});
+final courseProvider = StateNotifierProvider<CourseNotifier, List<Course>>(
+    (ref) => CourseNotifier(FirebaseHelper(), ref));
 
 class CourseNotifier extends StateNotifier<List<Course>> {
-  CourseNotifier() : super([]);
+  CourseNotifier(this.firebaseHelper, this.ref) : super([]);
 
-  Future<List<Course>> getCourses(UserDetail user) async {
+  final FirebaseHelper firebaseHelper;
+  final Ref ref;
+
+  UserDetail get user => ref.watch(profileProvider);
+
+  Future<void> getCourses() async {
     state.clear();
-
-    final courseList = await FirebaseHelper().readCourses();
-
-    // Select only courses that user teaches or is enrolled in
-    state = courseList
-        .where((course) => user.courses.contains(course.courseId))
-        .toList() as List<Course>;
-
-    return state;
+    final courseList = await firebaseHelper.readCourses(user.courses);
+    state = courseList;
   }
 
+// TODO get this stuff
   Course getCourseFromId(String courseId) {
-    final index = state.indexWhere((element) => element.courseId == courseId);
+    final index = state.indexWhere((element) => element.id == courseId);
     return state[index];
   }
 

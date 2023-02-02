@@ -7,24 +7,17 @@ import 'package:backpack/firebase/storage_helper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final userRepositoryProvider = Provider<UserRepository>((ref) {
-  final firebaseHelper = FirebaseHelper();
-  final authHelper = AuthHelper();
-  final storageHelper = StorageHelper();
-  return UserRepository(
-    firebaseHelper: firebaseHelper,
-    authHelper: authHelper,
-    storageHelper: storageHelper,
-  );
-});
+final userRepositoryProvider = Provider<UserRepository>(
+  (ref) => UserRepository(
+    FirebaseHelper(),
+    AuthHelper(),
+    StorageHelper(),
+  ),
+);
 
 /// Manages all user actions in firebase and firebase auth
 class UserRepository {
-  UserRepository({
-    required this.firebaseHelper,
-    required this.authHelper,
-    required this.storageHelper,
-  });
+  UserRepository(this.firebaseHelper, this.authHelper, this.storageHelper);
 
   final FirebaseHelper firebaseHelper;
   final AuthHelper authHelper;

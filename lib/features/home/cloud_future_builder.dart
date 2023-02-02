@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../assignment/application/assignment_provider.dart';
-import '../course/application/course_provider.dart';
+import '../course/viewmodel/course_provider.dart';
 
 // Refreshes course and assignment info each time home page is rebuilt
 class CloudFutureBuilder extends ConsumerWidget {
@@ -24,7 +24,7 @@ class CloudFutureBuilder extends ConsumerWidget {
       future: FirebaseAuth.instance.currentUser == null
           ? null
           : Future.wait([
-              ref.read(courseProvider.notifier).getCourses(user),
+              ref.read(courseProvider.notifier).getCourses(),
               ref.read(assignmentProvider.notifier).getAssignments(user),
             ]),
       builder: (context, snapshot) {

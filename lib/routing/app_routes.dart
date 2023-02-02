@@ -1,5 +1,5 @@
 import 'package:backpack/features/assignment/assignment.dart';
-import 'package:backpack/features/authentication/pages/test_home_page.dart';
+import 'package:backpack/test_home_page.dart';
 
 import 'package:backpack/features/course/course.dart';
 import 'package:backpack/features/authentication/authentication.dart';

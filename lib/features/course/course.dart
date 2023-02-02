@@ -1,6 +1,6 @@
-export 'application/course_provider.dart';
-export 'domain/course.dart';
-export 'domain/subject.dart';
+export 'viewmodel/course_provider.dart';
+export 'model/course.dart';
+export 'model/subject.dart';
 export 'presentation/course_list/course_card.dart';
 export 'presentation/course_list/course_list.dart';
 export 'presentation/course_view/course_page.dart';

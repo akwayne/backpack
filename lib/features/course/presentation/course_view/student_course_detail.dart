@@ -15,9 +15,8 @@ class StudentCourseDetail extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    List<Assignment> courseAssignments = ref
-        .read(assignmentProvider.notifier)
-        .getCourseAssignments(course.courseId);
+    List<Assignment> courseAssignments =
+        ref.read(assignmentProvider.notifier).getCourseAssignments(course.id);
 
     return Padding(
       padding: const EdgeInsets.all(18.0),
@@ -31,11 +30,11 @@ class StudentCourseDetail extends ConsumerWidget {
           Wrap(
             children: [
               Chip(
-                label: Text(course.getWeekdayString()),
+                label: Text(course.getWeekdayString),
               ),
               const SizedBox(width: 12),
               Chip(
-                label: Text(course.getTimeString()),
+                label: Text(course.getTimeString),
               ),
               const SizedBox(width: 12),
               Chip(

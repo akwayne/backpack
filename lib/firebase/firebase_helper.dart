@@ -15,7 +15,7 @@ class FirebaseHelper {
   late CollectionReference courses;
   late CollectionReference assignments;
 
-  // User Collection Actions
+  // User Collection Actions //
   Future<Map<String, dynamic>> readUserDetail(String id) async {
     final snapshot = await users.doc(id).get();
     return snapshot.data() as Map<String, dynamic>;
@@ -33,20 +33,20 @@ class FirebaseHelper {
     await users.doc(id).delete();
   }
 
-// TODO other actions
-  Future<List<Course>> readCourses() async {
-    final snapshot = await courses.get();
+  // Course Collection Actions //
+  // Only read courses for a user's list of enrolled courseIds
+  Future<List<Course>> readCourses(List<String> courseIds) async {
     final courseList = <Course>[];
-
-    for (var item in snapshot.docs) {
-      final course =
-          Course.fromMap(item.data() as Map<String, dynamic>, item.id);
+    for (String id in courseIds) {
+      final snapshot = await courses.doc(id).get();
+      final course = Course.fromDatabase(
+          snapshot.data() as Map<String, dynamic>, snapshot.id);
       courseList.add(course);
     }
     return courseList;
   }
 
-  // Assignment Actions
+  //TODO Assignment Actions
   Future<List<Assignment>> readAssignments() async {
     final snapshot = await assignments.get();
     final assignmentList = <Assignment>[];
