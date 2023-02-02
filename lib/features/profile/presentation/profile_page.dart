@@ -1,5 +1,5 @@
 import 'package:backpack/components/components.dart';
-import 'package:backpack/features/auth/auth.dart';
+import 'package:backpack/features/authorization/authorization.dart';
 import 'package:backpack/routing/routing.dart';
 import 'package:backpack/utilities/utilities.dart';
 import 'package:flutter/material.dart';
@@ -11,8 +11,8 @@ class ProfilePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // User info to display
-    final user = ref.watch(authProvider) ?? UserData.empty();
-    final userImage = user.imageURL != '' ? NetworkImage(user.imageURL) : null;
+    final UserDetail user = ref.watch(authStateProvider).props[0] as UserDetail;
+    // final userImage = user.imageURL != '' ? NetworkImage(user.imageURL) : null;
 
     // get device details
     bool isMobile = getDeviceType(MediaQuery.of(context)) == DeviceType.mobile;
@@ -40,26 +40,26 @@ class ProfilePage extends ConsumerWidget {
           child: Center(
             child: Column(
               children: [
-                UserAvatar(
-                  imageRadius: 60,
-                  image: userImage,
-                ),
-                const SizedBox(height: 16),
-                Text(
-                  '${user.firstName} ${user.lastName}',
-                  style: Theme.of(context).textTheme.headline4,
-                ),
-                const SizedBox(height: 12),
-                Text(
-                  user.school,
-                  style: Theme.of(context).textTheme.headline6,
-                ),
+                // UserAvatar(
+                //   imageRadius: 60,
+                //   image: userImage,
+                // ),
+                // const SizedBox(height: 16),
+                // Text(
+                //   '${user.firstName} ${user.lastName}',
+                //   style: Theme.of(context).textTheme.headline4,
+                // ),
+                // const SizedBox(height: 12),
+                // Text(
+                //   user.school,
+                //   style: Theme.of(context).textTheme.headline6,
+                // ),
                 const Spacer(),
                 TextButton(
                   onPressed: () {
                     // pop back to home screen
                     AppRouter.goLogin(context);
-                    ref.read(authProvider.notifier).logOut();
+                    ref.read(authStateProvider.notifier).signOut();
                   },
                   child: const Text('Log Out'),
                 ),

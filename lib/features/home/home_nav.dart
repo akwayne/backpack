@@ -1,6 +1,6 @@
 import 'package:backpack/components/components.dart';
 import 'package:backpack/features/assignment/assignment.dart';
-import 'package:backpack/features/auth/auth.dart';
+import 'package:backpack/features/authorization/authorization.dart';
 import 'package:backpack/features/calendar/calendar.dart';
 import 'package:backpack/features/course/course.dart';
 import 'package:backpack/routing/routing.dart';
@@ -18,7 +18,7 @@ class HomeNavigation extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // Get user information
-    final user = ref.watch(authProvider) ?? UserData.empty();
+    final UserDetail user = ref.watch(authStateProvider).props[0] as UserDetail;
 
     // Get nav icons for student or teacher view of homepage
     final navIcons = user.isTeacher ? _teacherNavIcons : _studentNavIcons;
@@ -59,7 +59,7 @@ class _HomeMobileView extends StatelessWidget {
     required this.updateTab,
   });
 
-  final UserData user;
+  final UserDetail user;
   final List<Map> navIcons;
   final int navIndex;
   final Function updateTab;
@@ -74,10 +74,10 @@ class _HomeMobileView extends StatelessWidget {
       appBar: AppBar(
         // Hide drawer icon in portrait mode
         automaticallyImplyLeading: isLandscape ? true : false,
-        title: Padding(
-          padding: const EdgeInsets.only(left: 8.0),
-          child: Text(user.firstName),
-        ),
+        // title: Padding(
+        //   padding: const EdgeInsets.only(left: 8.0),
+        //   child: Text(user.displayName!),
+        // ),
         centerTitle: false,
         actions: [
           Padding(
@@ -147,7 +147,7 @@ class _HomeTabletView extends StatelessWidget {
     required this.updateTab,
   });
 
-  final UserData user;
+  final UserDetail user;
   final List<Map> navIcons;
   final int navIndex;
   final Function updateTab;
@@ -188,7 +188,7 @@ class _HomeTabletView extends StatelessWidget {
 }
 
 // Builds page based on tab selection
-Widget _buildNavPage(int navIndex, UserData user) {
+Widget _buildNavPage(int navIndex, UserDetail user) {
   return CustomFade(
     child: CloudFutureBuilder(
       key: ValueKey(navIndex),

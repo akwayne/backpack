@@ -1,21 +1,22 @@
-import 'package:backpack/components/components.dart';
-import 'package:backpack/features/auth/auth.dart';
-import 'package:backpack/utilities/device_type.dart';
+import 'package:backpack/features/authorization/authorization.dart';
+import 'package:backpack/utilities/utilities.dart';
 import 'package:backpack/routing/routing.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../application/error_provider.dart';
+import 'auth_text_field.dart';
 import 'login_background.dart';
 
-class LoginPage extends ConsumerStatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+class LogInPage extends ConsumerStatefulWidget {
+  const LogInPage({Key? key}) : super(key: key);
 
   @override
-  LoginPageState createState() => LoginPageState();
+  SignInPageState createState() => SignInPageState();
 }
 
-class LoginPageState extends ConsumerState<LoginPage> {
+class SignInPageState extends ConsumerState<LogInPage> {
   @override
   void initState() {
     super.initState();
@@ -24,13 +25,13 @@ class LoginPageState extends ConsumerState<LoginPage> {
   final txtEmail = TextEditingController();
   final txtPassword = TextEditingController();
 
-  String? emailError;
-  String? passwordError;
-
   @override
-  Widget build(BuildContext context, [bool mounted = true]) {
+  Widget build(BuildContext context) {
     DeviceType deviceType = getDeviceType(MediaQuery.of(context));
     Orientation orientation = MediaQuery.of(context).orientation;
+
+    String? emailError = ref.watch(errorProvider).emailError;
+    String? passwordError = ref.watch(errorProvider).passwordError;
 
     return Scaffold(
       body: LoginBackground(
@@ -76,44 +77,22 @@ class LoginPageState extends ConsumerState<LoginPage> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () async {
-                    try {
-                      await FirebaseAuth.instance.signInWithEmailAndPassword(
-                        email: txtEmail.text,
-                        password: txtPassword.text,
-                      );
-                      await ref.read(authProvider.notifier).getUser();
-                      if (!mounted) return;
+                    await ref.read(authStateProvider.notifier).signIn(
+                          email: txtEmail.text,
+                          password: txtPassword.text,
+                        );
+                    if (ref.read(authStateProvider) is AuthSignedIn)
                       AppRouter.goHome(context);
-                    } on FirebaseAuthException catch (e) {
-                      // Clear previous error messages
-                      setState(() {
-                        emailError = null;
-                        passwordError = null;
-                      });
-
-                      switch (e.code) {
-                        case 'user-not-found':
-                        case 'invalid-email':
-                          setState(() =>
-                              emailError = 'No user found for that email.');
-                          break;
-                        case 'wrong-password':
-                          setState(() => passwordError = 'Incorrect password');
-                          break;
-                        default:
-                          setState(() {
-                            emailError = 'Error';
-                            passwordError = 'Error';
-                          });
-                      }
-                    }
                   },
                   child: const Text('Log In'),
                 ),
               ),
             ),
             TextButton(
-              onPressed: () => AppRouter.goRegister(context),
+              onPressed: () {
+                ref.read(errorProvider.notifier).clearErrors();
+                AppRouter.goRegister(context);
+              },
               child: const Text('Or create a new account'),
             ),
           ],

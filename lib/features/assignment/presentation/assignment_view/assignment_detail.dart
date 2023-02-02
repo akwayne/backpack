@@ -1,5 +1,5 @@
 import 'package:backpack/features/assignment/assignment.dart';
-import 'package:backpack/features/auth/auth.dart';
+import 'package:backpack/features/authorization/authorization.dart';
 import 'package:backpack/features/course/course.dart';
 import 'package:backpack/utilities/utilities.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +16,7 @@ class AssignmentDetail extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // Get user info
-    final UserData user = ref.watch(authProvider) ?? UserData.empty();
+    final UserDetail user = ref.watch(authStateProvider).props[0] as UserDetail;
 
     // Get assignment info
     final Assignment assignment =

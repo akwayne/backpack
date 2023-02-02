@@ -1,10 +1,11 @@
+import 'package:backpack/features/authorization/authorization.dart';
 import 'package:backpack/routing/routing.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../components/components.dart';
-import '../application/auth_provider.dart';
-import '../domain/user_data.dart';
+import '../application/account_type_provider.dart';
+import 'account_toggle.dart';
+import 'auth_text_field.dart';
 import 'login_background.dart';
 
 class SetupPage extends ConsumerStatefulWidget {
@@ -22,14 +23,12 @@ class SetupPageState extends ConsumerState<SetupPage> {
     super.initState();
   }
 
-  final txtFirstName = TextEditingController();
-  final txtLastName = TextEditingController();
-  final txtSchool = TextEditingController();
+  final _txtDisplayName = TextEditingController();
+  final _txtSchool = TextEditingController();
 
   @override
   Widget build(BuildContext context, [bool mounted = true]) {
-    // User info to display
-    final user = ref.watch(authProvider) ?? UserData.empty();
+    bool isTeacher = ref.watch(accountTypeProvider)[1];
 
     return Scaffold(
       body: LoginBackground(
@@ -45,17 +44,14 @@ class SetupPageState extends ConsumerState<SetupPage> {
                 ),
               ),
               AuthTextField(
-                controller: txtFirstName,
-                hintText: 'First Name',
+                controller: _txtDisplayName,
+                hintText: 'Name',
               ),
               AuthTextField(
-                controller: txtLastName,
-                hintText: 'Last Name',
-              ),
-              AuthTextField(
-                controller: txtSchool,
+                controller: _txtSchool,
                 hintText: 'School',
               ),
+              const AccountTypeToggle(),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 12.0),
                 child: SizedBox(
@@ -64,13 +60,13 @@ class SetupPageState extends ConsumerState<SetupPage> {
                     onPressed: () async {
                       // Confirm that all fields were filled out
                       if (_setupKey.currentState!.validate()) {
-                        // Update fields in user object
-                        user.firstName = txtFirstName.text;
-                        user.lastName = txtLastName.text;
-                        user.school = txtSchool.text;
-
-                        // Update in provider and firebase
-                        await ref.read(authProvider.notifier).updateUser(user);
+                        await ref
+                            .read(authStateProvider.notifier)
+                            .createUserDetail(
+                              isTeacher: isTeacher,
+                              displayName: _txtDisplayName.text,
+                              school: _txtSchool.text,
+                            );
 
                         // Continue to Home
                         if (!mounted) return;

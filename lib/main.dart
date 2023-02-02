@@ -1,4 +1,3 @@
-import 'package:backpack/features/auth/auth.dart';
 import 'package:backpack/routing/routing.dart';
 import 'package:flutter/material.dart';
 import 'package:backpack/constants/constants.dart';
@@ -32,16 +31,17 @@ class BackpackApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // Check if a user is logged in
-    ref.read(authProvider.notifier).getUser();
-    final authState = ref.watch(authProvider);
+    // ref.read(authProvider.notifier).getUser();
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light(),
       darkTheme: AppTheme.dark(),
       themeMode: ThemeMode.system,
-      initialRoute:
-          (authState is SignedInState) ? AppRoutes.home : AppRoutes.login,
+      initialRoute: AppRoutes.login,
+      // (ref.watch(authProvider) is AuthSignedIn)
+      //     ? AppRoutes.home
+      //     : AppRoutes.login,
       routes: AppRoutes.routes,
     );
   }

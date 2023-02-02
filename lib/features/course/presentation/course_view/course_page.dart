@@ -1,6 +1,6 @@
 import 'package:backpack/components/components.dart';
 import 'package:backpack/features/assignment/assignment.dart';
-import 'package:backpack/features/auth/auth.dart';
+import 'package:backpack/features/authorization/authorization.dart';
 import 'package:backpack/features/course/course.dart';
 import 'package:backpack/utilities/utilities.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +22,7 @@ class CoursePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // Get User info
-    final user = ref.watch(authProvider) ?? UserData.empty();
+    final UserDetail user = ref.watch(authStateProvider).props[0] as UserDetail;
 
     // Get Course info
     final course = ref.read(courseProvider.notifier).getCourseFromId(courseId);
@@ -64,7 +64,7 @@ class _CourseMobileView extends ConsumerWidget {
     required this.updateTab,
   });
 
-  final UserData user;
+  final UserDetail user;
   final Course course;
   final int navIndex;
   final Function updateTab;
@@ -127,7 +127,7 @@ class _CourseTabletView extends ConsumerWidget {
     required this.updateTab,
   });
 
-  final UserData user;
+  final UserDetail user;
   final Course course;
   final int navIndex;
   final Function updateTab;

@@ -8,6 +8,7 @@ class AppRouter {
     // Simply pop back from register page
     if (currentPage == AppRoutes.register) {
       Navigator.pop(context);
+      // Otherwise we are removing all pages in stack and going to login page
     } else {
       Navigator.pushNamedAndRemoveUntil(
           context, AppRoutes.login, (route) => false);
@@ -24,13 +25,13 @@ class AppRouter {
     Navigator.pushReplacementNamed(context, AppRoutes.setup);
   }
 
-  // Home replaces login page
   static void goHome(BuildContext context) {
     final currentPage = ModalRoute.of(context)?.settings.name;
 
     // Home page replaces login or setup page
     if (currentPage == AppRoutes.login || currentPage == AppRoutes.setup) {
-      Navigator.pushReplacementNamed(context, AppRoutes.home);
+      Navigator.pushNamedAndRemoveUntil(
+          context, AppRoutes.home, (route) => false);
     } else {
       Navigator.popUntil(context, ModalRoute.withName(AppRoutes.home));
     }

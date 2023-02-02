@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../assignment/application/assignment_provider.dart';
 import '../course/application/course_provider.dart';
-import '../auth/domain/user_data.dart';
+import 'package:backpack/features/authorization/authorization.dart';
 
 // Refreshes course and assignment info each time home page is rebuilt
 class CloudFutureBuilder extends ConsumerWidget {
@@ -14,7 +14,7 @@ class CloudFutureBuilder extends ConsumerWidget {
     required this.child,
   });
 
-  final UserData user;
+  final UserDetail user;
   final Widget child;
 
   @override

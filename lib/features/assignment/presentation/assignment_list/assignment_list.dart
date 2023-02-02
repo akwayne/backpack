@@ -1,5 +1,5 @@
 import 'package:backpack/features/assignment/assignment.dart';
-import 'package:backpack/features/auth/auth.dart';
+import 'package:backpack/features/authorization/authorization.dart';
 import 'package:backpack/utilities/utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -13,7 +13,7 @@ class AssignmentList extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // Get assignments to display
     final assignmentList = ref.watch(assignmentProvider);
-    final user = ref.watch(authProvider) ?? UserData.empty();
+    final UserDetail user = ref.watch(authStateProvider).props[0] as UserDetail;
 
     // Find completed assignments and sort into 2 lists
     final doneIds = user.completed;

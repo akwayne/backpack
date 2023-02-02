@@ -1,5 +1,5 @@
 import 'package:backpack/features/assignment/assignment.dart';
-import 'package:backpack/features/auth/auth.dart';
+import 'package:backpack/features/authorization/authorization.dart';
 import 'package:backpack/features/course/course.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -16,17 +16,17 @@ class FirebaseHelper {
   late CollectionReference assignments;
 
   // User Table Actions
-  Future<Map<String, dynamic>> readUserData(String id) async {
+  Future<Map<String, dynamic>> readUserDetail(String id) async {
     final snapshot = await users.doc(id).get();
     return snapshot.data() as Map<String, dynamic>;
   }
 
-  Future insertUserData(UserData user) async {
-    await users.doc(user.id).set(user.toDatabase());
+  Future insertUserDetail({required UserDetail userDetail}) async {
+    await users.doc(userDetail.id).set(userDetail.toDatabase());
   }
 
-  Future updateUserData(UserData user) async {
-    await users.doc(user.id).update(user.toDatabase());
+  Future updateUserData(UserDetail userData) async {
+    await users.doc(userData.id).update(userData.toDatabase());
   }
 
   Future deleteUserData(String id) async {

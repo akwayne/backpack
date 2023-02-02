@@ -1,10 +1,12 @@
 import 'package:backpack/features/assignment/assignment.dart';
-import 'package:backpack/features/auth/auth.dart';
+
 import 'package:backpack/features/course/course.dart';
-import 'package:backpack/features/home/home_nav.dart';
+import 'package:backpack/features/authorization/authorization.dart';
 import 'package:backpack/features/profile/profile.dart';
 
 import 'package:flutter/material.dart';
+
+import '../features/authorization/presentation/test_home_page.dart';
 
 part 'route_arguments.dart';
 
@@ -19,8 +21,8 @@ class AppRoutes {
   static const addAssignment = '/addassignment';
 
   static Map<String, Widget Function(BuildContext)> routes = {
-    home: (context) => const HomeNavigation(),
-    login: (context) => const LoginPage(),
+    home: (context) => const TestHomePage(),
+    login: (context) => const LogInPage(),
     register: (context) => const RegisterPage(),
     setup: (context) => const SetupPage(),
     profile: (context) => const ProfilePage(),

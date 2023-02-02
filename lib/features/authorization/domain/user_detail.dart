@@ -1,29 +1,38 @@
-class UserData {
+class UserDetail {
   String id;
   String? displayName;
   String? photoUrl;
   bool isTeacher;
+  String? school;
   List courses;
   List completed;
-  String? school;
 
-  UserData({
+  UserDetail({
     required this.id,
     this.displayName,
     this.photoUrl,
     required this.isTeacher,
+    this.school,
     required this.courses,
     required this.completed,
-    this.school,
   });
 
-  factory UserData.fromDatabase({
+  factory UserDetail.none() {
+    return UserDetail(
+      id: '',
+      isTeacher: false,
+      courses: [],
+      completed: [],
+    );
+  }
+
+  factory UserDetail.fromDatabase({
     required Map<String, dynamic> map,
     required String id,
     required String? displayName,
     required String? photoUrl,
   }) {
-    return UserData(
+    return UserDetail(
       id: id,
       displayName: displayName,
       photoUrl: photoUrl,

@@ -1,4 +1,4 @@
-import 'package:backpack/features/auth/auth.dart';
+import 'package:backpack/features/authorization/authorization.dart';
 import 'package:backpack/firebase/firebase.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -13,7 +13,7 @@ final courseProvider =
 class CourseNotifier extends StateNotifier<List<Course>> {
   CourseNotifier() : super([]);
 
-  Future<List<Course>> getCourses(UserData user) async {
+  Future<List<Course>> getCourses(UserDetail user) async {
     state.clear();
 
     final courseList = await FirebaseHelper().readCourses();

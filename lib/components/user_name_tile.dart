@@ -1,4 +1,4 @@
-import 'package:backpack/features/auth/auth.dart';
+import 'package:backpack/features/authorization/authorization.dart';
 import 'package:backpack/routing/routing.dart';
 import 'package:flutter/material.dart';
 
@@ -7,11 +7,12 @@ import 'user_avatar.dart';
 class UserNameTile extends StatelessWidget {
   const UserNameTile({super.key, required this.user});
 
-  final UserData user;
+  final UserDetail user;
 
   @override
   Widget build(BuildContext context) {
-    final userImage = user.photoUrl != '' ? NetworkImage(user.photoUrl) : null;
+    final userImage =
+        user.photoUrl != null ? NetworkImage(user.photoUrl!) : null;
 
     return GestureDetector(
       onTap: () => AppRouter.goProfile(context),
@@ -26,13 +27,14 @@ class UserNameTile extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                '${user.firstName} ${user.lastName}',
+                user.displayName ?? '',
                 style: Theme.of(context)
                     .textTheme
                     .headline5
                     ?.copyWith(fontWeight: FontWeight.bold),
               ),
-              Text(user.school, style: Theme.of(context).textTheme.subtitle1),
+              Text(user.school ?? '',
+                  style: Theme.of(context).textTheme.subtitle1),
             ],
           ),
           const Spacer(),

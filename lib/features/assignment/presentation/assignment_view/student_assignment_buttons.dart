@@ -1,5 +1,5 @@
 import 'package:backpack/features/assignment/assignment.dart';
-import 'package:backpack/features/auth/auth.dart';
+import 'package:backpack/features/authorization/authorization.dart';
 import 'package:backpack/features/course/course.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -13,7 +13,7 @@ class StudentAssignmentButtons extends ConsumerWidget {
     required this.assignment,
   });
 
-  final UserData user;
+  final UserDetail user;
   final Assignment assignment;
 
   @override
@@ -34,7 +34,9 @@ class StudentAssignmentButtons extends ConsumerWidget {
               ? null
               : () async {
                   // Change assignment status to complete
-                  ref.read(authProvider.notifier).markComplete(assignment.id);
+                  ref
+                      .read(authStateProvider.notifier)
+                      .markComplete(assignment.id);
                   // Return to course page
                   ref.read(assignmentDetailProvider.notifier).state = null;
                 },

@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../firebase/firebase_helper.dart';
-import '../../auth/domain/user_data.dart';
+import 'package:backpack/features/authorization/authorization.dart';
 import '../domain/assignment.dart';
 
 final assignmentProvider =
@@ -12,7 +12,7 @@ final assignmentProvider =
 class AssignmentNotifier extends StateNotifier<List<Assignment>> {
   AssignmentNotifier() : super([]);
 
-  Future<List<Assignment>> getAssignments(UserData user) async {
+  Future<List<Assignment>> getAssignments(UserDetail user) async {
     state.clear();
 
     final assignmentList = await FirebaseHelper().readAssignments();
@@ -35,12 +35,13 @@ class AssignmentNotifier extends StateNotifier<List<Assignment>> {
     return courseAssignments;
   }
 
-  Future<void> createAssignment(Assignment newAssignment, UserData user) async {
+  Future<void> createAssignment(
+      Assignment newAssignment, UserDetail user) async {
     await FirebaseHelper().insertAssignment(newAssignment);
     await getAssignments(user);
   }
 
-  Future<void> deleteAssignment(Assignment assignment, UserData user) async {
+  Future<void> deleteAssignment(Assignment assignment, UserDetail user) async {
     await FirebaseHelper().deleteAssignment(assignment.id);
     await getAssignments(user);
   }
