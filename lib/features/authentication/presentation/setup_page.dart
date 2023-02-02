@@ -25,6 +25,13 @@ class SetupPageState extends ConsumerState<SetupPage> {
   final _txtSchool = TextEditingController();
 
   @override
+  void dispose() {
+    _txtDisplayName.dispose();
+    _txtSchool.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context, [bool mounted = true]) {
     bool isTeacher = ref.watch(accountTypeProvider)[1];
 

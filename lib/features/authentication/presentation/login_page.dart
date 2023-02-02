@@ -26,6 +26,13 @@ class SignInPageState extends ConsumerState<LogInPage> {
   final _txtPassword = TextEditingController();
 
   @override
+  void dispose() {
+    _txtEmail.dispose();
+    _txtPassword.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context, [bool mounted = true]) {
     DeviceType deviceType = getDeviceType(MediaQuery.of(context));
     Orientation orientation = MediaQuery.of(context).orientation;
