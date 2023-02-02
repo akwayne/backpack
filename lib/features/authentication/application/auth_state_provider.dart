@@ -1,15 +1,15 @@
 import 'dart:io';
-import 'package:backpack/features/authorization/authorization.dart';
 import 'package:backpack/features/profile/profile.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../data/user_repository.dart';
+import '../../../user_repository/user_repository.dart';
 import 'error_provider.dart';
 
 part 'auth_state.dart';
 
+/// Reads and modifies authentication state
 final authStateProvider = StateNotifierProvider<AuthStateNotifier, AuthState>(
     (ref) => AuthStateNotifier(ref.watch(authRepositoryProvider), ref));
 

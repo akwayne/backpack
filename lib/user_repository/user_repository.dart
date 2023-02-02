@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:backpack/features/authorization/authorization.dart';
+import 'package:backpack/features/authentication/authentication.dart';
 import 'package:backpack/firebase/firebase.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
