@@ -31,14 +31,14 @@ class UserRepository {
   final StorageHelper storageHelper;
 
   /// Get the active user or null if not logged in
-  User? get currentUser => authHelper.user;
+  User? get _currentUser => authHelper.user;
 
   /// Get for current user ID only
-  String get currentUserId => authHelper.user!.uid;
+  String get _currentUserId => authHelper.user!.uid;
 
   /// Get user detail for active user
   Future<UserDetail?> getCurrentUserDetail() async {
-    final user = currentUser;
+    final user = _currentUser;
     // if not logged in, return null
     if (user == null) return null;
 
@@ -61,11 +61,14 @@ class UserRepository {
     await authHelper.signOut();
   }
 
+  /// Creates a new user account in firebase auth only
   Future<User?> createUser(
       {required String email, required String password}) async {
     return await authHelper.createUser(email: email, password: password);
   }
 
+  /// Creates a user detail for a new user account.
+  /// Called during account setup.
   Future<UserDetail> createUserDetail({
     required bool isTeacher,
     required String? displayName,
@@ -73,7 +76,7 @@ class UserRepository {
   }) async {
     // Create new user detail object
     final newUserDetail = UserDetail(
-      id: currentUserId,
+      id: _currentUserId,
       displayName: displayName,
       photoUrl: null,
       isTeacher: isTeacher,
@@ -91,6 +94,7 @@ class UserRepository {
     return newUserDetail;
   }
 
+  /// Update an existing user
   Future<UserDetail> updateUser({
     required UserDetail userDetail,
     required String? newEmail,
@@ -117,7 +121,7 @@ class UserRepository {
       newPassword: newPassword,
     );
 
-    // Update data in firebase
+    // Update data in firebase database
     await firebaseHelper.updateUserDetail(updatedUser);
 
     return updatedUser;
@@ -125,13 +129,13 @@ class UserRepository {
 
   Future<void> deleteUser() async {
     // Delete profile image file if user has one
-    if (currentUser!.photoURL != null) {
+    if (_currentUser!.photoURL != null) {
       await storageHelper.deleteFile(
-          filename: currentUserId, path: FireStorePath.profileImages);
+          filename: _currentUserId, path: FireStorePath.profileImages);
     }
 
     // Delete userdetail row in firebase
-    await firebaseHelper.deleteUserDetail(currentUserId);
+    await firebaseHelper.deleteUserDetail(_currentUserId);
 
     // Delete user in firebase auth
     await authHelper.deleteUser();

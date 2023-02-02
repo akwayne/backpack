@@ -25,8 +25,8 @@ class FirebaseHelper {
     await users.doc(userDetail.id).set(userDetail.toDatabase());
   }
 
-  Future updateUserDetail(UserDetail userData) async {
-    await users.doc(userData.id).update(userData.toDatabase());
+  Future updateUserDetail(UserDetail userDetail) async {
+    await users.doc(userDetail.id).update(userDetail.toDatabase());
   }
 
   Future deleteUserDetail(String id) async {

@@ -1,12 +1,13 @@
 import 'package:backpack/components/components.dart';
-import 'package:backpack/features/authentication/authentication.dart';
 import 'package:backpack/routing/routing.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../application/account_type_provider.dart';
-import 'account_toggle.dart';
-import 'login_background.dart';
+import '../components/account_toggle.dart';
+import '../components/background.dart';
+import '../viewmodel/account_type_provider.dart';
+import '../viewmodel/auth_provider.dart';
 
 class SetupPage extends ConsumerStatefulWidget {
   const SetupPage({Key? key}) : super(key: key);
@@ -36,7 +37,7 @@ class SetupPageState extends ConsumerState<SetupPage> {
     bool isTeacher = ref.watch(accountTypeProvider)[1];
 
     return Scaffold(
-      body: LoginBackground(
+      body: SchoolSuppliesBackground(
         child: ListView(
           children: [
             Padding(

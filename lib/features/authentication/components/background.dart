@@ -2,16 +2,17 @@ import 'package:flutter/material.dart';
 
 // Creates a background that appears to slide upwards forever
 // But it is just an image that loops every 60 seconds
-class LoginBackground extends StatefulWidget {
-  const LoginBackground({super.key, required this.child});
+class SchoolSuppliesBackground extends StatefulWidget {
+  const SchoolSuppliesBackground({super.key, required this.child});
 
   final Widget child;
 
   @override
-  State<LoginBackground> createState() => _LoginBackgroundState();
+  State<SchoolSuppliesBackground> createState() =>
+      _SchoolSuppliesBackgroundState();
 }
 
-class _LoginBackgroundState extends State<LoginBackground>
+class _SchoolSuppliesBackgroundState extends State<SchoolSuppliesBackground>
     with SingleTickerProviderStateMixin {
   late final AnimationController _controller = AnimationController(
     duration: const Duration(seconds: 60),

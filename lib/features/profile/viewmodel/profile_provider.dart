@@ -1,9 +1,10 @@
 import 'dart:io';
 
 import 'package:backpack/user_repository/user_repository.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../domain/user_detail.dart';
+import '../model/user_detail.dart';
 
 final profileProvider = StateNotifierProvider<ProfileNotifier, UserDetail>(
     (ref) => ProfileNotifier(ref.watch(userRepositoryProvider)));

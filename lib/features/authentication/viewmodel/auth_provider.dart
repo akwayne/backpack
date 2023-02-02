@@ -1,15 +1,16 @@
-import 'package:backpack/constants/strings.dart';
+import 'package:backpack/constants/constants.dart';
 import 'package:backpack/features/profile/profile.dart';
+import 'package:backpack/user_repository/user_repository.dart';
+
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../user_repository/user_repository.dart';
 import 'error_provider.dart';
 
 part 'auth_state.dart';
 
-/// Reads and modifies authentication state
+/// Modifies authentication state
 final authProvider = StateNotifierProvider<AuthNotifier, AuthState>(
     (ref) => AuthNotifier(ref.watch(userRepositoryProvider), ref));
 
@@ -44,15 +45,21 @@ class AuthNotifier extends StateNotifier<AuthState> {
     ref.read(errorProvider.notifier).clearErrors();
 
     try {
+      // Check that passwords match
       if (password != confirmPassword) {
         throw FirebaseAuthException(code: ExceptionString.noPasswordMatch);
       }
 
+      // Attempt user creation
       await repository.createUser(
         email: email,
         password: password,
       );
+
+      // On success can move on to account setup page
       state = const AuthInProgress();
+
+      // Display error message if account creation failed
     } on FirebaseAuthException catch (e) {
       ref.read(errorProvider.notifier).parseErrors(e);
     }
@@ -64,9 +71,14 @@ class AuthNotifier extends StateNotifier<AuthState> {
     required String? displayName,
     required String? school,
   }) async {
+    // Create new user detail
     final newUserDetail = await repository.createUserDetail(
         isTeacher: isTeacher, displayName: displayName, school: school);
+
+    // Set new user detail to be displayed in UI
     _currentUser = newUserDetail;
+
+    // User is now signed in
     state = const AuthSignedIn();
   }
 
@@ -77,9 +89,15 @@ class AuthNotifier extends StateNotifier<AuthState> {
   }) async {
     // Clear previous error messages
     ref.read(errorProvider.notifier).clearErrors();
+
     try {
+      // Attempt to sign in
       await repository.signIn(email: email, password: password);
+
+      // If success, get user detail and change state to signed in
       await getUserDetail();
+
+      // On failure, display error message
     } on FirebaseAuthException catch (e) {
       ref.read(errorProvider.notifier).parseErrors(e);
     }
@@ -87,15 +105,25 @@ class AuthNotifier extends StateNotifier<AuthState> {
 
   // Sign out a user
   Future<void> signOut() async {
+    // Sign out user
     await repository.signOut();
+
+    // Remove user detail from UI
     _currentUser = UserDetail.empty();
+
+    // User is signed out
     state = const AuthSignedOut();
   }
 
   // Delete a user
   Future<void> deleteUser() async {
+    // Delete user in firebase
     await repository.deleteUser();
+
+    // Remove user detail from UI
     _currentUser = UserDetail.empty();
+
+    // User is signed out
     state = const AuthSignedOut();
   }
 }

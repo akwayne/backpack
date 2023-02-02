@@ -1,4 +1,4 @@
-import 'package:backpack/features/profile/application/profile_provider.dart';
+import 'package:backpack/features/profile/viewmodel/profile_provider.dart';
 import 'package:backpack/routing/routing.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

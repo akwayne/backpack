@@ -1,22 +1,22 @@
 import 'package:backpack/components/components.dart';
-import 'package:backpack/features/authentication/authentication.dart';
 import 'package:backpack/utilities/utilities.dart';
 import 'package:backpack/routing/routing.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../application/error_provider.dart';
-import 'login_background.dart';
+import '../components/background.dart';
+import '../viewmodel/auth_provider.dart';
+import '../viewmodel/error_provider.dart';
 
-class LogInPage extends ConsumerStatefulWidget {
-  const LogInPage({Key? key}) : super(key: key);
+class RegisterPage extends ConsumerStatefulWidget {
+  const RegisterPage({Key? key}) : super(key: key);
 
   @override
-  SignInPageState createState() => SignInPageState();
+  RegisterPageState createState() => RegisterPageState();
 }
 
-class SignInPageState extends ConsumerState<LogInPage> {
+class RegisterPageState extends ConsumerState<RegisterPage> {
   @override
   void initState() {
     super.initState();
@@ -24,11 +24,13 @@ class SignInPageState extends ConsumerState<LogInPage> {
 
   final _txtEmail = TextEditingController();
   final _txtPassword = TextEditingController();
+  final _txtConfirmPassword = TextEditingController();
 
   @override
   void dispose() {
     _txtEmail.dispose();
     _txtPassword.dispose();
+    _txtConfirmPassword.dispose();
     super.dispose();
   }
 
@@ -39,32 +41,31 @@ class SignInPageState extends ConsumerState<LogInPage> {
 
     String? emailError = ref.watch(errorProvider).emailError;
     String? passwordError = ref.watch(errorProvider).passwordError;
+    String? confirmPasswordError =
+        ref.watch(errorProvider).confirmPasswordError;
 
     return Scaffold(
-      body: LoginBackground(
+      body: SchoolSuppliesBackground(
         child: ListView(
           children: [
-            // do not show image on mobile in landscape mode
+            // no empty space on mobile in landscape mode
             if (!(deviceType == DeviceType.mobile &&
                 orientation == Orientation.landscape))
               Column(
                 children: [
                   SizedBox(
-                    height: deviceType == DeviceType.mobile ? 250 : 300,
-                    child: Image.asset(
-                      // Designed by stockgiu / Freepik
-                      'assets/backpack.png',
-                      fit: BoxFit.fitHeight,
-                    ),
+                    height: getDeviceType(MediaQuery.of(context)) ==
+                            DeviceType.mobile
+                        ? 250
+                        : 300,
                   ),
                   const SizedBox(height: 20),
                 ],
               ),
-
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 6.0),
               child: Text(
-                'Login to Backpack',
+                'Create an Account',
                 style: Theme.of(context).textTheme.headline4,
               ),
             ),
@@ -79,31 +80,40 @@ class SignInPageState extends ConsumerState<LogInPage> {
               errorText: passwordError,
               obscureText: true,
             ),
+            CustomTextField(
+              controller: _txtConfirmPassword,
+              label: 'Confirm Password',
+              errorText: confirmPasswordError,
+              obscureText: true,
+            ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () async {
-                    await ref.read(authProvider.notifier).signIn(
+                    await ref.read(authProvider.notifier).createUser(
                           email: _txtEmail.text,
                           password: _txtPassword.text,
+                          confirmPassword: _txtConfirmPassword.text,
                         );
-                    if (ref.read(authProvider) is AuthSignedIn) {
+                    if (ref.read(authProvider) is AuthInProgress) {
                       if (!mounted) return;
-                      AppRouter.goHome(context);
+                      AppRouter.goSetup(context);
                     }
                   },
-                  child: const Text('Log In'),
+                  child: const Text('Create Account'),
                 ),
               ),
             ),
-            TextButton(
-              onPressed: () {
-                ref.read(errorProvider.notifier).clearErrors();
-                AppRouter.goRegister(context);
-              },
-              child: const Text('Or create a new account'),
+            Row(
+              children: [
+                const Text('Already have an account?'),
+                TextButton(
+                  onPressed: () => AppRouter.goLogin(context),
+                  child: const Text('Sign in'),
+                ),
+              ],
             ),
           ],
         ),

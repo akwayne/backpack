@@ -1,7 +1,6 @@
 import 'package:backpack/components/components.dart';
 import 'package:backpack/features/authentication/authentication.dart';
 import 'package:backpack/features/profile/profile.dart';
-
 import 'package:backpack/routing/routing.dart';
 import 'package:backpack/utilities/utilities.dart';
 

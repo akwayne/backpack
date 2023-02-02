@@ -1,3 +1,4 @@
+/// Contains error messages displayed during authentication
 class AuthError {
   AuthError({
     required this.emailError,
