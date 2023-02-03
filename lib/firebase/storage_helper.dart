@@ -34,7 +34,7 @@ class StorageHelper {
     await ref.delete();
   }
 
-  // Get reference point
+  // Get reference point for storage
   Reference _getRef(String path, String filename) {
     final destination = path + filename;
     return storage.ref().child(destination);

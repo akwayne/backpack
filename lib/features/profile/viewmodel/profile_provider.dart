@@ -3,22 +3,22 @@ import 'dart:io';
 import 'package:backpack/user_repository/user_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../model/user_detail.dart';
+import '../model/user_profile.dart';
 
-final profileProvider = StateNotifierProvider<ProfileNotifier, UserDetail>(
+final profileProvider = StateNotifierProvider<ProfileNotifier, UserProfile>(
     (ref) => ProfileNotifier(ref.watch(userRepositoryProvider)));
 
-class ProfileNotifier extends StateNotifier<UserDetail> {
-  ProfileNotifier(this.repository) : super(UserDetail.empty());
+class ProfileNotifier extends StateNotifier<UserProfile> {
+  ProfileNotifier(this.repository) : super(UserProfile.empty());
 
   final UserRepository repository;
 
-  // Get current user
-  UserDetail get getProfile => state;
-  // Set the current user to be read by UI
-  set setProfile(UserDetail userDetail) => state = userDetail.copy();
+  // Allow repository to get current user profile
+  UserProfile get getProfile => state;
+  // Set the current user profile to the state
+  set setProfile(UserProfile userProfile) => state = userProfile.copy();
 
-  // Update user details for current user
+  // Update profile for current user
   Future<void> updateUser({
     String? newDisplayName,
     String? newSchool,
@@ -31,7 +31,7 @@ class ProfileNotifier extends StateNotifier<UserDetail> {
     currentProfile.school = newSchool;
 
     final updatedUser = await repository.updateUser(
-      userDetail: currentProfile,
+      userProfile: currentProfile,
       newEmail: newEmail,
       newPassword: newPassword,
       imageFile: imageFile,

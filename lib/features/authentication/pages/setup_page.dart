@@ -62,7 +62,7 @@ class SetupPageState extends ConsumerState<SetupPage> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () async {
-                    await ref.read(authProvider.notifier).setupUserDetail(
+                    await ref.read(authProvider.notifier).setupUserProfile(
                           isTeacher: isTeacher,
                           displayName: _txtDisplayName.text,
                           school: _txtSchool.text,

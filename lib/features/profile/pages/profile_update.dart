@@ -34,7 +34,7 @@ class ProfileUpdateState extends ConsumerState<ProfileUpdate> {
 
   @override
   Widget build(BuildContext context, [bool mounted = true]) {
-    final UserDetail user = ref.watch(profileProvider);
+    final UserProfile user = ref.watch(profileProvider);
 
     final currentImage =
         (user.photoUrl != null) ? NetworkImage(user.photoUrl!) : null;

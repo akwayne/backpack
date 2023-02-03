@@ -1,23 +1,23 @@
-import 'package:backpack/features/course/course.dart';
 import 'package:backpack/utilities/utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../model/course.dart';
+import '../../viewmodel/course_provider.dart';
 import 'course_card.dart';
 
-// TODO Tablet portrait same as mobile
 class CourseList extends ConsumerWidget {
   const CourseList({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final courseList = ref.watch(courseProvider);
+    final courses = ref.watch(courseProvider);
 
     return LayoutBuilder(
       builder: (context, constraints) {
         return getDeviceType(MediaQuery.of(context)) == DeviceType.mobile
-            ? _buildMobileView(courseList)
-            : _buildTabletView(context, courseList);
+            ? _buildMobileView(courses)
+            : _buildTabletView(context, courses);
       },
     );
   }

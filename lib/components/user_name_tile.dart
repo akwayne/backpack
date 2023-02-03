@@ -7,7 +7,7 @@ import 'user_avatar.dart';
 class UserNameTile extends StatelessWidget {
   const UserNameTile({super.key, required this.user});
 
-  final UserDetail user;
+  final UserProfile user;
 
   @override
   Widget build(BuildContext context) {

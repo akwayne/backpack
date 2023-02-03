@@ -7,6 +7,8 @@ import 'package:backpack/utilities/utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../course_students.dart';
+import '../course_submissions.dart';
 import 'close_course_button.dart';
 import 'course_title_row.dart';
 import 'student_course_detail.dart';
@@ -23,7 +25,7 @@ class CoursePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // Get User info
-    final UserDetail user = ref.watch(authProvider).props[0] as UserDetail;
+    final UserProfile user = ref.watch(authProvider).props[0] as UserProfile;
 
     // Get Course info
     final course = ref.read(courseProvider.notifier).getCourseFromId(courseId);
@@ -65,7 +67,7 @@ class _CourseMobileView extends ConsumerWidget {
     required this.updateTab,
   });
 
-  final UserDetail user;
+  final UserProfile user;
   final Course course;
   final int navIndex;
   final Function updateTab;
@@ -128,7 +130,7 @@ class _CourseTabletView extends ConsumerWidget {
     required this.updateTab,
   });
 
-  final UserDetail user;
+  final UserProfile user;
   final Course course;
   final int navIndex;
   final Function updateTab;

@@ -15,11 +15,12 @@ class CourseNotifier extends StateNotifier<List<Course>> {
   set setCourses(List<Course> courses) =>
       state = state = [for (Course course in courses) course];
 
-  // triggers repository to get courses
+  // trigger repository to get courses from firebase
   Future<void> getCourses() async {
     await repository.getCourses();
   }
 
+  // clear courses from state
   void clearCourses() {
     state.clear();
   }

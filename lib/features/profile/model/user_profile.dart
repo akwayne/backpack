@@ -1,4 +1,4 @@
-class UserDetail {
+class UserProfile {
   String id;
   String? displayName;
   String? photoUrl;
@@ -7,7 +7,7 @@ class UserDetail {
   List<String> courses;
   List<String> completed;
 
-  UserDetail({
+  UserProfile({
     required this.id,
     required this.displayName,
     required this.photoUrl,
@@ -17,8 +17,9 @@ class UserDetail {
     required this.completed,
   });
 
-  factory UserDetail.empty() {
-    return UserDetail(
+  // Empty user profile object
+  factory UserProfile.empty() {
+    return UserProfile(
       id: '',
       displayName: null,
       photoUrl: null,
@@ -30,8 +31,8 @@ class UserDetail {
   }
 
   // Makes an exact copy of itself
-  UserDetail copy() {
-    return UserDetail(
+  UserProfile copy() {
+    return UserProfile(
       id: id,
       displayName: displayName,
       photoUrl: photoUrl,
@@ -42,13 +43,13 @@ class UserDetail {
     );
   }
 
-  factory UserDetail.fromDatabase({
+  factory UserProfile.fromDatabase({
     required Map<String, dynamic> row,
     required String id,
     required String? displayName,
     required String? photoUrl,
   }) {
-    return UserDetail(
+    return UserProfile(
       id: id,
       displayName: displayName,
       photoUrl: photoUrl,

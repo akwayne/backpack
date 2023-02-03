@@ -91,14 +91,14 @@ class AuthNotifier extends StateNotifier<AuthState> {
     }
   }
 
-  // Set up new user detail object for new account
-  Future<void> setupUserDetail({
+  // Set up new user profile object for new account
+  Future<void> setupUserProfile({
     required bool isTeacher,
     required String? displayName,
     required String? school,
   }) async {
     // Create new user detail
-    await repository.setupUserDetail(
+    await repository.setupUserProfile(
         isTeacher: isTeacher, displayName: displayName, school: school);
 
     // User is now signed in

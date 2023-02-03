@@ -3,7 +3,6 @@ import 'package:backpack/routing/routing.dart';
 import 'package:backpack/utilities/utilities.dart';
 import 'package:flutter/material.dart';
 
-// Displays a card for each course enrolled in
 class CourseCard extends StatelessWidget {
   const CourseCard({super.key, required this.course});
 

@@ -29,7 +29,7 @@ class AddAssignmentState extends ConsumerState<AddAssignment> {
     ];
 
     // User object for updating assignments displayed
-    final UserDetail user = ref.watch(authProvider).props[0] as UserDetail;
+    final UserProfile user = ref.watch(authProvider).props[0] as UserProfile;
 
     return Scaffold(
       appBar: AppBar(

@@ -12,14 +12,8 @@ final assignmentProvider =
 class AssignmentNotifier extends StateNotifier<List<Assignment>> {
   AssignmentNotifier() : super([]);
 
-  Future<List<Assignment>> getAssignments(UserDetail user) async {
+  Future<List<Assignment>> getAssignments(UserProfile user) async {
     state.clear();
-
-    final assignmentList = await FirebaseHelper().readAssignments();
-
-    state = assignmentList
-        .where((assignment) => user.courses.contains(assignment.courseId))
-        .toList();
 
     return state;
   }
@@ -36,12 +30,12 @@ class AssignmentNotifier extends StateNotifier<List<Assignment>> {
   }
 
   Future<void> createAssignment(
-      Assignment newAssignment, UserDetail user) async {
+      Assignment newAssignment, UserProfile user) async {
     await FirebaseHelper().insertAssignment(newAssignment);
     await getAssignments(user);
   }
 
-  Future<void> deleteAssignment(Assignment assignment, UserDetail user) async {
+  Future<void> deleteAssignment(Assignment assignment, UserProfile user) async {
     await FirebaseHelper().deleteAssignment(assignment.id);
     await getAssignments(user);
   }

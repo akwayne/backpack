@@ -13,7 +13,7 @@ class ProfilePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // User info to display
-    final UserDetail user = ref.watch(profileProvider);
+    final UserProfile user = ref.watch(profileProvider);
     final userImage =
         (user.photoUrl != null) ? NetworkImage(user.photoUrl!) : null;
 

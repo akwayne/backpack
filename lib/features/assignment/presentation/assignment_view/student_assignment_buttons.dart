@@ -14,7 +14,7 @@ class StudentAssignmentButtons extends ConsumerWidget {
     required this.assignment,
   });
 
-  final UserDetail user;
+  final UserProfile user;
   final Assignment assignment;
 
   @override
