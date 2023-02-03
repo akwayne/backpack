@@ -11,12 +11,17 @@ class CourseNotifier extends StateNotifier<List<Course>> {
 
   final UserRepository repository;
 
-  // Only checks on app startup
+  // Set a list of courses to the state
+  set setCourses(List<Course> courses) =>
+      state = state = [for (Course course in courses) course];
+
+  // triggers repository to get courses
   Future<void> getCourses() async {
-    if (state.isEmpty) {
-      final courseList = await repository.getCourses();
-      state = [for (Course course in courseList) course];
-    }
+    await repository.getCourses();
+  }
+
+  void clearCourses() {
+    state.clear();
   }
 
 // TODO get this stuff

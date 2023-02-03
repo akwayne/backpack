@@ -20,7 +20,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
   final Ref ref;
 
   // Check for signed in user and set them to current user
-  Future<void> checkAuthState() async {
+  Future<void> initialize() async {
     // Check for signed in user
     User? user = repository.currentAuthUser;
     if (user == null) {
@@ -29,6 +29,36 @@ class AuthNotifier extends StateNotifier<AuthState> {
       await repository.loadUser();
       state = const AuthSignedIn();
     }
+  }
+
+  // Sign in a user
+  Future<void> signIn({
+    required String email,
+    required String password,
+  }) async {
+    // Clear previous error messages
+    ref.read(errorProvider.notifier).clearErrors();
+
+    try {
+      // Attempt to sign in
+      await repository.signIn(email: email, password: password);
+
+      // If success, update state
+      state = const AuthSignedIn();
+
+      // On failure, display error message
+    } on FirebaseAuthException catch (e) {
+      ref.read(errorProvider.notifier).parseErrors(e);
+    }
+  }
+
+  // Sign out a user
+  Future<void> signOut() async {
+    // Sign out user
+    await repository.signOut();
+
+    // User is signed out
+    state = const AuthSignedOut();
   }
 
   // Create a new user account in firebase auth
@@ -73,36 +103,6 @@ class AuthNotifier extends StateNotifier<AuthState> {
 
     // User is now signed in
     state = const AuthSignedIn();
-  }
-
-  // Sign in a user
-  Future<void> signIn({
-    required String email,
-    required String password,
-  }) async {
-    // Clear previous error messages
-    ref.read(errorProvider.notifier).clearErrors();
-
-    try {
-      // Attempt to sign in
-      await repository.signIn(email: email, password: password);
-
-      // If success, update state
-      state = const AuthSignedIn();
-
-      // On failure, display error message
-    } on FirebaseAuthException catch (e) {
-      ref.read(errorProvider.notifier).parseErrors(e);
-    }
-  }
-
-  // Sign out a user
-  Future<void> signOut() async {
-    // Sign out user
-    await repository.signOut();
-
-    // User is signed out
-    state = const AuthSignedOut();
   }
 
   // Delete a user
