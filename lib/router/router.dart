@@ -1,5 +1,6 @@
 import 'package:backpack/constants/constants.dart';
 import 'package:backpack/features/authentication/authentication.dart';
+import 'package:backpack/features/course/view/course_page/course_page.dart';
 import 'package:backpack/features/profile/profile.dart';
 import 'package:backpack/test_home_page.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -38,6 +39,13 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: '/profileupdate',
         builder: (context, state) => const ProfileUpdate(),
       ),
+      GoRoute(
+          name: RouteName.course,
+          path: '/course/:id',
+          builder: (context, state) {
+            final id = state.params['id'] ?? '';
+            return CoursePage(id: id);
+          }),
     ],
   );
 });

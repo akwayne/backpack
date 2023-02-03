@@ -1,34 +1,34 @@
 import 'package:backpack/components/components.dart';
 import 'package:backpack/features/assignment/assignment.dart';
-import 'package:backpack/features/authentication/authentication.dart';
-import 'package:backpack/features/course/course.dart';
 import 'package:backpack/features/profile/profile.dart';
 import 'package:backpack/utilities/utilities.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../course_students.dart';
-import '../course_submissions.dart';
-import 'close_course_button.dart';
+import '../model/course.dart';
+import '../viewmodel/course_provider.dart';
+import 'course_students.dart';
+import 'course_submissions.dart';
+
 import 'course_title_row.dart';
-import 'student_course_detail.dart';
 
 // Providers determine which views of the course page we are looking at
 final courseNavIndexProvider = StateProvider<int>((ref) => 0);
 final assignmentDetailProvider = StateProvider<String?>((ref) => null);
 
-class CoursePage extends ConsumerWidget {
-  const CoursePage({super.key, required this.courseId});
+class OldCoursePage extends ConsumerWidget {
+  const OldCoursePage({super.key, required this.courseId});
 
   final String courseId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // Get User info
-    final UserProfile user = ref.watch(authProvider).props[0] as UserProfile;
+    final UserProfile user = ref.watch(profileProvider);
 
     // Get Course info
-    final course = ref.read(courseProvider.notifier).getCourseFromId(courseId);
+    final course = ref.read(courseProvider.notifier).getCourseById(courseId);
 
     // Determines the visible tab on teacher view
     final navIndex = ref.watch(courseNavIndexProvider);
@@ -86,19 +86,19 @@ class _CourseMobileView extends ConsumerWidget {
         automaticallyImplyLeading: false,
         title: Text(course.name),
         // Do not show x icon when assignment is displayed
-        actions: assignmentView == null ? [const CloseCourseButton()] : [],
+        actions: assignmentView == null ? [] : [],
       ),
 
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(12.0),
-          child: CustomFade(
-            child: (assignmentView == null)
-                ? (user.isTeacher)
-                    ? _teacherNavPages(course)[navIndex]
-                    : StudentCourseDetail(course: course)
-                : AssignmentDetail(assignmentId: assignmentView),
-          ),
+          // child: CustomFade(
+          //   child: (assignmentView == null)
+          //       ? (user.isTeacher)
+          //           ? _teacherNavPages(course)[navIndex]
+          //           : StudentCourseDetail(course: course)
+          //       : AssignmentDetail(assignmentId: assignmentView),
+          // ),
         ),
       ),
 
@@ -161,10 +161,8 @@ class _CourseTabletView extends ConsumerWidget {
                       child: Row(
                         children: <Widget>[
                           Expanded(
-                              child: (user.isTeacher)
-                                  ? CustomFade(
-                                      child: _teacherNavPages(course)[navIndex])
-                                  : StudentCourseDetail(course: course)),
+                              child: CustomFade(
+                                  child: _teacherNavPages(course)[navIndex])),
                           const SizedBox(width: 20),
                           // TODO change how data is showed in this section
                           Expanded(

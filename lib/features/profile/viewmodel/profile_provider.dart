@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:backpack/routing/router.dart';
+import 'package:backpack/router/router.dart';
 import 'package:backpack/user_service/user_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';

@@ -17,25 +17,16 @@ class TestHomePage extends ConsumerWidget {
       appBar: AppBar(
         title: (user.displayName != null) ? Text(user.displayName!) : null,
       ),
-      body: FutureBuilder(
-          future: ref.read(courseProvider.notifier).getCourses(),
-          builder: (context, snapshot) {
-            final courses = ref.watch(courseProvider);
-            return ListView(
-              children: [
-                Text(user.isTeacher ? 'Teacher' : 'Student'),
-                ElevatedButton(
-                  onPressed: () {
-                    context.pushNamed(RouteName.profile);
-                  },
-                  child: const Text('Profile'),
-                ),
-                Column(
-                  children: [for (Course course in courses) Text(course.name)],
-                )
-              ],
-            );
-          }),
+      body: ListView(
+        children: [
+          Text(user.isTeacher ? 'Teacher' : 'Student'),
+          ElevatedButton(
+            onPressed: () => context.pushNamed(RouteName.profile),
+            child: const Text('Profile'),
+          ),
+          const CourseList(),
+        ],
+      ),
     );
   }
 }

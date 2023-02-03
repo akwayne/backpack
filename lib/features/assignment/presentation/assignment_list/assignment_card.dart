@@ -7,6 +7,7 @@ import 'package:backpack/features/profile/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../course/view/old_coursepage.dart';
 import 'animated_check.dart';
 
 class AssignmentCard extends ConsumerWidget {
@@ -18,7 +19,7 @@ class AssignmentCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // Get course information for this assignment
     Course course =
-        ref.read(courseProvider.notifier).getCourseFromId(assignment.courseId);
+        ref.read(courseProvider.notifier).getCourseById(assignment.courseId);
 
     // User info to display
     final UserProfile user = ref.watch(authProvider).props[0] as UserProfile;

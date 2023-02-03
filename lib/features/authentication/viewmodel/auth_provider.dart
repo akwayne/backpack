@@ -1,5 +1,5 @@
 import 'package:backpack/constants/constants.dart';
-import 'package:backpack/routing/router.dart';
+import 'package:backpack/router/router.dart';
 import 'package:backpack/user_service/user_service.dart';
 
 import 'package:equatable/equatable.dart';

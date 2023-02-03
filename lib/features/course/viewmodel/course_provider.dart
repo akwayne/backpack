@@ -1,4 +1,4 @@
-import 'package:backpack/user_service/src/service.dart';
+import 'package:backpack/user_service/user_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../model/course.dart';
@@ -25,12 +25,13 @@ class CourseNotifier extends StateNotifier<List<Course>> {
     state.clear();
   }
 
-// TODO get this stuff
-  Course getCourseFromId(String courseId) {
-    final index = state.indexWhere((element) => element.id == courseId);
+  // Get a course from the current state by id
+  Course getCourseById(String id) {
+    final index = state.indexWhere((element) => element.id == id);
     return state[index];
   }
 
+  // TODO
   List<Course> getCoursesSelectedDay(DateTime selectedDay) {
     List<Course> selectedCourses = state
         .where((course) => course.weekdayList.contains(selectedDay.weekday))

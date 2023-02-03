@@ -45,7 +45,7 @@ class AppTheme {
 
   static TextTheme textThemeLight() {
     return const TextTheme(
-      headline4: TextStyle(
+      headlineMedium: TextStyle(
         color: Colors.black87,
       ),
     );

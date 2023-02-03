@@ -5,6 +5,7 @@ import 'package:backpack/features/profile/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../course/view/old_coursepage.dart';
 import 'file_upload.dart';
 
 class StudentAssignmentButtons extends ConsumerWidget {

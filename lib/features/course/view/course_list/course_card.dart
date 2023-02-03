@@ -1,7 +1,9 @@
-import 'package:backpack/features/course/course.dart';
-import 'package:backpack/router/router.dart';
+import 'package:backpack/constants/constants.dart';
 import 'package:backpack/utilities/utilities.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../model/course.dart';
 
 class CourseCard extends StatelessWidget {
   const CourseCard({super.key, required this.course});
@@ -12,8 +14,19 @@ class CourseCard extends StatelessWidget {
   Widget build(BuildContext context) {
     DeviceType deviceType = getDeviceType(MediaQuery.of(context));
 
+    TextStyle subtitleStyle = Theme.of(context).textTheme.titleMedium!.copyWith(
+          color: Theme.of(context).hintColor,
+        );
+    TextStyle titleStyle = Theme.of(context).textTheme.headlineSmall!.copyWith(
+          fontWeight: FontWeight.bold,
+          fontSize: 20,
+        );
+
     return GestureDetector(
-      onTap: () => {},
+      onTap: () => context.pushNamed(
+        RouteName.course,
+        params: {'id': course.id},
+      ),
       child: Container(
         padding: const EdgeInsets.all(16.0),
         decoration: BoxDecoration(
@@ -55,25 +68,15 @@ class CourseCard extends StatelessWidget {
                   Text(
                     course.name,
                     overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.headline5?.copyWith(
-                          fontWeight: FontWeight.bold,
-                          // Use slightly smaller font for phones
-                          fontSize: deviceType == DeviceType.mobile ? 20 : null,
-                        ),
+                    style: titleStyle,
                   ),
                   Text(
                     course.teacherName,
-                    style: Theme.of(context).textTheme.subtitle1?.copyWith(
-                          color: Theme.of(context).hintColor,
-                          height: 1.8,
-                        ),
+                    style: subtitleStyle,
                   ),
                   Text(
                     course.location,
-                    style: Theme.of(context).textTheme.subtitle1?.copyWith(
-                          color: Theme.of(context).hintColor,
-                          height: 1.5,
-                        ),
+                    style: subtitleStyle,
                   ),
                 ],
               ),
