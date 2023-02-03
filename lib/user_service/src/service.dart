@@ -5,7 +5,6 @@ import 'package:backpack/features/assignment/assignment.dart';
 import 'package:backpack/features/course/course.dart';
 import 'package:backpack/features/profile/profile.dart';
 import 'package:backpack/firebase/firebase.dart';
-import 'package:backpack/routing/router.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -28,11 +27,6 @@ class UserService {
   /// Return current signed in user or null
   User? get currentAuthUser => authHelper.user;
 
-  /// Redirect page from this service
-  void _redirectTo(String routeName) {
-    ref.read(routerProvider).goNamed(routeName);
-  }
-
   // Interact with PROFILE PROVIDER //
   UserProfile _getProfileProvider() =>
       ref.read(profileProvider.notifier).getProfile;
@@ -43,12 +37,8 @@ class UserService {
 
   /// Sign in and load a user's profile
   Future<void> signIn({required String email, required String password}) async {
-    // attempt sign in
     await authHelper.signIn(email: email, password: password);
-    // load user
     await loadUser();
-    // redirect to home page
-    _redirectTo(RouteName.home);
   }
 
   /// Load profile from database for active user
@@ -73,23 +63,16 @@ class UserService {
   }
 
   Future<void> signOut() async {
-    // sign out user
-    await authHelper.signOut();
-    // Clear providers for this user
     _clearAssignments();
     _clearCourses();
     _clearProfileProvider();
-    // redirect to login
-    _redirectTo(RouteName.login);
+    await authHelper.signOut();
   }
 
   /// Create a new user account in firebase auth only
   Future<void> createUser(
       {required String email, required String password}) async {
-    // create new user
     await authHelper.createUser(email: email, password: password);
-    // redirect to setup page
-    _redirectTo(RouteName.setup);
   }
 
   /// Create a user profile for a new user account.
@@ -108,14 +91,9 @@ class UserService {
       courses: [],
       completed: [],
     );
-    // add display name to firebase auth object
     await authHelper.updateUser(newDisplayName: displayName);
-    // create a database entry for the new user
     await firebaseHelper.insertUserProfile(userProfile: newUserProfile);
-    // send the new user profile to profile provider
     _setProfileProvider(newUserProfile);
-    // redirect to home
-    _redirectTo(RouteName.home);
   }
 
   /// Update the current user and return updated profile
@@ -156,14 +134,10 @@ class UserService {
     }
     // Delete user row in database
     await firebaseHelper.deleteUserProfile(currentAuthUser!.uid);
-    // Clear providers for this user
     _clearAssignments();
     _clearCourses();
     _clearProfileProvider();
-    // Delete user in firebase auth
     await authHelper.deleteUser();
-    // redirect to login
-    _redirectTo(RouteName.login);
   }
 
   // Interact with COURSE PROVIDER

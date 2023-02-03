@@ -27,12 +27,12 @@ class ProfilePage extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          onPressed: () => context.goNamed(RouteName.home),
+          onPressed: () => context.pop(),
           icon: const Icon(Icons.arrow_back_ios),
         ),
         actions: [
           IconButton(
-            onPressed: () => context.goNamed(RouteName.profileUpdate),
+            onPressed: () => context.pushNamed(RouteName.profileUpdate),
             icon: const Icon(Icons.edit),
           ),
         ],
@@ -61,10 +61,7 @@ class ProfilePage extends ConsumerWidget {
                 ),
                 const Spacer(),
                 TextButton(
-                  onPressed: () {
-                    ref.read(authProvider.notifier).signOut();
-                    context.goNamed(RouteName.login);
-                  },
+                  onPressed: () => ref.read(authProvider.notifier).signOut(),
                   child: const Text('Log Out'),
                 ),
               ],

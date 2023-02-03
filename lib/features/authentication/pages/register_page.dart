@@ -40,6 +40,7 @@ class RegisterPageState extends ConsumerState<RegisterPage> {
     DeviceType deviceType = getDeviceType(MediaQuery.of(context));
     Orientation orientation = MediaQuery.of(context).orientation;
 
+    final authState = ref.watch(authProvider);
     String? emailError = ref.watch(errorProvider).emailError;
     String? passwordError = ref.watch(errorProvider).passwordError;
     String? confirmPasswordError =
@@ -47,72 +48,74 @@ class RegisterPageState extends ConsumerState<RegisterPage> {
 
     return Scaffold(
       body: SchoolSuppliesBackground(
-        child: ListView(
-          children: [
-            // no empty space on mobile in landscape mode
-            if (!(deviceType == DeviceType.mobile &&
-                orientation == Orientation.landscape))
-              Column(
+        child: (authState is AuthInProgress)
+            ? const ProgressView()
+            : ListView(
                 children: [
-                  SizedBox(
-                    height: getDeviceType(MediaQuery.of(context)) ==
-                            DeviceType.mobile
-                        ? 250
-                        : 300,
+                  // no empty space on mobile in landscape mode
+                  if (!(deviceType == DeviceType.mobile &&
+                      orientation == Orientation.landscape))
+                    Column(
+                      children: [
+                        SizedBox(
+                          height: getDeviceType(MediaQuery.of(context)) ==
+                                  DeviceType.mobile
+                              ? 250
+                              : 300,
+                        ),
+                        const SizedBox(height: 20),
+                      ],
+                    ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 6.0),
+                    child: Text(
+                      'Create an Account',
+                      style: Theme.of(context).textTheme.headline4,
+                    ),
                   ),
-                  const SizedBox(height: 20),
+                  CustomTextField(
+                    controller: _txtEmail,
+                    label: 'Email',
+                    errorText: emailError,
+                  ),
+                  CustomTextField(
+                    controller: _txtPassword,
+                    label: 'Password',
+                    errorText: passwordError,
+                    obscureText: true,
+                  ),
+                  CustomTextField(
+                    controller: _txtConfirmPassword,
+                    label: 'Confirm Password',
+                    errorText: confirmPasswordError,
+                    obscureText: true,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () async =>
+                            await ref.read(authProvider.notifier).createUser(
+                                  email: _txtEmail.text,
+                                  password: _txtPassword.text,
+                                  confirmPassword: _txtConfirmPassword.text,
+                                ),
+                        child: const Text('Create Account'),
+                      ),
+                    ),
+                  ),
+                  Row(
+                    children: [
+                      const Text('Already have an account?'),
+                      TextButton(
+                        onPressed: () => context.goNamed(RouteName.login),
+                        child: const Text('Sign in'),
+                      ),
+                    ],
+                  ),
                 ],
               ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 6.0),
-              child: Text(
-                'Create an Account',
-                style: Theme.of(context).textTheme.headline4,
-              ),
-            ),
-            CustomTextField(
-              controller: _txtEmail,
-              label: 'Email',
-              errorText: emailError,
-            ),
-            CustomTextField(
-              controller: _txtPassword,
-              label: 'Password',
-              errorText: passwordError,
-              obscureText: true,
-            ),
-            CustomTextField(
-              controller: _txtConfirmPassword,
-              label: 'Confirm Password',
-              errorText: confirmPasswordError,
-              obscureText: true,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () async =>
-                      await ref.read(authProvider.notifier).createUser(
-                            email: _txtEmail.text,
-                            password: _txtPassword.text,
-                            confirmPassword: _txtConfirmPassword.text,
-                          ),
-                  child: const Text('Create Account'),
-                ),
-              ),
-            ),
-            Row(
-              children: [
-                const Text('Already have an account?'),
-                TextButton(
-                  onPressed: () => context.goNamed(RouteName.login),
-                  child: const Text('Sign in'),
-                ),
-              ],
-            ),
-          ],
-        ),
       ),
     );
   }

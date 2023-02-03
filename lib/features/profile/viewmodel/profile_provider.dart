@@ -1,17 +1,23 @@
 import 'dart:io';
 
+import 'package:backpack/routing/router.dart';
 import 'package:backpack/user_service/user_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../model/user_profile.dart';
 
 final profileProvider = StateNotifierProvider<ProfileNotifier, UserProfile>(
-    (ref) => ProfileNotifier(ref.watch(userServiceProvider)));
+    (ref) => ProfileNotifier(
+          ref.watch(userServiceProvider),
+          ref.watch(routerProvider),
+        ));
 
 class ProfileNotifier extends StateNotifier<UserProfile> {
-  ProfileNotifier(this.service) : super(UserProfile.empty());
+  ProfileNotifier(this.service, this.router) : super(UserProfile.empty());
 
   final UserService service;
+  final GoRouter router;
 
   // Allow user service to get current user profile
   UserProfile get getProfile => state;
@@ -38,6 +44,7 @@ class ProfileNotifier extends StateNotifier<UserProfile> {
     );
 
     state = updatedUser.copy();
+    router.pop();
   }
 
   // // Marks the specified assignment as complete

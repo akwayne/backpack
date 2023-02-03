@@ -11,8 +11,8 @@ class AuthSignedOut extends AuthState {
   List<Object?> get props => [];
 }
 
-class AuthInSetup extends AuthState {
-  const AuthInSetup();
+class AuthInProgress extends AuthState {
+  const AuthInProgress();
 
   @override
   List<Object?> get props => [];

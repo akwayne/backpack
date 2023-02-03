@@ -1,9 +1,11 @@
 import 'package:backpack/constants/constants.dart';
+import 'package:backpack/routing/router.dart';
 import 'package:backpack/user_service/user_service.dart';
 
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import 'error_provider.dart';
 
@@ -13,19 +15,22 @@ part 'auth_state.dart';
 final authProvider =
     StateNotifierProvider<AuthNotifier, AuthState>((ref) => AuthNotifier(
           ref.watch(userServiceProvider),
+          ref.watch(routerProvider),
           ref.read(errorProvider.notifier),
         ));
 
 class AuthNotifier extends StateNotifier<AuthState> {
   AuthNotifier(
     this.service,
+    this.router,
     this.errorNotifier,
   ) : super(const AuthSignedOut());
 
   final UserService service;
+  final GoRouter router;
   final AuthErrorNotifier errorNotifier;
 
-  // Check for signed in user and set them to current user
+  /// Check for signed in user and set them to current user
   Future<void> initialize() async {
     // Check for signed in user
     User? user = service.currentAuthUser;
@@ -37,37 +42,33 @@ class AuthNotifier extends StateNotifier<AuthState> {
     }
   }
 
-  // Sign in a user
+  /// Sign in a user
   Future<void> signIn({
     required String email,
     required String password,
   }) async {
     // Clear previous error messages
     errorNotifier.clearErrors();
-
     try {
-      // Attempt to sign in
+      state = const AuthInProgress();
       await service.signIn(email: email, password: password);
-
-      // If success, update state
+      router.goNamed(RouteName.home);
       state = const AuthSignedIn();
-
       // On failure, display error message
     } on FirebaseAuthException catch (e) {
+      state = const AuthSignedOut();
       errorNotifier.parseErrors(e);
     }
   }
 
-  // Sign out a user
+  /// Sign out user
   Future<void> signOut() async {
-    // Sign out user
     await service.signOut();
-
-    // User is signed out
+    router.goNamed(RouteName.login);
     state = const AuthSignedOut();
   }
 
-  // Create a new user account in firebase auth
+  /// Create a new user account in firebase auth
   Future<void> createUser({
     required String email,
     required String password,
@@ -75,45 +76,39 @@ class AuthNotifier extends StateNotifier<AuthState> {
   }) async {
     // Clear previous error messages
     errorNotifier.clearErrors();
-
     try {
       // Check that passwords match
       if (password != confirmPassword) {
         throw FirebaseAuthException(code: ExceptionString.noPasswordMatch);
       }
-
-      // Attempt user creation
-      await service.createUser(
-        email: email,
-        password: password,
-      );
-
-      // On success user is signed in
+      state = const AuthInProgress();
+      await service.createUser(email: email, password: password);
+      router.goNamed(RouteName.setup);
       state = const AuthSignedIn();
-
       // Display error message if account creation failed
     } on FirebaseAuthException catch (e) {
+      state = const AuthSignedOut();
       errorNotifier.parseErrors(e);
     }
   }
 
-  // Set up new user profile object for new account
+  /// Set up user profile object for new account
   Future<void> setupUserProfile({
     required bool isTeacher,
     required String? displayName,
     required String? school,
   }) async {
-    // Create new user detail
+    state = const AuthInProgress();
     await service.setupUserProfile(
         isTeacher: isTeacher, displayName: displayName, school: school);
+    router.goNamed(RouteName.home);
+    state = const AuthSignedIn();
   }
 
-  // Delete a user
+  /// Delete a user
   Future<void> deleteUser() async {
-    // Delete user in firebase
     await service.deleteUser();
-
-    // User is signed out
+    router.goNamed(RouteName.login);
     state = const AuthSignedOut();
   }
 }

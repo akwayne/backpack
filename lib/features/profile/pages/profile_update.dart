@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:backpack/components/components.dart';
-import 'package:backpack/constants/constants.dart';
 import 'package:backpack/features/authentication/authentication.dart';
 import 'package:backpack/features/profile/profile.dart';
 
@@ -34,7 +33,7 @@ class ProfileUpdateState extends ConsumerState<ProfileUpdate> {
   }
 
   @override
-  Widget build(BuildContext context, [bool mounted = true]) {
+  Widget build(BuildContext context) {
     final UserProfile user = ref.watch(profileProvider);
 
     final currentImage =
@@ -49,9 +48,7 @@ class ProfileUpdateState extends ConsumerState<ProfileUpdate> {
     return Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            onPressed: () {
-              context.pop();
-            },
+            onPressed: () => context.pop(),
             icon: const Icon(Icons.arrow_back_ios),
           ),
         ),
@@ -93,30 +90,21 @@ class ProfileUpdateState extends ConsumerState<ProfileUpdate> {
                         SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(
-                              onPressed: () async {
-                                // Update profile
-                                await ref
-                                    .read(profileProvider.notifier)
-                                    .updateUser(
-                                      newDisplayName: _txtDisplayName.text,
-                                      newSchool: _txtSchool.text,
-                                      imageFile: newImageFile,
-                                    );
-
-                                // Go back to previous page
-                                if (!mounted) return;
-                                context.pop();
-                              },
+                              onPressed: () async => await ref
+                                  .read(profileProvider.notifier)
+                                  .updateUser(
+                                    newDisplayName: _txtDisplayName.text,
+                                    newSchool: _txtSchool.text,
+                                    imageFile: newImageFile,
+                                  ),
                               child: const Text('Update')),
                         ),
                       ],
                     ),
                   ),
                   TextButton(
-                    onPressed: () {
-                      ref.read(authProvider.notifier).deleteUser();
-                      context.goNamed(RouteName.login);
-                    },
+                    onPressed: () =>
+                        ref.read(authProvider.notifier).deleteUser(),
                     child: const Text(
                       'Delete Account',
                       style: TextStyle(color: Colors.red),

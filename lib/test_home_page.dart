@@ -26,7 +26,7 @@ class TestHomePage extends ConsumerWidget {
                 Text(user.isTeacher ? 'Teacher' : 'Student'),
                 ElevatedButton(
                   onPressed: () {
-                    context.goNamed(RouteName.profile);
+                    context.pushNamed(RouteName.profile);
                   },
                   child: const Text('Profile'),
                 ),
