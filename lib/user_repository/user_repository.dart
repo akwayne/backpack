@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:backpack/constants/constants.dart';
+import 'package:backpack/features/course/course.dart';
 import 'package:backpack/features/profile/profile.dart';
 import 'package:backpack/firebase/firebase.dart';
 import 'package:backpack/firebase/storage_helper.dart';
@@ -12,46 +13,61 @@ final userRepositoryProvider = Provider<UserRepository>(
     FirebaseHelper(),
     AuthHelper(),
     StorageHelper(),
+    ref,
   ),
 );
 
 /// Manages all user actions in firebase and firebase auth
 class UserRepository {
-  UserRepository(this.firebaseHelper, this.authHelper, this.storageHelper);
+  UserRepository(
+    this.firebaseHelper,
+    this.authHelper,
+    this.storageHelper,
+    this.ref,
+  );
 
   final FirebaseHelper firebaseHelper;
   final AuthHelper authHelper;
   final StorageHelper storageHelper;
+  final Ref ref;
 
-  /// Get the active user or null if not logged in
-  User? get _currentUser => authHelper.user;
+  /// Return user if signed in, null if signed out
+  User? get currentAuthUser => authHelper.user;
 
-  /// Get for current user ID only
-  String get _currentUserId => authHelper.user!.uid;
+  // Get and set user detail from profile provider
+  UserDetail get _getCurrentProfile =>
+      ref.read(profileProvider.notifier).getProfile;
+  void _setCurrentProfile(UserDetail userDetail) =>
+      ref.read(profileProvider.notifier).setProfile = userDetail;
 
-  /// Get user detail for active user
-  Future<UserDetail?> getCurrentUserDetail() async {
-    final user = _currentUser;
-    // if not logged in, return null
-    if (user == null) return null;
+  Future<void> signIn({required String email, required String password}) async {
+    await authHelper.signIn(email: email, password: password);
+    // Once signed in, load user details
+    await loadUser();
+  }
+
+  /// Load details for active user
+  Future<void> loadUser() async {
+    final user = currentAuthUser;
+    if (user == null) return;
 
     Map<String, dynamic> databaseRow =
         await firebaseHelper.readUserDetail(user.uid);
 
-    return UserDetail.fromDatabase(
+    final userDetail = UserDetail.fromDatabase(
       row: databaseRow,
       id: user.uid,
       displayName: user.displayName,
       photoUrl: user.photoURL,
     );
-  }
 
-  Future<void> signIn({required String email, required String password}) async {
-    await authHelper.signIn(email: email, password: password);
+    _setCurrentProfile(userDetail);
   }
 
   Future<void> signOut() async {
     await authHelper.signOut();
+    // Remove user from profile provider
+    _setCurrentProfile(UserDetail.empty());
   }
 
   /// Creates a new user account in firebase auth only
@@ -62,14 +78,14 @@ class UserRepository {
 
   /// Creates a user detail for a new user account.
   /// Called during account setup.
-  Future<UserDetail> createUserDetail({
+  Future<void> setupUserDetail({
     required bool isTeacher,
     required String? displayName,
     required String? school,
   }) async {
     // Create new user detail object
     final newUserDetail = UserDetail(
-      id: _currentUserId,
+      id: currentAuthUser!.uid,
       displayName: displayName,
       photoUrl: null,
       isTeacher: isTeacher,
@@ -84,7 +100,7 @@ class UserRepository {
     // create a database entry for the new user
     await firebaseHelper.insertUserDetail(userDetail: newUserDetail);
 
-    return newUserDetail;
+    _setCurrentProfile(newUserDetail);
   }
 
   /// Update an existing user
@@ -122,15 +138,24 @@ class UserRepository {
 
   Future<void> deleteUser() async {
     // Delete profile image file if user has one
-    if (_currentUser!.photoURL != null) {
+    if (currentAuthUser!.photoURL != null) {
       await storageHelper.deleteFile(
-          filename: _currentUserId, path: FireStorePath.profileImages);
+          filename: currentAuthUser!.uid, path: FireStorePath.profileImages);
     }
 
     // Delete userdetail row in firebase
-    await firebaseHelper.deleteUserDetail(_currentUserId);
+    await firebaseHelper.deleteUserDetail(currentAuthUser!.uid);
+
+    // Remove user from profile provider
+    _setCurrentProfile(UserDetail.empty());
 
     // Delete user in firebase auth
     await authHelper.deleteUser();
+  }
+
+  // Get course list for signed in user
+  Future<List<Course>> getCourses() async {
+    final userDetail = _getCurrentProfile;
+    return await firebaseHelper.readCourses(userDetail.courses);
   }
 }

@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:backpack/user_repository/user_repository.dart';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../model/user_detail.dart';
@@ -14,11 +13,10 @@ class ProfileNotifier extends StateNotifier<UserDetail> {
 
   final UserRepository repository;
 
-  // User getter to be read by other providers
-  UserDetail get user => state;
-
+  // Get current user
+  UserDetail get getProfile => state;
   // Set the current user to be read by UI
-  set _currentUser(UserDetail userDetail) => state = userDetail;
+  set setProfile(UserDetail userDetail) => state = userDetail.copy();
 
   // Update user details for current user
   Future<void> updateUser({
@@ -28,18 +26,18 @@ class ProfileNotifier extends StateNotifier<UserDetail> {
     String? newPassword,
     File? imageFile,
   }) async {
-    final user = state;
-    user.displayName = newDisplayName;
-    user.school = newSchool;
+    final currentProfile = state;
+    currentProfile.displayName = newDisplayName;
+    currentProfile.school = newSchool;
 
     final updatedUser = await repository.updateUser(
-      userDetail: user,
+      userDetail: currentProfile,
       newEmail: newEmail,
       newPassword: newPassword,
       imageFile: imageFile,
     );
 
-    _currentUser = updatedUser.copy();
+    state = updatedUser.copy();
   }
 
   // // Marks the specified assignment as complete

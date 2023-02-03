@@ -1,5 +1,4 @@
 import 'package:backpack/constants/constants.dart';
-import 'package:backpack/features/profile/profile.dart';
 import 'package:backpack/user_repository/user_repository.dart';
 
 import 'package:equatable/equatable.dart';
@@ -20,17 +19,14 @@ class AuthNotifier extends StateNotifier<AuthState> {
   final UserRepository repository;
   final Ref ref;
 
-  // Set the current user to be read by UI
-  set _currentUser(UserDetail userDetail) =>
-      ref.read(profileProvider.notifier).state = userDetail;
-
   // Check for signed in user and set them to current user
-  Future<void> getUserDetail() async {
-    UserDetail? userDetail = await repository.getCurrentUserDetail();
-    if (userDetail == null) {
+  Future<void> checkAuthState() async {
+    // Check for signed in user
+    User? user = repository.currentAuthUser;
+    if (user == null) {
       state = const AuthSignedOut();
     } else {
-      _currentUser = userDetail;
+      await repository.loadUser();
       state = const AuthSignedIn();
     }
   }
@@ -65,18 +61,15 @@ class AuthNotifier extends StateNotifier<AuthState> {
     }
   }
 
-  // Create new user detail object and set as current user
-  Future<void> createUserDetail({
+  // Set up new user detail object for new account
+  Future<void> setupUserDetail({
     required bool isTeacher,
     required String? displayName,
     required String? school,
   }) async {
     // Create new user detail
-    final newUserDetail = await repository.createUserDetail(
+    await repository.setupUserDetail(
         isTeacher: isTeacher, displayName: displayName, school: school);
-
-    // Set new user detail to be displayed in UI
-    _currentUser = newUserDetail;
 
     // User is now signed in
     state = const AuthSignedIn();
@@ -94,8 +87,8 @@ class AuthNotifier extends StateNotifier<AuthState> {
       // Attempt to sign in
       await repository.signIn(email: email, password: password);
 
-      // If success, get user detail and change state to signed in
-      await getUserDetail();
+      // If success, update state
+      state = const AuthSignedIn();
 
       // On failure, display error message
     } on FirebaseAuthException catch (e) {
@@ -108,9 +101,6 @@ class AuthNotifier extends StateNotifier<AuthState> {
     // Sign out user
     await repository.signOut();
 
-    // Remove user detail from UI
-    _currentUser = UserDetail.empty();
-
     // User is signed out
     state = const AuthSignedOut();
   }
@@ -119,9 +109,6 @@ class AuthNotifier extends StateNotifier<AuthState> {
   Future<void> deleteUser() async {
     // Delete user in firebase
     await repository.deleteUser();
-
-    // Remove user detail from UI
-    _currentUser = UserDetail.empty();
 
     // User is signed out
     state = const AuthSignedOut();

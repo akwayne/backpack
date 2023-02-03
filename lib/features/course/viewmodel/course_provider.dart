@@ -1,25 +1,20 @@
-import 'package:backpack/features/profile/profile.dart';
-import 'package:backpack/firebase/firebase.dart';
+import 'package:backpack/user_repository/user_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../model/course.dart';
 
 final courseProvider = StateNotifierProvider<CourseNotifier, List<Course>>(
-    (ref) => CourseNotifier(FirebaseHelper(), ref));
+    (ref) => CourseNotifier(ref.watch(userRepositoryProvider)));
 
 class CourseNotifier extends StateNotifier<List<Course>> {
-  CourseNotifier(this.firebaseHelper, this.ref) : super([]);
+  CourseNotifier(this.repository) : super([]);
 
-  final FirebaseHelper firebaseHelper;
-  final Ref ref;
-
-  // User info from profile provider
-  UserDetail get user => ref.read(profileProvider.notifier).user;
+  final UserRepository repository;
 
   // Only checks on app startup
   Future<void> getCourses() async {
     if (state.isEmpty) {
-      final courseList = await firebaseHelper.readCourses(user.courses);
+      final courseList = await repository.getCourses();
       state = [for (Course course in courseList) course];
     }
   }
