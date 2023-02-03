@@ -45,11 +45,9 @@ class UserRepository {
   Future<void> loadUser() async {
     final authUser = currentAuthUser;
     if (authUser == null) return;
-
     // get database row for the active user
     Map<String, dynamic> databaseRow =
         await firebaseHelper.readUserProfile(authUser.uid);
-
     // create new user profile with info from firebase auth and database row
     final userProfile = UserProfile.fromDatabase(
       row: databaseRow,
@@ -57,10 +55,8 @@ class UserRepository {
       displayName: authUser.displayName,
       photoUrl: authUser.photoURL,
     );
-
     // set the current user to profile provider
     _setCurrentProfile(userProfile);
-
     // get courses for this user
     await getCourses();
   }
@@ -95,13 +91,10 @@ class UserRepository {
       courses: [],
       completed: [],
     );
-
     // add display name to firebase auth
     await authHelper.updateUser(newDisplayName: displayName);
-
     // create a database entry for the new user
     await firebaseHelper.insertUserProfile(userProfile: newUserDetail);
-
     // send the new user detail to profile provider
     _setCurrentProfile(newUserDetail);
   }
@@ -114,7 +107,6 @@ class UserRepository {
     required File? imageFile,
   }) async {
     final updatedUser = userProfile;
-
     // Upload image if one is received
     if (imageFile != null) {
       final newPhotoUrl = await storageHelper.uploadFile(
@@ -124,7 +116,6 @@ class UserRepository {
       );
       updatedUser.photoUrl = newPhotoUrl;
     }
-
     // Update data in firebase auth
     await authHelper.updateUser(
       newDisplayName: updatedUser.displayName,
@@ -132,10 +123,8 @@ class UserRepository {
       newEmail: newEmail,
       newPassword: newPassword,
     );
-
     // Update data in firebase database
     await firebaseHelper.updateUserProfile(updatedUser);
-
     return updatedUser;
   }
 
@@ -146,15 +135,12 @@ class UserRepository {
       await storageHelper.deleteFile(
           filename: currentAuthUser!.uid, path: FireStorePath.profileImages);
     }
-
     // Delete user row in database
     await firebaseHelper.deleteUserProfile(currentAuthUser!.uid);
-
     // Clear providers for this user
     _clearAssignments();
     _clearCourses();
     _clearProfile();
-
     // Delete user in firebase auth
     await authHelper.deleteUser();
   }
