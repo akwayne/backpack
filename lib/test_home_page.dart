@@ -1,5 +1,4 @@
 import 'package:backpack/features/course/course.dart';
-import 'package:backpack/features/home/cloud_future_builder.dart';
 import 'package:backpack/features/profile/viewmodel/profile_provider.dart';
 import 'package:backpack/routing/routing.dart';
 import 'package:flutter/material.dart';
