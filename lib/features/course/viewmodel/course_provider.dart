@@ -1,15 +1,15 @@
-import 'package:backpack/user_repository/user_repository.dart';
+import 'package:backpack/user_service/src/service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../model/course.dart';
 
 final courseProvider = StateNotifierProvider<CourseNotifier, List<Course>>(
-    (ref) => CourseNotifier(ref.watch(userRepositoryProvider)));
+    (ref) => CourseNotifier(ref.watch(userServiceProvider)));
 
 class CourseNotifier extends StateNotifier<List<Course>> {
-  CourseNotifier(this.repository) : super([]);
+  CourseNotifier(this.service) : super([]);
 
-  final UserRepository repository;
+  final UserService service;
 
   // Set a list of courses to the state
   set setCourses(List<Course> courses) =>
@@ -17,7 +17,7 @@ class CourseNotifier extends StateNotifier<List<Course>> {
 
   // trigger repository to get courses from firebase
   Future<void> getCourses() async {
-    await repository.getCourses();
+    await service.getCourses();
   }
 
   // clear courses from state

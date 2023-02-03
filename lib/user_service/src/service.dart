@@ -1,3 +1,4 @@
+
 import 'dart:io';
 
 import 'package:backpack/constants/constants.dart';
@@ -8,11 +9,11 @@ import 'package:backpack/firebase/firebase.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-part 'repository_provider.dart';
+part 'service_provider.dart';
 
 /// Manages all user actions in firebase and firebase auth
-class UserRepository {
-  UserRepository(
+class UserService {
+  UserService(
     this.firebaseHelper,
     this.authHelper,
     this.storageHelper,

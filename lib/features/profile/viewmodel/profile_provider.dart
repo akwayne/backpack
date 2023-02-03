@@ -1,17 +1,17 @@
 import 'dart:io';
 
-import 'package:backpack/user_repository/user_repository.dart';
+import 'package:backpack/user_service/user_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../model/user_profile.dart';
 
 final profileProvider = StateNotifierProvider<ProfileNotifier, UserProfile>(
-    (ref) => ProfileNotifier(ref.watch(userRepositoryProvider)));
+    (ref) => ProfileNotifier(ref.watch(userServiceProvider)));
 
 class ProfileNotifier extends StateNotifier<UserProfile> {
-  ProfileNotifier(this.repository) : super(UserProfile.empty());
+  ProfileNotifier(this.service) : super(UserProfile.empty());
 
-  final UserRepository repository;
+  final UserService service;
 
   // Allow repository to get current user profile
   UserProfile get getProfile => state;
@@ -30,7 +30,7 @@ class ProfileNotifier extends StateNotifier<UserProfile> {
     currentProfile.displayName = newDisplayName;
     currentProfile.school = newSchool;
 
-    final updatedUser = await repository.updateUser(
+    final updatedUser = await service.updateUser(
       userProfile: currentProfile,
       newEmail: newEmail,
       newPassword: newPassword,
@@ -48,5 +48,4 @@ class ProfileNotifier extends StateNotifier<UserProfile> {
   //   updateUser(userData: updatedUser);
 
   //   // state = AuthSignedIn();
-
 }

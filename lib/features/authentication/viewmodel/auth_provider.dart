@@ -1,5 +1,5 @@
 import 'package:backpack/constants/constants.dart';
-import 'package:backpack/user_repository/user_repository.dart';
+import 'package:backpack/user_service/user_service.dart';
 
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -10,23 +10,29 @@ import 'error_provider.dart';
 part 'auth_state.dart';
 
 /// Modifies authentication state
-final authProvider = StateNotifierProvider<AuthNotifier, AuthState>(
-    (ref) => AuthNotifier(ref.watch(userRepositoryProvider), ref));
+final authProvider =
+    StateNotifierProvider<AuthNotifier, AuthState>((ref) => AuthNotifier(
+          ref.watch(userServiceProvider),
+          ref.read(errorProvider.notifier),
+        ));
 
 class AuthNotifier extends StateNotifier<AuthState> {
-  AuthNotifier(this.repository, this.ref) : super(const AuthSignedOut());
+  AuthNotifier(
+    this.service,
+    this.errorNotifier,
+  ) : super(const AuthSignedOut());
 
-  final UserRepository repository;
-  final Ref ref;
+  final UserService service;
+  final AuthErrorNotifier errorNotifier;
 
   // Check for signed in user and set them to current user
   Future<void> initialize() async {
     // Check for signed in user
-    User? user = repository.currentAuthUser;
+    User? user = service.currentAuthUser;
     if (user == null) {
       state = const AuthSignedOut();
     } else {
-      await repository.loadUser();
+      await service.loadUser();
       state = const AuthSignedIn();
     }
   }
@@ -37,25 +43,25 @@ class AuthNotifier extends StateNotifier<AuthState> {
     required String password,
   }) async {
     // Clear previous error messages
-    ref.read(errorProvider.notifier).clearErrors();
+    errorNotifier.clearErrors();
 
     try {
       // Attempt to sign in
-      await repository.signIn(email: email, password: password);
+      await service.signIn(email: email, password: password);
 
       // If success, update state
       state = const AuthSignedIn();
 
       // On failure, display error message
     } on FirebaseAuthException catch (e) {
-      ref.read(errorProvider.notifier).parseErrors(e);
+      errorNotifier.parseErrors(e);
     }
   }
 
   // Sign out a user
   Future<void> signOut() async {
     // Sign out user
-    await repository.signOut();
+    await service.signOut();
 
     // User is signed out
     state = const AuthSignedOut();
@@ -68,7 +74,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
     required String confirmPassword,
   }) async {
     // Clear previous error messages
-    ref.read(errorProvider.notifier).clearErrors();
+    errorNotifier.clearErrors();
 
     try {
       // Check that passwords match
@@ -77,7 +83,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
       }
 
       // Attempt user creation
-      await repository.createUser(
+      await service.createUser(
         email: email,
         password: password,
       );
@@ -87,7 +93,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
 
       // Display error message if account creation failed
     } on FirebaseAuthException catch (e) {
-      ref.read(errorProvider.notifier).parseErrors(e);
+      errorNotifier.parseErrors(e);
     }
   }
 
@@ -98,7 +104,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
     required String? school,
   }) async {
     // Create new user detail
-    await repository.setupUserProfile(
+    await service.setupUserProfile(
         isTeacher: isTeacher, displayName: displayName, school: school);
 
     // User is now signed in
@@ -108,7 +114,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
   // Delete a user
   Future<void> deleteUser() async {
     // Delete user in firebase
-    await repository.deleteUser();
+    await service.deleteUser();
 
     // User is signed out
     state = const AuthSignedOut();

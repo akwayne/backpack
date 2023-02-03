@@ -1,7 +1,7 @@
 import 'package:backpack/features/profile/profile.dart';
+import 'package:backpack/firebase/firebase.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../firebase/firebase_helper.dart';
 import '../domain/assignment.dart';
 
 final assignmentProvider =
