@@ -4,7 +4,7 @@ import 'package:backpack/features/authentication/authentication.dart';
 import 'package:backpack/features/calendar/calendar.dart';
 import 'package:backpack/features/course/course.dart';
 import 'package:backpack/features/profile/profile.dart';
-import 'package:backpack/routing/routing.dart';
+
 import 'package:backpack/utilities/utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -84,7 +84,7 @@ class _HomeMobileView extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(right: 10.0),
             child: IconButton(
-              onPressed: () => AppRouter.goProfile(context),
+              onPressed: () {},
               icon: Icon(
                 Icons.account_circle,
                 color: Theme.of(context).colorScheme.primary,

@@ -1,8 +1,9 @@
+import 'package:backpack/constants/constants.dart';
 import 'package:backpack/features/assignment/assignment.dart';
 import 'package:backpack/features/authentication/authentication.dart';
 import 'package:backpack/features/course/course.dart';
 import 'package:backpack/features/profile/profile.dart';
-import 'package:backpack/routing/routing.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -31,7 +32,7 @@ class AssignmentCard extends ConsumerWidget {
           );
 
     final bool onHomePage =
-        ModalRoute.of(context)!.settings.name == AppRoutes.home;
+        ModalRoute.of(context)!.settings.name == RouteName.home;
 
 // Show assignment card
     return Card(
@@ -56,7 +57,6 @@ class AssignmentCard extends ConsumerWidget {
 
           // This checks if we are on the home page or already on course page
           // If we are on the home page, we should navigate to the course page
-          if (onHomePage) AppRouter.goCoursePage(context, assignment.courseId);
         },
       ),
     );

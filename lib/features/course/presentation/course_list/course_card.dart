@@ -1,5 +1,5 @@
 import 'package:backpack/features/course/course.dart';
-import 'package:backpack/routing/routing.dart';
+import 'package:backpack/router/router.dart';
 import 'package:backpack/utilities/utilities.dart';
 import 'package:flutter/material.dart';
 
@@ -13,7 +13,7 @@ class CourseCard extends StatelessWidget {
     DeviceType deviceType = getDeviceType(MediaQuery.of(context));
 
     return GestureDetector(
-      onTap: () => AppRouter.goCoursePage(context, course.id),
+      onTap: () => {},
       child: Container(
         padding: const EdgeInsets.all(16.0),
         decoration: BoxDecoration(

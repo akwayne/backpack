@@ -1,6 +1,6 @@
 import 'package:backpack/features/assignment/assignment.dart';
 import 'package:backpack/features/course/course.dart';
-import 'package:backpack/routing/routing.dart';
+import 'package:backpack/router/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -25,8 +25,7 @@ class CourseAssignments extends ConsumerWidget {
     return ListView(
       children: <Widget>[
         ElevatedButton(
-            onPressed: () => AppRouter.goAddAssignment(context, course.id),
-            child: const Text('Add New Assignment')),
+            onPressed: () {}, child: const Text('Add New Assignment')),
         const SizedBox(height: 14),
         ListView.builder(
           shrinkWrap: true,

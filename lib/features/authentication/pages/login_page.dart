@@ -1,9 +1,10 @@
 import 'package:backpack/components/components.dart';
+import 'package:backpack/constants/constants.dart';
 import 'package:backpack/utilities/utilities.dart';
-import 'package:backpack/routing/routing.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../components/background.dart';
 import '../viewmodel/auth_provider.dart';
@@ -33,7 +34,7 @@ class SignInPageState extends ConsumerState<LogInPage> {
   }
 
   @override
-  Widget build(BuildContext context, [bool mounted = true]) {
+  Widget build(BuildContext context) {
     DeviceType deviceType = getDeviceType(MediaQuery.of(context));
     Orientation orientation = MediaQuery.of(context).orientation;
 
@@ -84,16 +85,11 @@ class SignInPageState extends ConsumerState<LogInPage> {
               child: SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () async {
-                    await ref.read(authProvider.notifier).signIn(
-                          email: _txtEmail.text,
-                          password: _txtPassword.text,
-                        );
-                    if (ref.read(authProvider) is AuthSignedIn) {
-                      if (!mounted) return;
-                      AppRouter.goHome(context);
-                    }
-                  },
+                  onPressed: () async =>
+                      await ref.read(authProvider.notifier).signIn(
+                            email: _txtEmail.text,
+                            password: _txtPassword.text,
+                          ),
                   child: const Text('Log In'),
                 ),
               ),
@@ -101,7 +97,7 @@ class SignInPageState extends ConsumerState<LogInPage> {
             TextButton(
               onPressed: () {
                 ref.read(errorProvider.notifier).clearErrors();
-                AppRouter.goRegister(context);
+                context.goNamed(RouteName.register);
               },
               child: const Text('Or create a new account'),
             ),

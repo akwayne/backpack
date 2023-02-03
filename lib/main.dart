@@ -1,7 +1,6 @@
 import 'package:backpack/constants/constants.dart';
-import 'package:backpack/features/authentication/authentication.dart';
 import 'package:backpack/firebase/firebase.dart';
-import 'package:backpack/routing/routing.dart';
+import 'package:backpack/router/router.dart';
 
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -21,7 +20,6 @@ void main() async {
   ]);
 
   runApp(
-    // Setup Riverpod
     const ProviderScope(child: BackpackApp()),
   );
 }
@@ -31,19 +29,15 @@ class BackpackApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final router = ref.watch(routerProvider);
     // Check if a user is logged in
-    // ref.read(authProvider.notifier).getUserDetail();
 
-    return MaterialApp(
+    return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light(),
       darkTheme: AppTheme.dark(),
       themeMode: ThemeMode.system,
-      initialRoute: AppRoutes.login,
-      // (ref.watch(authProvider) is AuthSignedIn)
-      //     ? AppRoutes.home
-      //     : AppRoutes.login,
-      routes: AppRoutes.routes,
+      routerConfig: router,
     );
   }
 }

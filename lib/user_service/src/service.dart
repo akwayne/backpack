@@ -1,4 +1,3 @@
-
 import 'dart:io';
 
 import 'package:backpack/constants/constants.dart';
@@ -6,6 +5,7 @@ import 'package:backpack/features/assignment/assignment.dart';
 import 'package:backpack/features/course/course.dart';
 import 'package:backpack/features/profile/profile.dart';
 import 'package:backpack/firebase/firebase.dart';
+import 'package:backpack/routing/router.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -28,18 +28,27 @@ class UserService {
   /// Return current signed in user or null
   User? get currentAuthUser => authHelper.user;
 
-  // Interact with PROFILE PROVIDER
-  UserProfile _getCurrentProfile() =>
+  /// Redirect page from this service
+  void _redirectTo(String routeName) {
+    ref.read(routerProvider).goNamed(routeName);
+  }
+
+  // Interact with PROFILE PROVIDER //
+  UserProfile _getProfileProvider() =>
       ref.read(profileProvider.notifier).getProfile;
-  Future<void> _setCurrentProfile(UserProfile userDetail) async =>
+  Future<void> _setProfileProvider(UserProfile userDetail) async =>
       ref.read(profileProvider.notifier).setProfile = userDetail;
-  void _clearProfile() =>
+  void _clearProfileProvider() =>
       ref.read(profileProvider.notifier).setProfile = UserProfile.empty();
 
   /// Sign in and load a user's profile
   Future<void> signIn({required String email, required String password}) async {
+    // attempt sign in
     await authHelper.signIn(email: email, password: password);
+    // load user
     await loadUser();
+    // redirect to home page
+    _redirectTo(RouteName.home);
   }
 
   /// Load profile from database for active user
@@ -57,33 +66,40 @@ class UserService {
       photoUrl: authUser.photoURL,
     );
     // set the current user to profile provider
-    _setCurrentProfile(userProfile);
+    _setProfileProvider(userProfile);
     // get courses for this user
     await getCourses();
+    // get assignments for this user
   }
 
   Future<void> signOut() async {
+    // sign out user
     await authHelper.signOut();
     // Clear providers for this user
     _clearAssignments();
     _clearCourses();
-    _clearProfile();
+    _clearProfileProvider();
+    // redirect to login
+    _redirectTo(RouteName.login);
   }
 
   /// Create a new user account in firebase auth only
-  Future<User?> createUser(
+  Future<void> createUser(
       {required String email, required String password}) async {
-    return await authHelper.createUser(email: email, password: password);
+    // create new user
+    await authHelper.createUser(email: email, password: password);
+    // redirect to setup page
+    _redirectTo(RouteName.setup);
   }
 
-  /// Create a user detail for a new user account.
+  /// Create a user profile for a new user account.
   /// Called during account setup.
   Future<void> setupUserProfile({
     required bool isTeacher,
     required String? displayName,
     required String? school,
   }) async {
-    final newUserDetail = UserProfile(
+    final newUserProfile = UserProfile(
       id: currentAuthUser!.uid,
       displayName: displayName,
       photoUrl: null,
@@ -92,12 +108,14 @@ class UserService {
       courses: [],
       completed: [],
     );
-    // add display name to firebase auth
+    // add display name to firebase auth object
     await authHelper.updateUser(newDisplayName: displayName);
     // create a database entry for the new user
-    await firebaseHelper.insertUserProfile(userProfile: newUserDetail);
-    // send the new user detail to profile provider
-    _setCurrentProfile(newUserDetail);
+    await firebaseHelper.insertUserProfile(userProfile: newUserProfile);
+    // send the new user profile to profile provider
+    _setProfileProvider(newUserProfile);
+    // redirect to home
+    _redirectTo(RouteName.home);
   }
 
   /// Update the current user and return updated profile
@@ -141,21 +159,23 @@ class UserService {
     // Clear providers for this user
     _clearAssignments();
     _clearCourses();
-    _clearProfile();
+    _clearProfileProvider();
     // Delete user in firebase auth
     await authHelper.deleteUser();
+    // redirect to login
+    _redirectTo(RouteName.login);
   }
 
   // Interact with COURSE PROVIDER
-  void _setCourses(List<Course> courses) =>
+  void _setCourseProvider(List<Course> courses) =>
       ref.read(courseProvider.notifier).setCourses = courses;
   void _clearCourses() => ref.read(courseProvider.notifier).clearCourses();
 
   // Get course list and send to course provider
   Future<void> getCourses() async {
-    final userProfile = _getCurrentProfile();
+    final userProfile = _getProfileProvider();
     final courses = await firebaseHelper.readCourses(userProfile.courses);
-    _setCourses(courses);
+    _setCourseProvider(courses);
   }
 
   // Interact with ASSIGNMENT PROVIDER
@@ -164,7 +184,7 @@ class UserService {
 
   // Get assignment list to send to assignment provider
   Future<void> getAssignments() async {
-    final userProfile = _getCurrentProfile();
+    final userProfile = _getProfileProvider();
     final assignments =
         await firebaseHelper.readAssignments(userProfile.courses);
     _setAssignments(assignments);

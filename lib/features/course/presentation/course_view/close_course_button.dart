@@ -1,4 +1,3 @@
-import 'package:backpack/routing/routing.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -15,8 +14,6 @@ class CloseCourseButton extends ConsumerWidget {
         // Reset tabs and view when closing course page
         ref.read(courseNavIndexProvider.notifier).state = 0;
         ref.read(assignmentDetailProvider.notifier).state = null;
-
-        AppRouter.goHome(context);
       },
     );
   }

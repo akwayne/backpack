@@ -88,8 +88,8 @@ class AuthNotifier extends StateNotifier<AuthState> {
         password: password,
       );
 
-      // On success can move on to account setup page
-      state = const AuthInProgress();
+      // On success user is signed in
+      state = const AuthSignedIn();
 
       // Display error message if account creation failed
     } on FirebaseAuthException catch (e) {
@@ -106,9 +106,6 @@ class AuthNotifier extends StateNotifier<AuthState> {
     // Create new user detail
     await service.setupUserProfile(
         isTeacher: isTeacher, displayName: displayName, school: school);
-
-    // User is now signed in
-    state = const AuthSignedIn();
   }
 
   // Delete a user

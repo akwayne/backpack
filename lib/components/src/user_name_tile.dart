@@ -1,5 +1,4 @@
 import 'package:backpack/features/profile/profile.dart';
-import 'package:backpack/routing/routing.dart';
 import 'package:flutter/material.dart';
 
 import 'user_avatar.dart';
@@ -15,7 +14,7 @@ class UserNameTile extends StatelessWidget {
         user.photoUrl != null ? NetworkImage(user.photoUrl!) : null;
 
     return GestureDetector(
-      onTap: () => AppRouter.goProfile(context),
+      onTap: () {},
       child: Row(
         children: [
           UserAvatar(

@@ -1,6 +1,17 @@
 const String googleClientId =
     '145055936994-es5rd65c8calrrvqrql7bdaa4i6d00aq.apps.googleusercontent.com';
 
+class RouteName {
+  static const home = 'home';
+  static const login = 'login';
+  static const register = 'register';
+  static const setup = 'setup';
+  static const profile = 'profile';
+  static const profileUpdate = 'profileupdate';
+  static const course = 'course';
+  static const addAssignment = 'addassignment';
+}
+
 class SubjectString {
   static const arts = 'Arts';
   static const english = 'English';

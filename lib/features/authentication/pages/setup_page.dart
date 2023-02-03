@@ -1,5 +1,4 @@
 import 'package:backpack/components/components.dart';
-import 'package:backpack/routing/routing.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -67,9 +66,6 @@ class SetupPageState extends ConsumerState<SetupPage> {
                           displayName: _txtDisplayName.text,
                           school: _txtSchool.text,
                         );
-
-                    if (!mounted) return;
-                    AppRouter.goHome(context);
                   },
                   child: const Text('Finish'),
                 ),

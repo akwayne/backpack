@@ -1,12 +1,13 @@
 import 'dart:io';
 
 import 'package:backpack/components/components.dart';
+import 'package:backpack/constants/constants.dart';
 import 'package:backpack/features/authentication/authentication.dart';
 import 'package:backpack/features/profile/profile.dart';
-import 'package:backpack/routing/routing.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ProfileUpdate extends ConsumerStatefulWidget {
@@ -49,7 +50,7 @@ class ProfileUpdateState extends ConsumerState<ProfileUpdate> {
         appBar: AppBar(
           leading: IconButton(
             onPressed: () {
-              AppRouter.pop(context);
+              context.pop();
             },
             icon: const Icon(Icons.arrow_back_ios),
           ),
@@ -104,7 +105,7 @@ class ProfileUpdateState extends ConsumerState<ProfileUpdate> {
 
                                 // Go back to previous page
                                 if (!mounted) return;
-                                AppRouter.pop(context);
+                                context.pop();
                               },
                               child: const Text('Update')),
                         ),
@@ -114,7 +115,7 @@ class ProfileUpdateState extends ConsumerState<ProfileUpdate> {
                   TextButton(
                     onPressed: () {
                       ref.read(authProvider.notifier).deleteUser();
-                      AppRouter.goLogin(context);
+                      context.goNamed(RouteName.login);
                     },
                     child: const Text(
                       'Delete Account',

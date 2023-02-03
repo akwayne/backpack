@@ -13,9 +13,9 @@ class ProfileNotifier extends StateNotifier<UserProfile> {
 
   final UserService service;
 
-  // Allow repository to get current user profile
+  // Allow user service to get current user profile
   UserProfile get getProfile => state;
-  // Set the current user profile to the state
+  // Set a user profile to the state
   set setProfile(UserProfile userProfile) => state = userProfile.copy();
 
   // Update profile for current user
@@ -26,7 +26,7 @@ class ProfileNotifier extends StateNotifier<UserProfile> {
     String? newPassword,
     File? imageFile,
   }) async {
-    final currentProfile = state;
+    final currentProfile = getProfile;
     currentProfile.displayName = newDisplayName;
     currentProfile.school = newSchool;
 

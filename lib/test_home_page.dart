@@ -1,8 +1,10 @@
 import 'package:backpack/features/course/course.dart';
-import 'package:backpack/features/profile/viewmodel/profile_provider.dart';
-import 'package:backpack/routing/routing.dart';
+import 'package:backpack/features/profile/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+
+import 'constants/constants.dart';
 
 class TestHomePage extends ConsumerWidget {
   const TestHomePage({super.key});
@@ -24,7 +26,7 @@ class TestHomePage extends ConsumerWidget {
                 Text(user.isTeacher ? 'Teacher' : 'Student'),
                 ElevatedButton(
                   onPressed: () {
-                    AppRouter.goProfile(context);
+                    context.goNamed(RouteName.profile);
                   },
                   child: const Text('Profile'),
                 ),

@@ -1,9 +1,10 @@
 import 'package:backpack/components/components.dart';
+import 'package:backpack/constants/constants.dart';
 import 'package:backpack/utilities/utilities.dart';
-import 'package:backpack/routing/routing.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../components/background.dart';
 import '../viewmodel/auth_provider.dart';
@@ -35,7 +36,7 @@ class RegisterPageState extends ConsumerState<RegisterPage> {
   }
 
   @override
-  Widget build(BuildContext context, [bool mounted = true]) {
+  Widget build(BuildContext context) {
     DeviceType deviceType = getDeviceType(MediaQuery.of(context));
     Orientation orientation = MediaQuery.of(context).orientation;
 
@@ -91,17 +92,12 @@ class RegisterPageState extends ConsumerState<RegisterPage> {
               child: SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () async {
-                    await ref.read(authProvider.notifier).createUser(
-                          email: _txtEmail.text,
-                          password: _txtPassword.text,
-                          confirmPassword: _txtConfirmPassword.text,
-                        );
-                    if (ref.read(authProvider) is AuthInProgress) {
-                      if (!mounted) return;
-                      AppRouter.goSetup(context);
-                    }
-                  },
+                  onPressed: () async =>
+                      await ref.read(authProvider.notifier).createUser(
+                            email: _txtEmail.text,
+                            password: _txtPassword.text,
+                            confirmPassword: _txtConfirmPassword.text,
+                          ),
                   child: const Text('Create Account'),
                 ),
               ),
@@ -110,7 +106,7 @@ class RegisterPageState extends ConsumerState<RegisterPage> {
               children: [
                 const Text('Already have an account?'),
                 TextButton(
-                  onPressed: () => AppRouter.goLogin(context),
+                  onPressed: () => context.goNamed(RouteName.login),
                   child: const Text('Sign in'),
                 ),
               ],

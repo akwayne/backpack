@@ -2,7 +2,6 @@ import 'package:backpack/components/components.dart';
 import 'package:backpack/features/assignment/assignment.dart';
 import 'package:backpack/features/authentication/authentication.dart';
 import 'package:backpack/features/profile/profile.dart';
-import 'package:backpack/routing/routing.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -34,7 +33,7 @@ class AddAssignmentState extends ConsumerState<AddAssignment> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          onPressed: () => AppRouter.pop(context),
+          onPressed: () {},
           icon: const Icon(Icons.arrow_back_ios),
         ),
       ),
@@ -75,8 +74,7 @@ class AddAssignmentState extends ConsumerState<AddAssignment> {
                             .read(assignmentProvider.notifier)
                             .createAssignment(newAssignment, user);
 
-                        if (!mounted) return;
-                        AppRouter.pop(context);
+                        ;
                       },
                       child: const Text('Create Assignment'))
                 ],
