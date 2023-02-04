@@ -1,10 +1,11 @@
 import 'dart:io';
 
 import 'package:backpack/constants/constants.dart';
-import 'package:backpack/features/assignment/assignment.dart';
-import 'package:backpack/features/course/course.dart';
+import 'package:backpack/features/assignment_list/assignment_list.dart';
+import 'package:backpack/features/course_list/course_list.dart';
 import 'package:backpack/features/profile/profile.dart';
 import 'package:backpack/firebase/firebase.dart';
+import 'package:backpack/models/models.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -147,8 +148,8 @@ class UserService {
 
   // Interact with COURSE PROVIDER
   void _setCourseProvider(List<Course> courses) =>
-      ref.read(courseProvider.notifier).setCourses = courses;
-  void _clearCourses() => ref.read(courseProvider.notifier).clearCourses();
+      ref.read(courseListProvider.notifier).setCourses = courses;
+  void _clearCourses() => ref.read(courseListProvider.notifier).clearCourses();
 
   // Get course list and send to course provider
   Future<void> getCourses() async {
@@ -159,9 +160,9 @@ class UserService {
 
   // Interact with ASSIGNMENT PROVIDER
   void _setAssignmentProvider(List<Assignment> assignments) =>
-      ref.read(assignmentProvider.notifier).setAssignments = assignments;
+      ref.read(assignListProvider.notifier).setAssignments = assignments;
   void _clearAssignments() =>
-      ref.read(assignmentProvider.notifier).clearAssignments();
+      ref.read(assignListProvider.notifier).clearAssignments();
 
   // Get assignment list to send to assignment provider
   Future<void> getAssignments() async {

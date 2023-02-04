@@ -1,6 +1,6 @@
-import 'package:backpack/features/assignment/assignment.dart';
-import 'package:backpack/features/assignment/view/assignment_list/assignment_card.dart';
-import 'package:backpack/features/course/course.dart';
+import 'package:backpack/features/assignment_list/assignment_list.dart';
+import 'package:backpack/features/assignment_list/view/assignment_card.dart';
+
 import 'package:backpack/features/profile/profile.dart';
 
 import 'package:flutter/material.dart';
@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import 'constants/constants.dart';
+import 'features/course_list/course_list.dart';
 
 class TestHomePage extends ConsumerWidget {
   const TestHomePage({super.key});
@@ -15,7 +16,7 @@ class TestHomePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(profileProvider);
-    final assignments = ref.watch(assignmentProvider);
+    final assignments = ref.watch(assignListProvider);
 
     return Scaffold(
       appBar: AppBar(

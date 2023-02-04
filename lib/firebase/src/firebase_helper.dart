@@ -1,6 +1,5 @@
-import 'package:backpack/features/assignment/assignment.dart';
 import 'package:backpack/features/profile/profile.dart';
-import 'package:backpack/features/course/course.dart';
+import 'package:backpack/models/models.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FirebaseHelper {
