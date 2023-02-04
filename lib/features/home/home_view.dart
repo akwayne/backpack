@@ -6,10 +6,15 @@ import 'bottom_nav_bar.dart';
 import 'home_appbar.dart';
 import 'nav_drawer.dart';
 
-class StudentHomeView extends StatelessWidget {
-  const StudentHomeView(this.user, {super.key});
+class HomeView extends StatelessWidget {
+  const HomeView({
+    super.key,
+    required this.user,
+    required this.navPages,
+  });
 
   final UserProfile user;
+  final List<Map<String, dynamic>> navPages;
 
   @override
   Widget build(BuildContext context) {
@@ -25,10 +30,10 @@ class StudentHomeView extends StatelessWidget {
       appBar: HomeAppBar(user: user),
       body: Container(),
       bottomNavigationBar: (orientation == Orientation.portrait)
-          ? HomeBottomNavBar(navPages: _navPages)
+          ? HomeBottomNavBar(navPages: navPages)
           : null,
       drawer: (orientation == Orientation.landscape)
-          ? HomeNavDrawer(navPages: _navPages)
+          ? HomeNavDrawer(navPages: navPages)
           : null,
     );
   }
@@ -55,21 +60,3 @@ class StudentHomeView extends StatelessWidget {
     );
   }
 }
-
-final _navPages = <Map<String, dynamic>>[
-  {
-    'page': Container(),
-    'icon': const Icon(Icons.check_circle_outline),
-    'label': 'home',
-  },
-  {
-    'page': Container(),
-    'icon': const Icon(Icons.class_),
-    'label': 'my classes',
-  },
-  {
-    'page': Container(),
-    'icon': const Icon(Icons.calendar_today),
-    'label': 'schedule',
-  },
-];
