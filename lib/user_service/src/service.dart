@@ -5,6 +5,7 @@ import 'package:backpack/features/assignment/assignment.dart';
 import 'package:backpack/features/course/course.dart';
 import 'package:backpack/features/profile/profile.dart';
 import 'package:backpack/firebase/firebase.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -55,11 +56,15 @@ class UserService {
       displayName: authUser.displayName,
       photoUrl: authUser.photoURL,
     );
-    // set the current user to profile provider
     _setProfileProvider(userProfile);
-    // get courses for this user
     await getCourses();
-    // get assignments for this user
+    await getAssignments();
+  }
+
+  /// Refresh courses and assignments for active user
+  Future<void> refreshUser() async {
+    await getCourses();
+    await getAssignments();
   }
 
   Future<void> signOut() async {
@@ -153,14 +158,16 @@ class UserService {
   }
 
   // Interact with ASSIGNMENT PROVIDER
-  void _setAssignments(List<Assignment> assignments) {}
-  void _clearAssignments() {}
+  void _setAssignmentProvider(List<Assignment> assignments) =>
+      ref.read(assignmentProvider.notifier).setAssignments = assignments;
+  void _clearAssignments() =>
+      ref.read(assignmentProvider.notifier).clearAssignments();
 
   // Get assignment list to send to assignment provider
   Future<void> getAssignments() async {
     final userProfile = _getProfileProvider();
     final assignments =
         await firebaseHelper.readAssignments(userProfile.courses);
-    _setAssignments(assignments);
+    _setAssignmentProvider(assignments);
   }
 }

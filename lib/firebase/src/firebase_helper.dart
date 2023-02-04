@@ -47,6 +47,7 @@ class FirebaseHelper {
   }
 
   // Assignment Collection Actions //
+  // Read assignments for a user's list of enrolled courseIds
   Future<List<Assignment>> readAssignments(List<String> courseIds) async {
     final assignmentList = <Assignment>[];
     for (String courseId in courseIds) {
@@ -54,16 +55,17 @@ class FirebaseHelper {
           await assignments.where('courseId', isEqualTo: courseId).get();
       final newAssignments = [
         for (final doc in snapshot.docs)
-          Assignment.fromMap(doc.data() as Map<String, dynamic>, doc.id)
+          Assignment.fromDatabase(doc.data() as Map<String, dynamic>, doc.id)
       ];
       assignmentList.addAll(newAssignments);
     }
     return assignmentList;
   }
 
+  // TODO maybe update these
   Future insertAssignment(Assignment assignment) async {
     final newAssignmentId = assignments.doc();
-    await newAssignmentId.set(assignment.toMap());
+    await newAssignmentId.set(assignment.toDatabase());
   }
 
   Future deleteAssignment(String assignmentId) async {
