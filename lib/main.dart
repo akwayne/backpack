@@ -1,4 +1,5 @@
 import 'package:backpack/constants/constants.dart';
+import 'package:backpack/features/authentication/authentication.dart';
 import 'package:backpack/router/router.dart';
 
 import 'package:flutter/material.dart';
@@ -30,7 +31,7 @@ class BackpackApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(routerProvider);
-    // Check if a user is logged in
+    ref.read(authProvider.notifier).initialize();
 
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
