@@ -1,11 +1,13 @@
+import 'package:backpack/features/assignment/assignment.dart';
 import 'package:flutter/material.dart';
 
 import '../../model/course.dart';
 
 class StudentCourseDetail extends StatelessWidget {
-  const StudentCourseDetail(this.course, {super.key});
+  const StudentCourseDetail(this.course, this.assignments, {super.key});
 
   final Course course;
+  final List<Assignment> assignments;
 
   @override
   Widget build(BuildContext context) {
@@ -21,8 +23,8 @@ class StudentCourseDetail extends StatelessWidget {
             Chip(label: Text(course.getTimeString)),
             Chip(label: Text(course.location)),
           ],
-        )
-        // TODO Assignment List Here
+        ),
+        AssignmentList(assignments),
       ],
     );
   }

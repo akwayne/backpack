@@ -1,3 +1,4 @@
+import 'package:backpack/features/assignment/assignment.dart';
 import 'package:backpack/features/profile/profile.dart';
 import 'package:backpack/utilities/utilities.dart';
 import 'package:flutter/material.dart';
@@ -25,13 +26,17 @@ class StudentCourseView extends StatelessWidget {
     return Consumer(
       builder: (context, ref, child) {
         final assignmentId = ref.watch(assignmentViewProvider);
+        final assignmentList = ref
+            .read(assignmentProvider.notifier)
+            .getAssignmentsForCourse(course.id);
+
         return Scaffold(
           appBar: CourseAppBar(course, assignmentId),
           body: SafeArea(
             child: Padding(
               padding: const EdgeInsets.all(12.0),
               child: assignmentId == null
-                  ? StudentCourseDetail(course)
+                  ? StudentCourseDetail(course, assignmentList)
                   // TODO Assignment View goes here
                   : Container(),
             ),

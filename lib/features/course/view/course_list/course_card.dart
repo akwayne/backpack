@@ -6,7 +6,7 @@ import 'package:go_router/go_router.dart';
 import '../../model/course.dart';
 
 class CourseCard extends StatelessWidget {
-  const CourseCard({super.key, required this.course});
+  const CourseCard(this.course, {super.key});
 
   final Course course;
 

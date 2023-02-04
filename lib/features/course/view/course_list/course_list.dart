@@ -30,7 +30,7 @@ Widget _buildMobileView(List<Course> courses) {
           courses.length,
           (index) => Padding(
                 padding: const EdgeInsets.only(bottom: 10.0),
-                child: CourseCard(course: courses[index]),
+                child: CourseCard(courses[index]),
               )));
 }
 
@@ -45,7 +45,7 @@ Widget _buildTabletView(List<Course> courses, Orientation orientation) {
     childAspectRatio: orientation == Orientation.portrait ? 2 : 3,
     children: List.generate(
       courses.length,
-      (index) => CourseCard(course: courses[index]),
+      (index) => CourseCard(courses[index]),
     ),
   );
 }

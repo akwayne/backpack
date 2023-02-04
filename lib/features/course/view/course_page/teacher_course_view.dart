@@ -65,18 +65,18 @@ class TeacherCourseView extends StatelessWidget {
 final _navIndexProvider = StateProvider<int>((ref) => 0);
 final _navPages = <Map<String, dynamic>>[
   {
+    'page': Container(),
     'icon': const Icon(Icons.circle),
     'label': 'assignments',
-    'page': Container(),
   },
   {
+    'page': Container(),
     'icon': const Icon(Icons.circle),
     'label': 'submissions',
-    'page': Container(),
   },
   {
+    'page': Container(),
     'icon': const Icon(Icons.circle),
     'label': 'students',
-    'page': Container(),
   },
 ];
