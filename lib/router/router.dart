@@ -2,9 +2,10 @@ import 'package:backpack/constants/constants.dart';
 import 'package:backpack/features/authentication/authentication.dart';
 import 'package:backpack/features/course_detail/course_detail.dart';
 import 'package:backpack/features/course_list/course_list.dart';
+import 'package:backpack/features/home/home.dart';
 import 'package:backpack/features/profile/profile.dart';
-import 'package:backpack/test_home_page.dart';
 import 'package:backpack/user_service/user_service.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -18,7 +19,7 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         name: RouteName.home,
         path: '/',
-        builder: (context, state) => const TestHomePage(),
+        builder: (context, state) => const HomePage(),
       ),
       GoRoute(
         name: RouteName.login,
