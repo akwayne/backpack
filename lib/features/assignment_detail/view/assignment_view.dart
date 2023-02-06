@@ -16,7 +16,7 @@ class AssignmentView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final user = ref.watch(profileProvider);
+    final isTeacher = ref.watch(profileProvider).isTeacher;
     final assignment =
         ref.read(assignListProvider.notifier).getAssignmentById(id);
     final deviceType = getDeviceType(MediaQuery.of(context));
@@ -47,9 +47,9 @@ class AssignmentView extends ConsumerWidget {
               padding: const EdgeInsets.symmetric(vertical: 22.0),
               child: Text(assignment.instructions),
             ),
-            (user.isTeacher)
-                ? TeacherAssignmentActions(user: user, assignment: assignment)
-                : StudentAssignmentActions(user: user, assignment: assignment),
+            (isTeacher)
+                ? TeacherAssignmentActions(assignment: assignment)
+                : StudentAssignmentActions(assignment: assignment),
           ],
         ),
       ),

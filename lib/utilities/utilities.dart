@@ -1,1 +1,1 @@
-export 'device_type.dart';
+export 'src/device_type.dart';

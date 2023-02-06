@@ -5,16 +5,24 @@ import 'package:backpack/features/assignment_list/assignment_list.dart';
 import 'package:backpack/features/course_list/course_list.dart';
 import 'package:backpack/features/profile/profile.dart';
 import 'package:backpack/firebase/firebase.dart';
-import 'package:backpack/models/models.dart';
+import 'package:backpack/repository/repository.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-part 'service_provider.dart';
+// Provider for the user repository
+final userRepositoryProvider = Provider<UserRepository>(
+  (ref) => UserRepository(
+    FirebaseHelper(),
+    AuthHelper(),
+    StorageHelper(),
+    ref,
+  ),
+);
 
 /// Manages all user actions in firebase and firebase auth
-class UserService {
-  UserService(
+class UserRepository {
+  UserRepository(
     this.firebaseHelper,
     this.authHelper,
     this.storageHelper,
@@ -29,21 +37,15 @@ class UserService {
   /// Return current signed in user or null
   User? get currentAuthUser => authHelper.user;
 
-  // Interact with PROFILE PROVIDER //
-  UserProfile _getProfileProvider() =>
-      ref.read(profileProvider.notifier).getProfile;
-  Future<void> _setProfileProvider(UserProfile userDetail) async =>
-      ref.read(profileProvider.notifier).setProfile = userDetail;
-  void _clearProfileProvider() =>
-      ref.read(profileProvider.notifier).setProfile = UserProfile.empty();
-
-  /// Sign in and load a user's profile
+  /// Sign in to firebase auth with email and password
+  /// Load user profile once user is signed in
   Future<void> signIn({required String email, required String password}) async {
     await authHelper.signIn(email: email, password: password);
     await loadUser();
   }
 
-  /// Load profile from database for active user
+  /// Load user's profile from Firebase Database if they are signed in
+  /// Load user's courses and assignments
   Future<void> loadUser() async {
     final authUser = currentAuthUser;
     if (authUser == null) return;
@@ -57,31 +59,38 @@ class UserService {
       displayName: authUser.displayName,
       photoUrl: authUser.photoURL,
     );
-    _setProfileProvider(userProfile);
-    await getCourses();
-    await getAssignments();
+    _setProfile(userProfile);
+    await _loadCoursesAndAssignments();
   }
 
-  /// Refresh courses and assignments for active user
-  Future<void> refreshUser() async {
-    await getCourses();
-    await getAssignments();
+  Future<void> _setProfile(UserProfile userDetail) async =>
+      ref.read(profileProvider.notifier).setProfile = userDetail;
+
+  Future<void> _loadCoursesAndAssignments() async {
+    await ref.read(courseRepositoryProvider).getCourses();
+    await ref.read(assignRepositoryProvider).getAssignments();
   }
 
+  /// Sign out active user
+  /// Clear course and assignment details for this user from providers
   Future<void> signOut() async {
-    _clearAssignments();
-    _clearCourses();
-    _clearProfileProvider();
     await authHelper.signOut();
+    _clearProviders();
   }
 
-  /// Create a new user account in firebase auth only
+  void _clearProviders() {
+    ref.read(assignListProvider.notifier).clearAssignments();
+    ref.read(courseListProvider.notifier).clearCourses();
+    ref.read(profileProvider.notifier).setProfile = UserProfile.empty();
+  }
+
+  /// Creates a new user account in Firebase Auth only
   Future<void> createUser(
       {required String email, required String password}) async {
     await authHelper.createUser(email: email, password: password);
   }
 
-  /// Create a user profile for a new user account.
+  /// Creates a profile for a new user account.
   /// Called during account setup.
   Future<void> setupUserProfile({
     required bool isTeacher,
@@ -99,11 +108,12 @@ class UserService {
     );
     await authHelper.updateUser(newDisplayName: displayName);
     await firebaseHelper.insertUserProfile(userProfile: newUserProfile);
-    _setProfileProvider(newUserProfile);
+    _setProfile(newUserProfile);
   }
 
-  /// Update the current user and return updated profile
-  Future<UserProfile> updateUser({
+  /// Updates the current user
+  /// Sends updated profile to the profile provider
+  Future<void> updateUser({
     required UserProfile userProfile,
     required String? newEmail,
     required String? newPassword,
@@ -128,7 +138,7 @@ class UserService {
     );
     // Update data in firebase database
     await firebaseHelper.updateUserProfile(updatedUser);
-    return updatedUser;
+    _setProfile(updatedUser);
   }
 
   /// Delete and sign out current user
@@ -140,35 +150,7 @@ class UserService {
     }
     // Delete user row in database
     await firebaseHelper.deleteUserProfile(currentAuthUser!.uid);
-    _clearAssignments();
-    _clearCourses();
-    _clearProfileProvider();
     await authHelper.deleteUser();
-  }
-
-  // Interact with COURSE PROVIDER
-  void _setCourseProvider(List<Course> courses) =>
-      ref.read(courseListProvider.notifier).setCourses = courses;
-  void _clearCourses() => ref.read(courseListProvider.notifier).clearCourses();
-
-  // Get course list and send to course provider
-  Future<void> getCourses() async {
-    final userProfile = _getProfileProvider();
-    final courses = await firebaseHelper.readCourses(userProfile.courses);
-    _setCourseProvider(courses);
-  }
-
-  // Interact with ASSIGNMENT PROVIDER
-  void _setAssignmentProvider(List<Assignment> assignments) =>
-      ref.read(assignListProvider.notifier).setAssignments = assignments;
-  void _clearAssignments() =>
-      ref.read(assignListProvider.notifier).clearAssignments();
-
-  // Get assignment list to send to assignment provider
-  Future<void> getAssignments() async {
-    final userProfile = _getProfileProvider();
-    final assignments =
-        await firebaseHelper.readAssignments(userProfile.courses);
-    _setAssignmentProvider(assignments);
+    _clearProviders();
   }
 }

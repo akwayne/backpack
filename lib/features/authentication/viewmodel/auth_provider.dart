@@ -1,6 +1,6 @@
 import 'package:backpack/constants/constants.dart';
 import 'package:backpack/router/router.dart';
-import 'package:backpack/user_service/user_service.dart';
+import 'package:backpack/repository/repository.dart';
 
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -14,7 +14,7 @@ part 'auth_state.dart';
 /// Modifies authentication state
 final authProvider =
     StateNotifierProvider<AuthNotifier, AuthState>((ref) => AuthNotifier(
-          ref.watch(userServiceProvider),
+          ref.watch(userRepositoryProvider),
           ref.watch(routerProvider),
           ref.read(errorProvider.notifier),
         ));
@@ -26,7 +26,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
     this.errorNotifier,
   ) : super(const AuthSignedOut());
 
-  final UserService service;
+  final UserRepository service;
   final GoRouter router;
   final AuthErrorNotifier errorNotifier;
 

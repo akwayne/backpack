@@ -3,7 +3,7 @@ import 'package:backpack/constants/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../model/auth_error.dart';
+import '../domain/auth_error.dart';
 
 final errorProvider = StateNotifierProvider<AuthErrorNotifier, AuthError>(
     (ref) => AuthErrorNotifier());

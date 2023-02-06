@@ -2,12 +2,14 @@ import 'dart:io';
 
 import 'package:backpack/components/components.dart';
 import 'package:backpack/features/authentication/authentication.dart';
-import 'package:backpack/features/profile/profile.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
+
+import '../model/user_profile.dart';
+import '../viewmodel/profile_provider.dart';
 
 class ProfileUpdate extends ConsumerStatefulWidget {
   const ProfileUpdate({Key? key}) : super(key: key);

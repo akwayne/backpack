@@ -1,19 +1,15 @@
 import 'package:backpack/features/course_detail/course_detail.dart';
-import 'package:backpack/features/profile/profile.dart';
+import 'package:backpack/models/models.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../models/src/assignment.dart';
-
 class TeacherAssignmentActions extends ConsumerWidget {
   const TeacherAssignmentActions({
     super.key,
-    required this.user,
     required this.assignment,
   });
 
-  final UserProfile user;
   final Assignment assignment;
 
   @override

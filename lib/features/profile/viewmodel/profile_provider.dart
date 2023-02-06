@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:backpack/router/router.dart';
-import 'package:backpack/user_service/user_service.dart';
+import 'package:backpack/repository/repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -9,14 +9,14 @@ import '../model/user_profile.dart';
 
 final profileProvider = StateNotifierProvider<ProfileNotifier, UserProfile>(
     (ref) => ProfileNotifier(
-          ref.watch(userServiceProvider),
+          ref.watch(userRepositoryProvider),
           ref.watch(routerProvider),
         ));
 
 class ProfileNotifier extends StateNotifier<UserProfile> {
   ProfileNotifier(this.service, this.router) : super(UserProfile.empty());
 
-  final UserService service;
+  final UserRepository service;
   final GoRouter router;
 
   // Allow user service to get current user profile
@@ -36,14 +36,13 @@ class ProfileNotifier extends StateNotifier<UserProfile> {
     currentProfile.displayName = newDisplayName;
     currentProfile.school = newSchool;
 
-    final updatedUser = await service.updateUser(
+    await service.updateUser(
       userProfile: currentProfile,
       newEmail: newEmail,
       newPassword: newPassword,
       imageFile: imageFile,
     );
 
-    state = updatedUser.copy();
     router.pop();
   }
 

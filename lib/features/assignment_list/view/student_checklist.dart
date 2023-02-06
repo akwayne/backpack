@@ -1,26 +1,24 @@
-import 'package:backpack/features/assignment_list/assignment_list.dart';
-import 'package:backpack/features/profile/profile.dart';
 import 'package:backpack/models/models.dart';
 import 'package:backpack/utilities/utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../viewmodel/assign_list_provider.dart';
+import 'assignment_list.dart';
 
 class StudentChecklist extends ConsumerWidget {
   const StudentChecklist({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final user = ref.watch(profileProvider);
     // Rebuild on assignment list state change
     ref.watch(assignListProvider);
 
-    final todoList = ref
-        .read(assignListProvider.notifier)
-        .getChecklist(user: user, isDoneList: false);
+    final todoList =
+        ref.read(assignListProvider.notifier).getChecklist(isDoneList: false);
 
-    final doneList = ref
-        .read(assignListProvider.notifier)
-        .getChecklist(user: user, isDoneList: true);
+    final doneList =
+        ref.read(assignListProvider.notifier).getChecklist(isDoneList: true);
 
     final deviceType = getDeviceType(MediaQuery.of(context));
 

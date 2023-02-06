@@ -1,6 +1,6 @@
 import 'package:backpack/features/assignment_list/assignment_list.dart';
 import 'package:backpack/features/course_list/course_list.dart';
-import 'package:backpack/features/home/home_nav_provider.dart';
+
 import 'package:backpack/features/profile/profile.dart';
 import 'package:backpack/utilities/utilities.dart';
 
@@ -9,6 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'bottom_nav_bar.dart';
 import 'home_appbar.dart';
+import 'home_nav_provider.dart';
 import 'nav_drawer.dart';
 
 part 'teacher_nav_pages.dart';

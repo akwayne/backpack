@@ -3,8 +3,8 @@ import 'package:backpack/components/components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../components/account_toggle.dart';
-import '../components/background.dart';
+import 'components/account_toggle.dart';
+import 'components/background.dart';
 import '../viewmodel/account_type_provider.dart';
 import '../viewmodel/auth_provider.dart';
 
