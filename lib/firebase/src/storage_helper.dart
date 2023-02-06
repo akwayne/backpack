@@ -1,6 +1,9 @@
 import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+final storageHelperProvider = Provider<StorageHelper>((ref) => StorageHelper());
 
 class StorageHelper {
   StorageHelper() {
@@ -15,10 +18,8 @@ class StorageHelper {
   }) async {
     // Create storage reference
     final ref = _getRef(path, filename);
-
     // Upload file
     await ref.putFile(file);
-
     // Return download url
     return await ref.getDownloadURL();
   }
@@ -29,7 +30,6 @@ class StorageHelper {
   }) async {
     // Create storage reference
     final ref = _getRef(path, filename);
-
     // Delete file
     await ref.delete();
   }

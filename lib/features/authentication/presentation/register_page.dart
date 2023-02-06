@@ -1,5 +1,6 @@
 import 'package:backpack/components/components.dart';
 import 'package:backpack/constants/constants.dart';
+import 'package:backpack/features/authentication/authentication.dart';
 import 'package:backpack/utilities/utilities.dart';
 
 import 'package:flutter/material.dart';
@@ -7,8 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import 'components/background.dart';
-import '../viewmodel/auth_provider.dart';
-import '../viewmodel/error_provider.dart';
+import '../application/error_provider.dart';
 
 class RegisterPage extends ConsumerStatefulWidget {
   const RegisterPage({Key? key}) : super(key: key);

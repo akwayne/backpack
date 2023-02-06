@@ -1,5 +1,5 @@
-import 'package:backpack/features/assignment_list/assignment_list.dart';
-import 'package:backpack/features/course_list/course_list.dart';
+import 'package:backpack/features/assignment/assignment.dart';
+import 'package:backpack/features/course/course.dart';
 
 import 'package:backpack/features/profile/profile.dart';
 import 'package:backpack/utilities/utilities.dart';

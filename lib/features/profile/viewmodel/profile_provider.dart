@@ -1,7 +1,8 @@
 import 'dart:io';
 
+import 'package:backpack/features/authentication/authentication.dart';
 import 'package:backpack/router/router.dart';
-import 'package:backpack/repository/repository.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -14,13 +15,14 @@ final profileProvider = StateNotifierProvider<ProfileNotifier, UserProfile>(
         ));
 
 class ProfileNotifier extends StateNotifier<UserProfile> {
-  ProfileNotifier(this.service, this.router) : super(UserProfile.empty());
+  ProfileNotifier(this.repository, this.router) : super(UserProfile.empty());
 
-  final UserRepository service;
+  final UserRepository repository;
   final GoRouter router;
 
-  // Allow user service to get current user profile
+  // Allow other providers to read current profile
   UserProfile get getProfile => state;
+
   // Set a user profile to the state
   set setProfile(UserProfile userProfile) => state = userProfile.copy();
 
@@ -36,7 +38,7 @@ class ProfileNotifier extends StateNotifier<UserProfile> {
     currentProfile.displayName = newDisplayName;
     currentProfile.school = newSchool;
 
-    await service.updateUser(
+    await repository.updateUser(
       userProfile: currentProfile,
       newEmail: newEmail,
       newPassword: newPassword,

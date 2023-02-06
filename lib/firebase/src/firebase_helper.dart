@@ -1,6 +1,12 @@
+import 'package:backpack/features/assignment/assignment.dart';
+import 'package:backpack/features/course/course.dart';
 import 'package:backpack/features/profile/profile.dart';
-import 'package:backpack/models/models.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+final firebaseHelperProvider =
+    Provider<FirebaseHelper>((ref) => FirebaseHelper());
 
 class FirebaseHelper {
   FirebaseHelper() {
@@ -61,13 +67,12 @@ class FirebaseHelper {
     return assignmentList;
   }
 
-  // TODO maybe update these
-  Future insertAssignment(Assignment assignment) async {
+  Future<void> insertAssignment({required Assignment assignment}) async {
     final newAssignmentId = assignments.doc();
     await newAssignmentId.set(assignment.toDatabase());
   }
 
-  Future deleteAssignment(String assignmentId) async {
+  Future<void> deleteAssignment({required String assignmentId}) async {
     await assignments.doc(assignmentId).delete();
   }
 }

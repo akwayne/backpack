@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../viewmodel/account_type_provider.dart';
+import 'account_type_provider.dart';
 
 class AccountTypeToggle extends ConsumerWidget {
   const AccountTypeToggle({super.key});
