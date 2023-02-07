@@ -8,6 +8,8 @@ import 'package:backpack/features/profile/profile.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import 'page_transitions.dart';
+
 final routerProvider = Provider<GoRouter>((ref) {
   final courseListNotifier = ref.read(courseServiceProvider.notifier);
   final repository = ref.watch(userRepositoryProvider);
@@ -46,13 +48,15 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => const ProfileUpdate(),
       ),
       GoRoute(
-          name: RouteName.course,
-          path: '/course/:id',
-          builder: (context, state) {
-            final id = state.params['id'] ?? '';
-            final course = courseListNotifier.getCourseById(id);
-            return CoursePage(course: course);
-          }),
+        name: RouteName.course,
+        path: '/course/:id',
+        pageBuilder: (context, state) {
+          final id = state.params['id'] ?? '';
+          final course = courseListNotifier.getCourseById(id);
+          return PageTransitions.customTransition(
+              child: CoursePage(course: course));
+        },
+      ),
     ],
   );
 });
