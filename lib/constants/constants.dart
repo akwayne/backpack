@@ -1,3 +1,3 @@
-export 'colors.dart';
-export 'theme.dart';
-export 'strings.dart';
+export 'src/colors.dart';
+export 'src/strings.dart';
+export 'src/theme.dart';

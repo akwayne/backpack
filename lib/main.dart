@@ -1,17 +1,13 @@
-import 'package:backpack/utilities/app_router.dart';
-import 'package:flutter/material.dart';
 import 'package:backpack/constants/constants.dart';
-import 'package:backpack/firebase/firebase.dart';
+import 'package:backpack/features/authentication/authentication.dart';
+import 'package:backpack/router/router.dart';
 
-// Firebase
+import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
-import 'package:firebase_ui_oauth_google/firebase_ui_oauth_google.dart';
-
-// Riverpod
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'user/viewmodel/user_provider.dart';
+import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,11 +18,9 @@ void main() async {
 
   FirebaseUIAuth.configureProviders([
     EmailAuthProvider(),
-    GoogleProvider(clientId: googleClientId),
   ]);
 
   runApp(
-    // Setup Riverpod
     const ProviderScope(child: BackpackApp()),
   );
 }
@@ -36,23 +30,15 @@ class BackpackApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // Initialize gorouter
-    late final router = AppRouter().router;
-
-    // Find out who is logged in
-    ref.read(userProvider.notifier).getUser();
+    ref.read(authProvider.notifier).initialize();
+    final router = ref.watch(routerProvider);
 
     return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
       theme: AppTheme.light(),
       darkTheme: AppTheme.dark(),
       themeMode: ThemeMode.system,
-
-      debugShowCheckedModeBanner: false,
-
-      // Setup Go Router
-      routerDelegate: router.routerDelegate,
-      routeInformationParser: router.routeInformationParser,
-      routeInformationProvider: router.routeInformationProvider,
+      routerConfig: router,
     );
   }
 }
