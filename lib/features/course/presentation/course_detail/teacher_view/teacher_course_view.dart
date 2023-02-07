@@ -5,7 +5,6 @@ import 'package:backpack/utilities/utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../course_page_provider.dart';
 import '../course_appbar.dart';
 import 'teacher_assignments.dart';
 import 'teacher_students.dart';

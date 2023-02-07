@@ -1,4 +1,5 @@
 import 'package:backpack/constants/constants.dart';
+import 'package:backpack/features/assignment/presentation/add_assignment/add_assignment.dart';
 import 'package:backpack/features/authentication/authentication.dart';
 
 import 'package:backpack/features/course/course.dart';
@@ -55,6 +56,15 @@ final routerProvider = Provider<GoRouter>((ref) {
           final course = courseListNotifier.getCourseById(id);
           return PageTransitions.customTransition(
               child: CoursePage(course: course));
+        },
+      ),
+      GoRoute(
+        name: RouteName.addAssignment,
+        path: '/addAssignment/:id',
+        builder: (context, state) {
+          final id = state.params['id'] ?? '';
+          final course = courseListNotifier.getCourseById(id);
+          return AddAssignment(course);
         },
       ),
     ],
