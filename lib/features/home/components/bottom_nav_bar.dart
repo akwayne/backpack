@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'home_nav_provider.dart';
+import '../pages/home_page.dart';
 
 class HomeBottomNavBar extends ConsumerWidget {
   const HomeBottomNavBar({super.key, required this.navPages});

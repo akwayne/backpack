@@ -2,10 +2,7 @@ import 'package:backpack/features/course/course.dart';
 import 'package:flutter/material.dart';
 
 class EventCard extends StatelessWidget {
-  const EventCard({
-    super.key,
-    required this.course,
-  });
+  const EventCard({super.key, required this.course});
 
   final Course course;
 

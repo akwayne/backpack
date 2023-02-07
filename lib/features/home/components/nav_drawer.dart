@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import 'home_nav_provider.dart';
+import '../pages/home_page.dart';
 
 class HomeNavDrawer extends ConsumerWidget {
   const HomeNavDrawer({super.key, required this.navPages});

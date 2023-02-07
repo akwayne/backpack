@@ -12,7 +12,7 @@ final _studentNavPages = <Map<String, dynamic>>[
     'label': 'my classes',
   },
   {
-    'page': Container(),
+    'page': const CalendarPage(),
     'icon': const Icon(Icons.calendar_today),
     'label': 'schedule',
   },

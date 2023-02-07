@@ -1,4 +1,5 @@
 import 'package:backpack/features/assignment/assignment.dart';
+import 'package:backpack/features/calendar/calendar.dart';
 import 'package:backpack/features/course/course.dart';
 
 import 'package:backpack/features/profile/profile.dart';
@@ -7,13 +8,15 @@ import 'package:backpack/utilities/utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'bottom_nav_bar.dart';
-import 'home_appbar.dart';
-import 'home_nav_provider.dart';
-import 'nav_drawer.dart';
+import '../components/bottom_nav_bar.dart';
+import '../components/home_appbar.dart';
+import '../components/nav_drawer.dart';
 
 part 'teacher_nav_pages.dart';
 part 'student_nav_pages.dart';
+
+// Stores current home page tab
+final homeNavIndexProvider = StateProvider<int>((ref) => 0);
 
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});
