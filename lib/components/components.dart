@@ -1,4 +1,4 @@
-export 'src/custom_fade.dart';
+export 'src/custom_fade_transition.dart';
 export 'src/custom_nav_rail.dart';
 export 'src/custom_text_field.dart';
 export 'src/progress_view.dart';

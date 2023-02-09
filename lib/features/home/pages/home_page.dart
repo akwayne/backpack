@@ -1,3 +1,4 @@
+import 'package:backpack/components/components.dart';
 import 'package:backpack/features/assignment/assignment.dart';
 import 'package:backpack/features/calendar/calendar.dart';
 import 'package:backpack/features/course/course.dart';
@@ -55,7 +56,9 @@ class HomePage extends ConsumerWidget {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: navPages[navIndex]['page'],
+          child: CustomFadeTransition(
+            child: navPages[navIndex]['page'],
+          ),
         ),
       ),
       bottomNavigationBar: (orientation == Orientation.portrait)

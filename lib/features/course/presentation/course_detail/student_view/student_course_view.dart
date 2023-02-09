@@ -1,3 +1,4 @@
+import 'package:backpack/components/components.dart';
 import 'package:backpack/features/assignment/assignment.dart';
 import 'package:backpack/features/course/course.dart';
 
@@ -6,7 +7,6 @@ import 'package:backpack/utilities/utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../course_page_provider.dart';
 import '../course_appbar.dart';
 import 'student_course_detail.dart';
 
@@ -34,10 +34,12 @@ class StudentCourseView extends StatelessWidget {
           appBar: CourseAppBar(course, assignmentId),
           body: SafeArea(
             child: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: assignmentId == null
-                  ? StudentCourseDetail(course, assignmentList)
-                  : AssignmentView(id: assignmentId),
+              padding: const EdgeInsets.all(16.0),
+              child: CustomFadeTransition(
+                child: assignmentId == null
+                    ? StudentCourseDetail(course, assignmentList)
+                    : AssignmentView(id: assignmentId),
+              ),
             ),
           ),
         );

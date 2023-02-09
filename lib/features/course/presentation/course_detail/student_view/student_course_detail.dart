@@ -12,11 +12,15 @@ class StudentCourseDetail extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(
       children: <Widget>[
-        Text(
-          course.teacherName,
-          style: Theme.of(context).textTheme.titleLarge,
+        Padding(
+          padding: const EdgeInsets.only(left: 10.0),
+          child: Text(
+            course.teacherName,
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
         ),
         Wrap(
+          spacing: 10.0,
           children: [
             Chip(label: Text(course.getWeekdayString)),
             Chip(label: Text(course.getTimeString)),
