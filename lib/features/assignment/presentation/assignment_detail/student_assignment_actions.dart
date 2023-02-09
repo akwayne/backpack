@@ -34,7 +34,7 @@ class StudentAssignmentActions extends ConsumerWidget {
                       .read(assignmentServiceProvider.notifier)
                       .markAssginmentComplete(assignment.id);
                   // Close assignment view
-                  ref.read(coursePageProvider.notifier).state = null;
+                  ref.read(courseSubViewProvider.notifier).state = null;
                 },
           child: Text(buttonText),
         ),

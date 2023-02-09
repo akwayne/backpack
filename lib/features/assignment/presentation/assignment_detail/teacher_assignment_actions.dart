@@ -26,7 +26,7 @@ class TeacherAssignmentActions extends ConsumerWidget {
             await ref
                 .read(assignmentServiceProvider.notifier)
                 .deleteAssignment(assignment);
-            ref.read(coursePageProvider.notifier).state = null;
+            ref.read(courseSubViewProvider.notifier).state = null;
           },
           child: const Text(
             'Delete Assignment',

@@ -2,7 +2,6 @@ import 'package:backpack/components/components.dart';
 import 'package:backpack/features/assignment/assignment.dart';
 import 'package:backpack/features/calendar/calendar.dart';
 import 'package:backpack/features/course/course.dart';
-
 import 'package:backpack/features/profile/profile.dart';
 import 'package:backpack/utilities/utilities.dart';
 
@@ -12,6 +11,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../components/bottom_nav_bar.dart';
 import '../components/home_appbar.dart';
 import '../components/nav_drawer.dart';
+import '../components/nav_rail.dart';
 
 part 'teacher_nav_pages.dart';
 part 'student_nav_pages.dart';
@@ -79,17 +79,21 @@ class HomePage extends ConsumerWidget {
     return Scaffold(
       body: Row(
         children: <Widget>[
-          // TODO Add NavRail Here
+          HomeNavRail(navPages: navPages),
           Expanded(
             child: SafeArea(
-              child: Column(children: <Widget>[
-                // TODO User Name Row here
-                Expanded(
-                  child:
-                      // TODO Nav Page Here
-                      Container(),
-                ),
-              ]),
+              child: Padding(
+                padding: const EdgeInsets.all(32.0),
+                child: Column(children: <Widget>[
+                  UserNameTile(user: user),
+                  const SizedBox(height: 30.0),
+                  Expanded(
+                    child: CustomFadeTransition(
+                      child: navPages[navIndex]['page'],
+                    ),
+                  ),
+                ]),
+              ),
             ),
           ),
         ],

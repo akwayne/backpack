@@ -1,5 +1,7 @@
+import 'package:backpack/constants/constants.dart';
 import 'package:backpack/features/profile/profile.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import 'user_avatar.dart';
 
@@ -14,7 +16,7 @@ class UserNameTile extends StatelessWidget {
         user.photoUrl != null ? NetworkImage(user.photoUrl!) : null;
 
     return GestureDetector(
-      onTap: () {},
+      onTap: () => context.pushNamed(RouteName.profile),
       child: Row(
         children: [
           UserAvatar(
@@ -29,11 +31,11 @@ class UserNameTile extends StatelessWidget {
                 user.displayName ?? '',
                 style: Theme.of(context)
                     .textTheme
-                    .headline5
+                    .headlineSmall
                     ?.copyWith(fontWeight: FontWeight.bold),
               ),
               Text(user.school ?? '',
-                  style: Theme.of(context).textTheme.subtitle1),
+                  style: Theme.of(context).textTheme.titleMedium),
             ],
           ),
           const Spacer(),

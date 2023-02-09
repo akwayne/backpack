@@ -56,8 +56,7 @@ class StudentChecklist extends ConsumerWidget {
     return Row(
       children: <Widget>[
         Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: ListView(
             children: [
               Text(
                 'Today\'s Work',
@@ -67,8 +66,9 @@ class StudentChecklist extends ConsumerWidget {
             ],
           ),
         ),
+        const SizedBox(width: 32.0),
         Expanded(
-          child: Column(
+          child: ListView(
             children: [
               Text(
                 'Done',

@@ -8,46 +8,68 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../course_appbar.dart';
+import '../course_title_row.dart';
 import 'student_course_detail.dart';
 
-class StudentCourseView extends StatelessWidget {
+class StudentCourseView extends ConsumerWidget {
   const StudentCourseView(this.course, {super.key});
 
   final Course course;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final assignmentId = ref.watch(courseSubViewProvider);
+    final assignments = ref
+        .read(assignmentServiceProvider.notifier)
+        .getAssignmentsForCourse(course.id);
+
     return getDeviceType(MediaQuery.of(context)) == DeviceType.mobile
-        ? _buildMobileView()
-        : _buildTabletView();
+        ? _buildMobileView(assignmentId, assignments)
+        : _buildTabletView(assignmentId, assignments);
   }
 
-  Widget _buildMobileView() {
-    return Consumer(
-      builder: (context, ref, child) {
-        final assignmentId = ref.watch(coursePageProvider);
-        final assignmentList = ref
-            .read(assignmentServiceProvider.notifier)
-            .getAssignmentsForCourse(course.id);
-
-        return Scaffold(
-          appBar: CourseAppBar(course, assignmentId),
-          body: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: CustomFadeTransition(
-                child: assignmentId == null
-                    ? StudentCourseDetail(course, assignmentList)
-                    : AssignmentView(id: assignmentId),
-              ),
-            ),
+  Widget _buildMobileView(String? assignmentId, List<Assignment> assignments) {
+    return Scaffold(
+      appBar: CourseAppBar(course, assignmentId),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: CustomFadeTransition(
+            child: assignmentId == null
+                ? StudentCourseDetail(course, assignments)
+                : AssignmentView(id: assignmentId),
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 
-  Widget _buildTabletView() {
-    return Container();
+  Widget _buildTabletView(String? assignmentId, List<Assignment> assignments) {
+    return Scaffold(
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(32.0),
+          child: Column(
+            children: [
+              CourseTitleRow(course: course),
+              const SizedBox(height: 32.0),
+              Expanded(
+                child: Row(children: [
+                  Expanded(
+                    child: StudentCourseDetail(course, assignments),
+                  ),
+                  const SizedBox(width: 32.0),
+                  Expanded(
+                    child: assignmentId == null
+                        ? Container()
+                        : AssignmentView(id: assignmentId),
+                  ),
+                ]),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

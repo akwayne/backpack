@@ -39,7 +39,7 @@ class AssignmentCard extends ConsumerWidget {
         ),
         onTap: () {
           // Change the assignment view on the course page
-          ref.read(coursePageProvider.notifier).state = assignment.id;
+          ref.read(courseSubViewProvider.notifier).state = assignment.id;
 
           // If we are on the home page, we should navigate to the course page
           if (onHomePage) {

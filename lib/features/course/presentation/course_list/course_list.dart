@@ -36,13 +36,10 @@ Widget _buildMobileView(List<Course> courses) {
 
 Widget _buildTabletView(List<Course> courses, Orientation orientation) {
   return GridView.count(
-    primary: false,
-    physics: const NeverScrollableScrollPhysics(),
-    shrinkWrap: true,
-    crossAxisCount: 2,
+    crossAxisCount: orientation == Orientation.landscape ? 2 : 1,
+    childAspectRatio: orientation == Orientation.landscape ? 3 : 4,
     crossAxisSpacing: 16,
     mainAxisSpacing: 16,
-    childAspectRatio: orientation == Orientation.portrait ? 2 : 3,
     children: List.generate(
       courses.length,
       (index) => CourseCard(courses[index]),

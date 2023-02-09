@@ -39,7 +39,7 @@ class AssignmentView extends ConsumerWidget {
                   IconButton(
                     icon: const Icon(Icons.close),
                     onPressed: () =>
-                        ref.read(coursePageProvider.notifier).state = null,
+                        ref.read(courseSubViewProvider.notifier).state = null,
                   ),
               ],
             ),
