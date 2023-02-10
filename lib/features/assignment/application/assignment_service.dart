@@ -59,8 +59,10 @@ class AssignmentServiceNotifier extends StateNotifier<List<Assignment>> {
     return repository.getCompletedAssignmentList();
   }
 
-  // TODO create this function
-  Future<void> markAssginmentComplete(String id) async {}
+  Future<void> markAssginmentComplete(String id) async {
+    await repository.markAssignmentComplete(assignmentId: id);
+    await getAssignments();
+  }
 
   Future<void> createAssignment(Assignment assignment) async {
     await repository.createAssignment(assignment: assignment);

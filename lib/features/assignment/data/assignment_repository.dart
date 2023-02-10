@@ -15,6 +15,9 @@ class AssignmentRepository {
 
   UserProfile _getProfile() => ref.read(profileProvider.notifier).getProfile;
 
+  void _setProfile(UserProfile userDetail) =>
+      ref.read(profileProvider.notifier).setProfile = userDetail;
+
   void _setAssignments(List<Assignment> assignments) =>
       ref.read(assignmentServiceProvider.notifier).setAssignments(assignments);
 
@@ -32,7 +35,12 @@ class AssignmentRepository {
     return userProfile.completed;
   }
 
-  void markAssignmentComplete() {}
+  Future<void> markAssignmentComplete({required String assignmentId}) async {
+    final userProfile = _getProfile();
+    userProfile.completed.add(assignmentId);
+    await firebaseHelper.updateUserProfile(userProfile);
+    _setProfile(userProfile);
+  }
 
   Future<void> createAssignment({required Assignment assignment}) async {
     await firebaseHelper.insertAssignment(assignment: assignment);

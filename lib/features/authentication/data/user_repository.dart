@@ -62,7 +62,7 @@ class UserRepository {
     await _loadCoursesAndAssignments();
   }
 
-  Future<void> _setProfile(UserProfile userDetail) async =>
+  void _setProfile(UserProfile userDetail) =>
       ref.read(profileProvider.notifier).setProfile = userDetail;
 
   Future<void> _loadCoursesAndAssignments() async {

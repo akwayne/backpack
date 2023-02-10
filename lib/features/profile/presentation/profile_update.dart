@@ -8,8 +8,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../model/user_profile.dart';
-import '../viewmodel/profile_provider.dart';
+import '../domain/user_profile.dart';
+import '../application/profile_provider.dart';
 
 class ProfileUpdate extends ConsumerStatefulWidget {
   const ProfileUpdate({Key? key}) : super(key: key);

@@ -6,7 +6,7 @@ import 'package:backpack/router/router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../model/user_profile.dart';
+import '../domain/user_profile.dart';
 
 final profileProvider = StateNotifierProvider<ProfileNotifier, UserProfile>(
     (ref) => ProfileNotifier(
