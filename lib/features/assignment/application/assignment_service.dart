@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:backpack/features/assignment/assignment.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -59,8 +61,8 @@ class AssignmentServiceNotifier extends StateNotifier<List<Assignment>> {
     return repository.getCompletedAssignmentList();
   }
 
-  Future<void> markAssginmentComplete(String id) async {
-    await repository.markAssignmentComplete(assignmentId: id);
+  Future<void> submitAssignment(Assignment assignment, File? file) async {
+    await repository.submitAssignment(assignment: assignment, file: file);
     await getAssignments();
   }
 

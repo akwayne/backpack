@@ -1,38 +1,65 @@
+import 'dart:io';
+
 import 'package:backpack/features/assignment/assignment.dart';
 import 'package:backpack/features/course/course.dart';
+import 'package:file_picker/file_picker.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'file_upload.dart';
-
-class StudentAssignmentActions extends ConsumerWidget {
-  const StudentAssignmentActions({
-    super.key,
-    required this.assignment,
-  });
+class StudentAssignmentActions extends ConsumerStatefulWidget {
+  const StudentAssignmentActions({super.key, required this.assignment});
 
   final Assignment assignment;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final completed = ref
-        .read(assignmentServiceProvider.notifier)
-        .getCompletedAssignmentIds();
+  StudentAssignmentActionsState createState() =>
+      StudentAssignmentActionsState();
+}
+
+class StudentAssignmentActionsState
+    extends ConsumerState<StudentAssignmentActions> {
+  @override
+  Widget build(BuildContext context) {
+    FilePickerResult? result;
+    File? file;
+
+    final isCompleted = (ref
+            .read(assignmentServiceProvider.notifier)
+            .getCompletedAssignmentIds())
+        .contains(widget.assignment.id);
     final buttonText =
-        assignment.submissionRequired ? 'Submit' : 'Mark as Complete';
+        widget.assignment.submissionRequired ? 'Submit' : 'Mark as Complete';
 
     return Column(
       children: <Widget>[
-        if (assignment.submissionRequired && !completed.contains(assignment.id))
-          const FileUpload(),
+        if (widget.assignment.submissionRequired && !isCompleted)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 12.0),
+            child: Column(
+              children: [
+                if (result != null) Text('File: ${result.files.single.name}'),
+                TextButton(
+                  onPressed: () async {
+                    // For now, only supports upload of a single file.
+                    result = await FilePicker.platform.pickFiles();
+                    if (result != null) {
+                      file = File(result!.files.single.path!);
+                      setState(() {});
+                    }
+                  },
+                  child: const Text('Upload a File'),
+                ),
+              ],
+            ),
+          ),
         ElevatedButton(
-          onPressed: completed.contains(assignment.id)
+          onPressed: isCompleted
               ? null
               : () async {
                   await ref
                       .read(assignmentServiceProvider.notifier)
-                      .markAssginmentComplete(assignment.id);
+                      .submitAssignment(widget.assignment, file);
                   // Close assignment view
                   ref.read(courseSubViewProvider.notifier).state = null;
                 },

@@ -58,4 +58,5 @@ class ExceptionString {
 // Firebase Storage Paths
 class FireStorePath {
   static const profileImages = 'profile_images/';
+  static const submissions = 'submissions/';
 }
